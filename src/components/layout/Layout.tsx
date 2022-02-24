@@ -1,11 +1,11 @@
-import { FunctionComponent } from 'react';
+import React from 'react';
 
 import SideNavigation from '@/components/layout/SideNavigation';
 
-const Layout: FunctionComponent = (props) => {
+const Layout: React.FC<{ onSignOut: () => void }> = (props) => {
 	return (
-		<div>
-			<SideNavigation />
+		<div style={{ flexDirection: 'row' }}>
+			<SideNavigation onSignOut={props.onSignOut} />
 			<main>{props.children}</main>
 		</div>
 	);
