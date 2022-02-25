@@ -1,11 +1,11 @@
-import { FunctionComponent } from 'react';
-
+import { useContext } from 'react';
 import { NavLink } from 'react-router-dom';
-import { isPropertySignature } from 'typescript';
 
-const SideNavigation: FunctionComponent<{ onSignOut: () => void }> = (
-	props
-) => {
+import { AuthContext } from '@/stores/contexts/auth-context';
+
+const SideNavigation = () => {
+	const authContext = useContext(AuthContext);
+
 	return (
 		<nav style={{ flexDirection: 'column' }}>
 			<ul>
@@ -25,7 +25,7 @@ const SideNavigation: FunctionComponent<{ onSignOut: () => void }> = (
 					<NavLink to='/jobs'>Feeds</NavLink>
 				</li>
 				<li>
-					<NavLink to='/login' onClick={props.onSignOut}>
+					<NavLink to='/login' onClick={authContext.logout}>
 						Sign Out
 					</NavLink>
 				</li>

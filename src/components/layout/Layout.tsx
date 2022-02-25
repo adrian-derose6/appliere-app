@@ -1,12 +1,16 @@
-import React from 'react';
+import { FC, useContext } from 'react';
 
-import SideNavigation from '@/components/layout/SideNavigation';
+import SideNavigation from '@/components/Layout/SideNavigation';
 
-const Layout: React.FC<{ onSignOut: () => void }> = (props) => {
+import { AuthContext } from '@/stores/contexts/auth-context';
+
+const Layout: FC = ({ children }) => {
+	const { isLoggedIn } = useContext(AuthContext);
+
 	return (
 		<div style={{ flexDirection: 'row' }}>
-			<SideNavigation onSignOut={props.onSignOut} />
-			<main>{props.children}</main>
+			{isLoggedIn ? <SideNavigation /> : null}
+			<main>{children}</main>
 		</div>
 	);
 };
