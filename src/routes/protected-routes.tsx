@@ -1,14 +1,8 @@
-import { ReactNode } from 'react';
-import { Navigate } from 'react-router-dom';
+import { Navigate, RouteObject } from 'react-router-dom';
 
-import BoardsOverview from '@/features/board/pages/BoardsOverview';
+import boardRoutes from '@/features/board/routes';
 
-interface Route {
-	path: string;
-	element: ReactNode | null;
-}
-
-const protectedRoutes: Route[] = [
+const protectedRoutes: RouteObject[] = [
 	{
 		path: '/jobs',
 		element: null,
@@ -23,7 +17,7 @@ const protectedRoutes: Route[] = [
 	},
 	{
 		path: '/track/boards',
-		element: <BoardsOverview />,
+		children: boardRoutes,
 	},
 	{
 		path: '*',
