@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom';
+
 import { AuthContext } from '@/stores/contexts/auth-context';
 import { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -10,9 +12,9 @@ const LoginPage = () => {
 		<div>
 			<h1>Login Page</h1>
 			<button onClick={() => login()}>Login</button>
-			<button onClick={() => navigate('signup', { replace: true })}>
-				Sign Up
-			</button>
+			<Link to='signup'>
+				<button>Sign Up</button>
+			</Link>
 		</div>
 	);
 };

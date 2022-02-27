@@ -1,10 +1,13 @@
-import { FC, useContext } from 'react';
+import { useContext } from 'react';
 
 import SideNavigation from '@/components/Layout/SideNavigation';
-
 import { AuthContext } from '@/stores/contexts/auth-context';
 
-const Layout: FC = ({ children }) => {
+interface LayoutProps {
+	children: React.ReactNode;
+}
+
+const Layout = ({ children }: LayoutProps) => {
 	const { isLoggedIn } = useContext(AuthContext);
 
 	return (

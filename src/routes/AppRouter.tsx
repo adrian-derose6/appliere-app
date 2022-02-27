@@ -8,7 +8,6 @@ import publicRoutes from './public-routes';
 
 const AppRouter = () => {
 	const { isLoggedIn } = useContext(AuthContext);
-	console.log(isLoggedIn);
 
 	const activeRoutes = isLoggedIn ? protectedRoutes : publicRoutes;
 	const router = useRoutes([...activeRoutes]);

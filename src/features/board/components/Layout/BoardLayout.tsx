@@ -5,10 +5,10 @@ import BoardNavigation from './BoardNavigation';
 const BoardLayout = () => {
 	return (
 		<>
-			<BoardNavigation />
 			<section>
 				<Outlet />
 			</section>
+			<BoardNavigation />
 		</>
 	);
 };

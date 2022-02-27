@@ -3,7 +3,7 @@ import { RouteObject } from 'react-router-dom';
 import BoardLayout from '../components/Layout/BoardLayout';
 import BoardsOverview from './BoardsOverview';
 import BoardPage from './BoardPage';
-import ActivitiesPage from './ActivitiesPage';
+import activitiesRoutes from '@/features/activities/routes';
 
 const boardRoutes: RouteObject[] = [
 	{
@@ -19,16 +19,15 @@ const boardRoutes: RouteObject[] = [
 				element: <BoardPage />,
 			},
 			{
-				path: 'activities',
-				element: <ActivitiesPage />,
-			},
-			{
 				path: 'contacts',
 			},
 			{
 				path: 'map',
 			},
-			{},
+			{
+				path: 'metrics',
+			},
+			...activitiesRoutes,
 		],
 	},
 ];
