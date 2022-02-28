@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
+import { MantineProvider } from '@mantine/core';
 
 import App from '@/App';
 import AuthContextProvider from './stores/contexts/auth-context';
@@ -10,11 +11,13 @@ import './index.css';
 
 ReactDOM.render(
 	<React.StrictMode>
-		<AuthContextProvider>
-			<BrowserRouter>
-				<App />
-			</BrowserRouter>
-		</AuthContextProvider>
+		<MantineProvider>
+			<AuthContextProvider>
+				<BrowserRouter>
+					<App />
+				</BrowserRouter>
+			</AuthContextProvider>
+		</MantineProvider>
 	</React.StrictMode>,
 	document.getElementById('root')
 );

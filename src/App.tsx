@@ -1,11 +1,11 @@
 import AppRouter from '@/routes/AppRouter';
 
-import Layout from '@/components/Layout/Layout';
+import MainLayout from '@/components/Layout/MainLayout';
 
 export default function App() {
 	return (
-		<Layout>
+		<MainLayout>
 			<AppRouter />
-		</Layout>
+		</MainLayout>
 	);
 }
