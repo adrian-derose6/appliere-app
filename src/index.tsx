@@ -11,7 +11,14 @@ import './index.css';
 
 ReactDOM.render(
 	<React.StrictMode>
-		<MantineProvider>
+		<MantineProvider
+			theme={{
+				other: {
+					brandFontFamily: 'Comfortaa, cursive',
+					textFontFamily: 'Fredoka, sans-serif',
+				},
+			}}
+		>
 			<AuthContextProvider>
 				<BrowserRouter>
 					<App />

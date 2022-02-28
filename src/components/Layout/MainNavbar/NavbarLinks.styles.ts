@@ -2,12 +2,10 @@ import { createStyles } from '@mantine/core';
 
 export const useStyles = createStyles((theme) => {
 	return {
-		navbar: {
-			backgroundColor: '#1e1f21',
-		},
 		linkSection: {
 			textDecoration: 'none',
 			margin: 0,
+			paddinTop: 0,
 		},
 		link: {
 			display: 'flex',
@@ -16,10 +14,11 @@ export const useStyles = createStyles((theme) => {
 			textDecoration: 'none',
 			cursor: 'pointer',
 			height: 44,
-			padding: '0 24px',
+			padding: '0 12px',
 
-			fontSize: 16,
+			fontSize: 15,
 			fontFamily: theme.other.textFontFamily,
+			fontWeight: 'normal',
 			color: /*'#D3555E'*/ 'white',
 			'&:hover': {
 				backgroundColor: 'rgba(255,255,255,.08);',

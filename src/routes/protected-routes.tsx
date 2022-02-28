@@ -16,12 +16,12 @@ const protectedRoutes: RouteObject[] = [
 		element: null,
 	},
 	{
-		path: '/track/boards',
+		path: '/home',
 		children: boardRoutes,
 	},
 	{
 		path: '*',
-		element: <Navigate replace to='/track/boards' />,
+		element: <Navigate replace to='/home' />,
 	},
 ];
 
