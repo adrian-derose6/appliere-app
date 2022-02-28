@@ -5,6 +5,27 @@ import { MdDynamicFeed, MdDashboardCustomize } from 'react-icons/md';
 
 import { useStyles } from './NavbarLinks.styles';
 import NavbarLink from './NavbarLink';
+import AccordionLinkGroup from '../AccordionLinkGroup/AccordionLinkGroup';
+import { IconContext } from 'react-icons';
+
+interface AccordionGroupLabel {
+	label: string;
+}
+
+const AccordianGroupLabel = (props: AccordionGroupLabel) => {
+	const { classes } = useStyles();
+
+	return (
+		<div className={classes.accordianLinkLabel}>
+			<IconContext.Provider
+				value={{ size: '17px', className: classes.navIcon }}
+			>
+				<MdDashboardCustomize />
+			</IconContext.Provider>
+			<span className={classes.linkLabel}>{props.label}</span>
+		</div>
+	);
+};
 
 const NavbarLinks = () => {
 	const { classes } = useStyles();
@@ -22,16 +43,20 @@ const NavbarLinks = () => {
 						iconComponent={<IoMdContacts />}
 					/>
 				</li>
+				<Space h='sm' />
+				<Divider size='xs' />
 				<li>
-					<NavbarLink
+					{/*<NavbarLink
 						path='/track/boards'
 						label='My Boards'
 						iconComponent={<MdDashboardCustomize />}
-					/>
+            collapsible
+          />*/}
+					<AccordionLinkGroup label={<AccordianGroupLabel label='My Boards' />}>
+						<h1>Hello</h1>
+					</AccordionLinkGroup>
 				</li>
 			</ul>
-			<Space h='sm' />
-			<Divider color='gray' size='xs' />
 			<Space h='sm' />
 			<ul>
 				<li>

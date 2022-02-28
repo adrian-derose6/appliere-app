@@ -10,24 +10,19 @@ interface NavbarLinkProps {
 	iconComponent?: React.ReactNode;
 }
 
-const NavbarLink = ({
-	path,
-	iconComponent,
-	label,
-	collapsible = false,
-}: NavbarLinkProps) => {
+const NavbarLink = (props: NavbarLinkProps) => {
 	const { classes } = useStyles();
 
 	return (
 		<>
-			<NavLink to={path}>
-				<div className={classes.link}>
+			<NavLink to={props.path}>
+				<div className={classes.linkWrapper}>
 					<IconContext.Provider
 						value={{ size: '17px', className: classes.navIcon }}
 					>
-						{iconComponent}
+						{props.iconComponent}
 					</IconContext.Provider>
-					<span>{label}</span>
+					<span className={classes.linkLabel}>{props.label}</span>
 				</div>
 			</NavLink>
 		</>

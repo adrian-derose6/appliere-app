@@ -7,7 +7,7 @@ export const useStyles = createStyles((theme) => {
 			margin: 0,
 			paddinTop: 0,
 		},
-		link: {
+		linkWrapper: {
 			display: 'flex',
 			alignItems: 'center',
 			maxWidth: '100%',
@@ -16,16 +16,23 @@ export const useStyles = createStyles((theme) => {
 			height: 44,
 			padding: '0 12px',
 
+			'&:hover': {
+				backgroundColor: 'rgba(255,255,255,.08)',
+			},
+		},
+		linkLabel: {
 			fontSize: 15,
 			fontFamily: theme.other.textFontFamily,
 			fontWeight: 'normal',
 			color: /*'#D3555E'*/ 'white',
-			'&:hover': {
-				backgroundColor: 'rgba(255,255,255,.08);',
-			},
+		},
+		accordianLinkLabel: {
+			display: 'flex',
+			alignItems: 'center',
 		},
 		navIcon: {
 			marginRight: 10,
+			color: 'white',
 		},
 	};
 });

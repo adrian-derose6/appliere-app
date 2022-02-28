@@ -2,9 +2,9 @@ import { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Navbar, NavbarProps, Accordion } from '@mantine/core';
 
-import NavbarHeader from './NavbarHeader';
-import NavbarLinks from './NavbarLinks';
-import NavbarUser from './NavbarUser';
+import NavbarHeader from './NavbarHeader/NavbarHeader';
+import NavbarLinks from './NavbarLinks/NavbarLinks';
+import NavbarUser from './NavbarUser/NavbarUser';
 
 import { useStyles } from './MainNavbar.styles';
 import { AuthContext } from '@/stores/contexts/auth-context';
