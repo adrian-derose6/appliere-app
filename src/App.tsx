@@ -1,9 +1,11 @@
-function App() {
+import AppRouter from '@/routes/AppRouter';
+
+import Layout from '@/components/Layout/Layout';
+
+export default function App() {
 	return (
-		<div>
-			<h1>Appliere App</h1>
-		</div>
+		<Layout>
+			<AppRouter />
+		</Layout>
 	);
 }
-
-export default App;
