@@ -6,8 +6,8 @@ export const useStyles = createStyles((theme) => {
 			display: 'flex',
 			alignItems: 'center',
 			justifyContent: 'flex-start',
-			padding: '0 24px',
-			height: 72,
+			padding: '0 0 0 6px ',
+			height: 82,
 		},
 		brandHeader: {
 			fontStyle: 'normal',

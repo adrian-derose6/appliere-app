@@ -38,7 +38,6 @@ const AccordionLinkGroup = (props: AccordionNavbarLinkProps) => {
 	const { hovered, ref } = useHover();
 	const { classes } = useStyles();
 
-	console.log(hovered);
 	return (
 		<>
 			<Accordion
