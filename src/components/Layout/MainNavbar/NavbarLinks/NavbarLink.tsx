@@ -4,9 +4,8 @@ import { NavLink } from 'react-router-dom';
 import { useStyles } from './NavbarLinks.styles';
 
 interface NavbarLinkProps {
-	label?: string;
+	label: string;
 	path: string;
-	collapsible?: boolean;
 	iconComponent?: React.ReactNode;
 }
 

@@ -1,6 +1,5 @@
 import { useContext } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Navbar, NavbarProps, Accordion } from '@mantine/core';
+import { Navbar, NavbarProps } from '@mantine/core';
 
 import NavbarHeader from './NavbarHeader/NavbarHeader';
 import NavbarLinks from './NavbarLinks/NavbarLinks';
@@ -17,8 +16,8 @@ const MainNavbar = (props: Omit<NavbarProps, 'children'>) => {
 		<Navbar
 			fixed
 			position={{ top: 0, left: 0 }}
-			{...props}
 			className={classes.navbar}
+			{...props}
 		>
 			<Navbar.Section>
 				<NavbarHeader />

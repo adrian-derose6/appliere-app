@@ -45,17 +45,6 @@ const NavbarLinks = () => {
 				</li>
 				<Space h='sm' />
 				<Divider size='xs' />
-				<li>
-					{/*<NavbarLink
-						path='/track/boards'
-						label='My Boards'
-						iconComponent={<MdDashboardCustomize />}
-            collapsible
-          />*/}
-					<AccordionLinkGroup label={<AccordianGroupLabel label='My Boards' />}>
-						<h1>Hello</h1>
-					</AccordionLinkGroup>
-				</li>
 			</ul>
 			<Space h='sm' />
 			<ul>
@@ -79,6 +68,13 @@ const NavbarLinks = () => {
 						label='Feed'
 						iconComponent={<MdDynamicFeed />}
 					/>
+				</li>
+				<Space h='sm' />
+				<Divider size='xs' />
+				<li>
+					<AccordionLinkGroup label={<AccordianGroupLabel label='My Boards' />}>
+						<h1>Hello</h1>
+					</AccordionLinkGroup>
 				</li>
 			</ul>
 		</>

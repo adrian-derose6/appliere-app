@@ -1,4 +1,12 @@
-import { Accordion, MantineTheme, createStyles } from '@mantine/core';
+import { useState } from 'react';
+import {
+	Accordion,
+	MantineTheme,
+	createStyles,
+	useAccordionState,
+	AccordionState,
+} from '@mantine/core';
+import { useHover } from '@mantine/hooks';
 
 interface AccordionNavbarLinkProps {
 	label?: string | React.ReactNode;
@@ -27,8 +35,10 @@ const useStyles = createStyles((theme: MantineTheme) => ({
 }));
 
 const AccordionLinkGroup = (props: AccordionNavbarLinkProps) => {
+	const { hovered, ref } = useHover();
 	const { classes } = useStyles();
 
+	console.log(hovered);
 	return (
 		<>
 			<Accordion
@@ -38,6 +48,8 @@ const AccordionLinkGroup = (props: AccordionNavbarLinkProps) => {
 					item: classes.item,
 					icon: classes.icon,
 				}}
+				ref={ref}
+				state={{ '0': hovered ? true : false }}
 			>
 				<Accordion.Item label={props.label} iconPosition='right'>
 					{props.children}

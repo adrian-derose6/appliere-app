@@ -9,7 +9,7 @@ export const useStyles = createStyles((theme) => {
 			padding: '0 24px',
 			height: 72,
 		},
-		brandName: {
+		brandHeader: {
 			fontStyle: 'normal',
 			fontWeight: 'normal',
 			fontSize: 25,
@@ -20,8 +20,8 @@ export const useStyles = createStyles((theme) => {
 			paddingLeft: 5,
 			cursor: 'pointer',
 		},
-		gradientText: {
-			color: /*'#e24d89'*/ 'white',
+		brandText: {
+			color: 'white' /*'#e24d89'*/,
 			/*background: theme.fn.linearGradient(
 				90,
 				'#D3555E',

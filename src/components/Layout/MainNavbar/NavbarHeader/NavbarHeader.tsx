@@ -16,10 +16,10 @@ const NavbarHeader = () => {
 				onClick={() => navigate('/track/board')}
 			/>
 			<h1
-				className={classes.brandName}
+				className={classes.brandHeader}
 				onClick={() => navigate('/track/board')}
 			>
-				<span className={classes.gradientText}>appliere</span>
+				<span className={classes.brandText}>appliere</span>
 			</h1>
 		</div>
 	);
