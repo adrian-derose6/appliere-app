@@ -12,9 +12,7 @@ const LoginPage = () => {
 		<div>
 			<h1>Login Page</h1>
 			<button onClick={() => login()}>Login</button>
-			<Link to='signup'>
-				<button>Sign Up</button>
-			</Link>
+			<button onClick={() => navigate('/signup')}>Sign Up</button>
 		</div>
 	);
 };

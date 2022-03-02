@@ -10,9 +10,7 @@ const SignupPage = () => {
 		<div>
 			<h1>Signup Page</h1>
 			<button onClick={() => login()}>Sign Up</button>
-			<button onClick={() => navigate('login', { replace: true })}>
-				Login
-			</button>
+			<button onClick={() => navigate('login')}>Login</button>
 		</div>
 	);
 };

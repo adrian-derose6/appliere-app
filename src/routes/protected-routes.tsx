@@ -1,8 +1,13 @@
 import { Navigate, RouteObject } from 'react-router-dom';
 
 import boardRoutes from '@/features/board/routes';
+import HomePage from '@/features/home/routes/HomePage';
 
 const protectedRoutes: RouteObject[] = [
+	{
+		path: '/home',
+		element: <HomePage />,
+	},
 	{
 		path: '/jobs',
 		element: null,
@@ -21,7 +26,7 @@ const protectedRoutes: RouteObject[] = [
 	},
 	{
 		path: '*',
-		element: <Navigate replace to='/track/boards' />,
+		element: <Navigate replace to='/home' />,
 	},
 ];
 
