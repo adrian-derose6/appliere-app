@@ -70,7 +70,7 @@ const NavbarLinks = () => {
 			<Divider size='xs' />
 			<li>
 				<AccordionLinkGroup label={<AccordianGroupLabel label='My Boards' />}>
-					<h1></h1>
+					<h1>Foo</h1>
 				</AccordionLinkGroup>
 			</li>
 		</ul>
