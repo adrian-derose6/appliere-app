@@ -5,7 +5,7 @@ export const useStyles = createStyles((theme) => {
 		linkSection: {
 			textDecoration: 'none',
 			margin: 0,
-			paddinTop: 0,
+			paddingTop: 0,
 		},
 		linkWrapper: {
 			display: 'flex',
@@ -13,12 +13,16 @@ export const useStyles = createStyles((theme) => {
 			maxWidth: '100%',
 			textDecoration: 'none',
 			cursor: 'pointer',
-			height: 44,
+			height: 38,
 			padding: '0 12px',
+			borderRadius: '6px',
 
 			'&:hover': {
 				backgroundColor: 'rgba(255,255,255,.08)',
 			},
+		},
+		divider: {
+			borderTop: '1px solid red',
 		},
 		linkLabel: {
 			fontSize: 15,

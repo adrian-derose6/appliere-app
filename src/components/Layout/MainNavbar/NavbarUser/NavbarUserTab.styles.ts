@@ -20,6 +20,7 @@ export const useStyles = createStyles((theme) => {
 			fontFamily: theme.other.textFontFamily,
 			color: 'white',
 			padding: 10,
+			fontSize: 15,
 		},
 		settingsIcon: {
 			display: 'flex',

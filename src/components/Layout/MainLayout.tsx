@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { AppShell, Header } from '@mantine/core';
+import { AppShell } from '@mantine/core';
 
 import MainNavbar from '@/components/Layout/MainNavbar/MainNavbar';
 import { AuthContext } from '@/stores/contexts/auth-context';

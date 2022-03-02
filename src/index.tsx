@@ -15,7 +15,7 @@ ReactDOM.render(
 			theme={{
 				other: {
 					brandFontFamily: 'Comfortaa, cursive',
-					textFontFamily: 'Fredoka, sans-serif',
+					textFontFamily: 'Fredoka, sans-serif' /*'Quicksand, sans-serif'*/,
 				},
 			}}
 		>

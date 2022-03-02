@@ -43,7 +43,7 @@ const NavbarLinks = () => {
 				/>
 			</li>
 			<Space h='sm' />
-			<Divider size='xs' />
+			<Divider />
 			<Space h='sm' />
 			<li>
 				<NavbarLink
