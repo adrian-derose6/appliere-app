@@ -15,7 +15,7 @@ export const useStyles = createStyles(
 				transform: 'translateZ(0px)',
 				border: 'none',
 				boxShadow: 'none',
-				width: '58px',
+				width: '60px',
 
 				'&:hover': {
 					width: '240px',
@@ -37,7 +37,6 @@ export const useStyles = createStyles(
 				position: 'absolute',
 				left: '12px',
 				top: '30%',
-
 				bottom: 0,
 				margin: 'auto',
 			},
@@ -49,7 +48,6 @@ export const useStyles = createStyles(
 				fontFamily: theme.other.brandFontFamily,
 				textAlign: 'center',
 				textAnchor: 'middle',
-				paddingLeft: 5,
 				cursor: 'pointer',
 				//right: expand ? '0px' : '6px',
 				visibility: expand ? 'visible' : 'hidden',
@@ -62,6 +60,9 @@ export const useStyles = createStyles(
 				margin: '0 5px',
 				transition: 'all 0.1s',
 				transitionProperty: 'margin',
+			},
+			bottom: {
+				padding: '0 10px 10px',
 			},
 		};
 	}

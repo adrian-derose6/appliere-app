@@ -7,14 +7,13 @@ import {
 	Space,
 	Divider,
 	Collapse,
-	UnstyledButton,
 } from '@mantine/core';
 import { useHover } from '@mantine/hooks';
 import { FaHome, FaSearch } from 'react-icons/fa';
 import { IoMdContacts, IoIosAlbums } from 'react-icons/io';
 import { MdDynamicFeed, MdDashboardCustomize } from 'react-icons/md';
 
-import NavbarUserMenu from './UserMenu/UserMenu';
+import UserMenu from './UserMenu/UserMenu';
 import NavbarLink from './NavbarLink/NavbarLink';
 
 import { useStyles } from './NavbarLeft.styles';
@@ -30,6 +29,7 @@ const NavbarLeft = (props: Omit<NavbarProps, 'children'>) => {
 		<Navbar
 			fixed
 			position={{ top: 0, left: 0 }}
+			height='100%'
 			className={classes.navbar}
 			ref={ref}
 			{...props}
@@ -63,7 +63,7 @@ const NavbarLeft = (props: Omit<NavbarProps, 'children'>) => {
 					label='My Boards'
 					iconComponent={<MdDashboardCustomize />}
 					expand={hovered}
-					onClick={() => setIsCollapseOpen((prev) => !prev)}
+					onToggleCollapse={() => setIsCollapseOpen((prev) => !prev)}
 					collapsible
 				/>
 				<Collapse in={isCollapseOpen}>
@@ -92,8 +92,8 @@ const NavbarLeft = (props: Omit<NavbarProps, 'children'>) => {
 				/>
 				<Space h='sm' />
 			</Navbar.Section>
-			<Navbar.Section>
-				<NavbarUserMenu />
+			<Navbar.Section className={classes.bottom}>
+				<UserMenu expand={hovered} />
 			</Navbar.Section>
 		</Navbar>
 	);

@@ -12,7 +12,8 @@ const MainLayout = ({ children }: LayoutProps) => {
 	const { isLoggedIn } = useContext(AuthContext);
 
 	return (
-		<AppShell navbar={<NavbarLeft width={{ base: 240 }} />} padding={0}>
+		<AppShell padding={0}>
+			<NavbarLeft width={{ base: 240 }} />
 			{children}
 		</AppShell>
 	);

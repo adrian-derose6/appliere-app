@@ -1,31 +1,59 @@
 import { createStyles } from '@mantine/core';
 
-export const useStyles = createStyles((theme) => {
+interface styleProps {
+	expand: boolean;
+}
+
+export const useStyles = createStyles((theme, { expand }: styleProps) => {
 	return {
 		userTab: {
-			backgroundColor: 'rgba(255,255,255,.16)',
-			height: 40,
+			position: 'relative',
+			backgroundColor: '#495057',
+			maxWidth: '100%',
+			height: 42,
 			display: 'flex',
 			justifyContent: 'space-between',
 			alignItems: 'center',
 			cursor: 'pointer',
-			padding: '0 7px',
+			padding: '7px',
 		},
-		userDisplay: {
-			display: 'flex',
-			alignItems: 'center',
-			justifyContent: 'space-between',
+		avatarOverlay: {
+			position: 'absolute',
+			left: 0,
+			top: 0,
+			bottom: 0,
+			margin: 'auto',
+			zIndex: 100,
+			height: 17,
+			width: 39,
+			backgroundColor: '#495057',
+		},
+		avatar: {
+			zIndex: 200,
 		},
 		nameText: {
 			fontFamily: theme.other.textFontFamily,
+			position: 'relative',
 			color: 'white',
-			padding: 10,
 			fontSize: 15,
+			lineHeight: '15px',
+			display: expand ? 'inline' : 'none',
+			opacity: expand ? 1 : 0,
+			overflow: 'hidden',
+			whiteSpace: 'nowrap',
+			transition: 'all 1ms',
+			transitionProperty: 'visibility, opacity',
+			marginLeft: '-30px',
+			zIndex: 50,
 		},
 		settingsIcon: {
 			display: 'flex',
 			justifyContent: 'flex-end',
 			alignItems: 'center',
+			visibility: expand ? 'visible' : 'hidden',
+			opacity: expand ? 1 : 0,
+			transition: 'all 0.1s',
+			transitionProperty: 'visibility, opacity',
 		},
 	};
 });

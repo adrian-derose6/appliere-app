@@ -4,15 +4,24 @@ import { IconContext } from 'react-icons';
 
 import { useStyles } from './UserTab.styles';
 
-const UserTab = () => {
-	const { classes } = useStyles();
+interface UserTabProps {
+	expand?: boolean;
+}
+
+const UserTab = ({ expand = false }: UserTabProps) => {
+	const { classes } = useStyles({ expand });
 
 	return (
 		<Paper className={classes.userTab} radius='sm'>
-			<div className={classes.userDisplay}>
-				<Avatar alt='Avatar photo' size='sm' color='orange' />
-				<span className={classes.nameText}>Adrian DeRose</span>
-			</div>
+			<div className={classes.avatarOverlay} />
+			<Avatar
+				alt='Avatar photo'
+				size='sm'
+				color='orange'
+				className={classes.avatar}
+			/>
+			<div className={classes.nameText}>Adrian DeRose</div>
+
 			<IconContext.Provider
 				value={{
 					size: '23px',

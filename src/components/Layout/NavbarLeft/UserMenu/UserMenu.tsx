@@ -6,7 +6,11 @@ import UserTab from './UserTab';
 import { AuthContext } from '@/stores/contexts/auth-context';
 import { useStyles } from './UserMenu.styles';
 
-const UserMenu = () => {
+interface UserMenuProps {
+	expand?: boolean;
+}
+
+const UserMenu = ({ expand = false }: UserMenuProps) => {
 	const [isOpen, setIsOpen] = useState<boolean>(false);
 	const { logout } = useContext(AuthContext);
 
@@ -21,8 +25,8 @@ const UserMenu = () => {
 	return (
 		<Menu
 			control={
-				<UnstyledButton style={{ minWidth: '100%' }}>
-					<UserTab />
+				<UnstyledButton style={{ width: '100%' }}>
+					<UserTab expand={expand} />
 				</UnstyledButton>
 			}
 			classNames={{

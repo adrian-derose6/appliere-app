@@ -1,7 +1,7 @@
-import { useState } from 'react';
+import { useState, Fragment } from 'react';
 import { IconContext } from 'react-icons';
 import { NavLink } from 'react-router-dom';
-import { FiChevronUp } from 'react-icons/fi';
+import { FiChevronDown } from 'react-icons/fi';
 
 import { useStyles } from './NavbarLink.styles';
 
@@ -10,13 +10,26 @@ interface NavbarLinkProps {
 	to: string;
 	iconComponent?: React.ReactNode;
 	expand: boolean;
-	onClick?: () => void;
+	onToggleCollapse?: () => void;
 	collapsible?: boolean;
 }
 
+interface wrapperProps {
+	children: React.ReactNode;
+	collapsible?: boolean;
+	to: string;
+}
+
+const WrapperComponent = (wrapperProps: wrapperProps) =>
+	wrapperProps.collapsible ? (
+		<div>{wrapperProps.children}</div>
+	) : (
+		<NavLink to={wrapperProps.to}>{wrapperProps.children}</NavLink>
+	);
+
 const NavbarLink = (props: NavbarLinkProps) => {
-	const [chevronUp, setChevronUp] = useState(true);
-	const { expand } = props;
+	const [chevronUp, setChevronUp] = useState(false);
+	const { expand, collapsible, to } = props;
 	const { classes } = useStyles({ expand });
 
 	const rotateStyle = {
@@ -24,24 +37,31 @@ const NavbarLink = (props: NavbarLinkProps) => {
 		transition: 'transform 150ms ease', // smooth transition
 	};
 
-	const onCollapseTrigger: React.MouseEventHandler<HTMLDivElement> = () => {
-		if (props.onClick) {
-			props.onClick();
+	const onToggleCollapse: React.MouseEventHandler<HTMLDivElement> = () => {
+		if (props.onToggleCollapse) {
+			props.onToggleCollapse();
 			setChevronUp((prev) => !prev);
 		}
-		console.log('Collapse triggered');
 	};
 
 	return (
-		<NavLink to={props.to}>
-			<div className={classes.navLink} onClick={onCollapseTrigger}>
+		<WrapperComponent to={to} collapsible={collapsible}>
+			<div className={classes.navLink} onClick={onToggleCollapse}>
 				<IconContext.Provider
 					value={{ size: '17px', className: classes.navLinkIcon }}
 				>
 					{props.iconComponent}
 				</IconContext.Provider>
-				<div className={classes.navLinkLabel}>{props.label}</div>
-				{props.collapsible && (
+				<div className={classes.navLinkLabel}>
+					{collapsible ? (
+						<NavLink to={props.to}>
+							<span className={classes.innerLink}>{props.label}</span>
+						</NavLink>
+					) : (
+						<span>{props.label}</span>
+					)}
+				</div>
+				{collapsible && (
 					<IconContext.Provider
 						value={{
 							size: '17px',
@@ -49,11 +69,11 @@ const NavbarLink = (props: NavbarLinkProps) => {
 							className: classes.chevron,
 						}}
 					>
-						<FiChevronUp />
+						<FiChevronDown />
 					</IconContext.Provider>
 				)}
 			</div>
-		</NavLink>
+		</WrapperComponent>
 	);
 };
 
