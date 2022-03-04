@@ -1,5 +1,12 @@
+import HomeLayout from '@/features/home/components/Layout/HomeLayout';
+import GreetingHeader from '@/features/home/components/GreetingHeader/GreetingHeader';
+
 const HomePage = () => {
-	return <h1>Home Page</h1>;
+	return (
+		<HomeLayout>
+			<GreetingHeader />
+		</HomeLayout>
+	);
 };
 
 export default HomePage;
