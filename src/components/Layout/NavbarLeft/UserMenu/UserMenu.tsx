@@ -2,13 +2,11 @@ import { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Menu, UnstyledButton } from '@mantine/core';
 
-import NavbarUserTab from './NavbarUserTab';
+import UserTab from './UserTab';
 import { AuthContext } from '@/stores/contexts/auth-context';
-import { useStyles } from './NavUserMenu.styles';
+import { useStyles } from './UserMenu.styles';
 
-interface NavbarUserMenuProps {}
-
-const NavbarUserMenu = () => {
+const UserMenu = () => {
 	const [isOpen, setIsOpen] = useState<boolean>(false);
 	const { logout } = useContext(AuthContext);
 
@@ -24,7 +22,7 @@ const NavbarUserMenu = () => {
 		<Menu
 			control={
 				<UnstyledButton style={{ minWidth: '100%' }}>
-					<NavbarUserTab />
+					<UserTab />
 				</UnstyledButton>
 			}
 			classNames={{
@@ -42,4 +40,4 @@ const NavbarUserMenu = () => {
 	);
 };
 
-export default NavbarUserMenu;
+export default UserMenu;

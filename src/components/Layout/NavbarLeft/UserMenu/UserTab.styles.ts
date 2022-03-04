@@ -2,7 +2,7 @@ import { createStyles } from '@mantine/core';
 
 export const useStyles = createStyles((theme) => {
 	return {
-		wrapper: {
+		userTab: {
 			backgroundColor: 'rgba(255,255,255,.16)',
 			height: 40,
 			display: 'flex',
@@ -11,7 +11,7 @@ export const useStyles = createStyles((theme) => {
 			cursor: 'pointer',
 			padding: '0 7px',
 		},
-		userWrapper: {
+		userDisplay: {
 			display: 'flex',
 			alignItems: 'center',
 			justifyContent: 'space-between',

@@ -1,16 +1,15 @@
-import React from 'react';
 import { Avatar, Paper } from '@mantine/core';
 import { RiSettings5Fill } from 'react-icons/ri';
 import { IconContext } from 'react-icons';
 
-import { useStyles } from './NavbarUserTab.styles';
+import { useStyles } from './UserTab.styles';
 
-const NavbarUserTab = React.forwardRef<HTMLButtonElement>((props, ref) => {
+const UserTab = () => {
 	const { classes } = useStyles();
 
 	return (
-		<Paper className={classes.wrapper} radius='sm'>
-			<div className={classes.userWrapper}>
+		<Paper className={classes.userTab} radius='sm'>
+			<div className={classes.userDisplay}>
 				<Avatar alt='Avatar photo' size='sm' color='orange' />
 				<span className={classes.nameText}>Adrian DeRose</span>
 			</div>
@@ -25,6 +24,6 @@ const NavbarUserTab = React.forwardRef<HTMLButtonElement>((props, ref) => {
 			</IconContext.Provider>
 		</Paper>
 	);
-});
+};
 
-export default NavbarUserTab;
+export default UserTab;
