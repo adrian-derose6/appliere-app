@@ -1,9 +1,9 @@
 import { Navigate } from 'react-router-dom';
 
-import LoginPage from './LoginPage';
-import SignupPage from './SignupPage';
+import { LoginPage } from './LoginPage';
+import { SignupPage } from './SignupPage';
 
-const authRoutes = [
+export const authRoutes = [
 	{
 		path: '*',
 		element: <Navigate to='login' />,
@@ -17,5 +17,3 @@ const authRoutes = [
 		element: <SignupPage />,
 	},
 ];
-
-export default authRoutes;

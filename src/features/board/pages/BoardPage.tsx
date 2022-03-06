@@ -1,6 +1,6 @@
 import { useParams } from 'react-router-dom';
 
-const BoardPage = () => {
+export const BoardPage = () => {
 	const params = useParams();
 	const { boardId } = params;
 
@@ -11,5 +11,3 @@ const BoardPage = () => {
 		</>
 	);
 };
-
-export default BoardPage;

@@ -29,7 +29,6 @@ const NavbarLeft = (props: Omit<NavbarProps, 'children'>) => {
 		<Navbar
 			fixed
 			position={{ top: 0, left: 0 }}
-			height='100%'
 			className={classes.navbar}
 			ref={ref}
 			{...props}
@@ -90,7 +89,6 @@ const NavbarLeft = (props: Omit<NavbarProps, 'children'>) => {
 					iconComponent={<MdDynamicFeed />}
 					expand={hovered}
 				/>
-				<Space h='sm' />
 			</Navbar.Section>
 			<Navbar.Section className={classes.bottom}>
 				<UserMenu expand={hovered} />

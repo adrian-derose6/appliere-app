@@ -1,7 +1,7 @@
 import { Fragment } from 'react';
 import { Link } from 'react-router-dom';
 
-const BoardsOverview = () => {
+export const BoardsOverview = () => {
 	return (
 		<Fragment>
 			<h1>Personal Boards</h1>
@@ -13,5 +13,3 @@ const BoardsOverview = () => {
 		</Fragment>
 	);
 };
-
-export default BoardsOverview;

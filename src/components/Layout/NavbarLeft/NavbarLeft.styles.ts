@@ -62,7 +62,7 @@ export const useStyles = createStyles(
 				transitionProperty: 'margin',
 			},
 			bottom: {
-				padding: '0 10px 10px',
+				padding: '10px',
 			},
 		};
 	}

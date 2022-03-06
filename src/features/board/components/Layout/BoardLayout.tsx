@@ -1,8 +1,8 @@
 import { Outlet } from 'react-router-dom';
 
-import BoardNavigation from './BoardNavigation';
+import { BoardNavigation } from './BoardNavigation';
 
-const BoardLayout = () => {
+export const BoardLayout = () => {
 	return (
 		<>
 			<section>
@@ -12,5 +12,3 @@ const BoardLayout = () => {
 		</>
 	);
 };
-
-export default BoardLayout;

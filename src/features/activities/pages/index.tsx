@@ -1,8 +1,8 @@
 import { RouteObject } from 'react-router-dom';
 
-import ActivitiesPage from './ActivitiesPage';
+import { ActivitiesPage } from './ActivitiesPage';
 
-const activitiesRoutes: RouteObject[] = [
+export const activitiesRoutes: RouteObject[] = [
 	{
 		path: 'activities',
 		element: <ActivitiesPage />,
@@ -38,5 +38,3 @@ const activitiesRoutes: RouteObject[] = [
 		],
 	},
 ];
-
-export default activitiesRoutes;

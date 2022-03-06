@@ -1,11 +1,11 @@
 import { RouteObject } from 'react-router-dom';
 
-import BoardLayout from '../components/Layout/BoardLayout';
-import BoardsOverview from './BoardsOverview';
-import BoardPage from './BoardPage';
-import activitiesRoutes from '@/features/activities/routes';
+import { BoardLayout } from '../components/Layout/BoardLayout';
+import { BoardsOverview } from './BoardsOverview';
+import { BoardPage } from './BoardPage';
+import { activitiesRoutes } from '@/features/activities/pages';
 
-const boardRoutes: RouteObject[] = [
+export const boardRoutes: RouteObject[] = [
 	{
 		index: true,
 		element: <BoardsOverview />,
@@ -31,5 +31,3 @@ const boardRoutes: RouteObject[] = [
 		],
 	},
 ];
-
-export default boardRoutes;

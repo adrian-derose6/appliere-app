@@ -1,19 +1,20 @@
+import { Container } from '@mantine/core';
 import { useStyles } from './HomeLayout.styles';
 
 interface HomeLayoutProps {
 	children?: React.ReactNode;
 }
 
-const HomeLayout = ({ children }: HomeLayoutProps) => {
+export const HomeLayout = ({ children }: HomeLayoutProps) => {
 	const { classes } = useStyles();
 
 	return (
-		<div className={classes.pageWrapper}>
-			<div className={classes.contentWrapper}>
-				<div className={classes.content}>{children}</div>
-			</div>
-		</div>
+		<Container fluid padding={0} className={classes.pageWrapper}>
+			<Container fluid className={classes.contentWrapper}>
+				<Container fluid padding={0} className={classes.content}>
+					{children}
+				</Container>
+			</Container>
+		</Container>
 	);
 };
-
-export default HomeLayout;

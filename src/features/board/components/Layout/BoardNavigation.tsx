@@ -23,7 +23,7 @@ const boardLinks = [
 	},
 ];
 
-const BoardNavigation = () => {
+export const BoardNavigation = () => {
 	return (
 		<nav>
 			<ul>
@@ -36,5 +36,3 @@ const BoardNavigation = () => {
 		</nav>
 	);
 };
-
-export default BoardNavigation;

@@ -1,8 +1,8 @@
 import { Outlet } from 'react-router-dom';
 
-import ActivitiesNavigation from '../components/Layout/ActivitiesNavigation';
+import { ActivitiesNavigation } from '../components/Layout/ActivitiesNavigation';
 
-const ActivitiesPage = () => {
+export const ActivitiesPage = () => {
 	return (
 		<>
 			<h1>Activities Page</h1>
@@ -11,5 +11,3 @@ const ActivitiesPage = () => {
 		</>
 	);
 };
-
-export default ActivitiesPage;

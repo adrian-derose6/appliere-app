@@ -42,7 +42,7 @@ const appStatusLinks = [
 	},
 ];
 
-const ActivitiesNavigation = () => {
+export const ActivitiesNavigation = () => {
 	return (
 		<nav>
 			<ul>
@@ -62,5 +62,3 @@ const ActivitiesNavigation = () => {
 		</nav>
 	);
 };
-
-export default ActivitiesNavigation;

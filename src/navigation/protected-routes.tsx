@@ -1,9 +1,9 @@
 import { Navigate, RouteObject } from 'react-router-dom';
 
-import boardRoutes from '@/features/board/routes';
-import HomePage from '@/features/home/routes/HomePage';
+import { boardRoutes } from '@/features/board/pages';
+import { HomePage } from '@/features/home';
 
-const protectedRoutes: RouteObject[] = [
+export const protectedRoutes: RouteObject[] = [
 	{
 		path: '/home',
 		element: <HomePage />,
@@ -29,5 +29,3 @@ const protectedRoutes: RouteObject[] = [
 		element: <Navigate replace to='/home' />,
 	},
 ];
-
-export default protectedRoutes;

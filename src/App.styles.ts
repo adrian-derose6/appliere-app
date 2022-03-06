@@ -1,6 +1,6 @@
 import { MantineTheme } from '@mantine/core';
 
-const useGlobalStyles = (theme: MantineTheme) => ({
+export const useGlobalStyles = (theme: MantineTheme) => ({
 	ul: {
 		padding: 0,
 	},
@@ -13,5 +13,3 @@ const useGlobalStyles = (theme: MantineTheme) => ({
 		color: 'inherit',
 	},
 });
-
-export default useGlobalStyles;

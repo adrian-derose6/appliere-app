@@ -3,10 +3,10 @@ import { useRoutes } from 'react-router-dom';
 
 import { AuthContext } from '@/stores/contexts/auth-context';
 
-import protectedRoutes from './protected-routes';
-import publicRoutes from './public-routes';
+import { protectedRoutes } from './protected-routes';
+import { publicRoutes } from './public-routes';
 
-const AppRouter = () => {
+export const AppRouter = () => {
 	const { isLoggedIn } = useContext(AuthContext);
 
 	const activeRoutes = isLoggedIn ? protectedRoutes : publicRoutes;
@@ -14,5 +14,3 @@ const AppRouter = () => {
 
 	return <>{router}</>;
 };
-
-export default AppRouter;

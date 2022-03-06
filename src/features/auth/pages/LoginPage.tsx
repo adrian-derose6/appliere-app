@@ -4,7 +4,7 @@ import { AuthContext } from '@/stores/contexts/auth-context';
 import { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-const LoginPage = () => {
+export const LoginPage = () => {
 	const { login } = useContext(AuthContext);
 	const navigate = useNavigate();
 
@@ -16,5 +16,3 @@ const LoginPage = () => {
 		</div>
 	);
 };
-
-export default LoginPage;

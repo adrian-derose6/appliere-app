@@ -1,8 +1,8 @@
 import { Global } from '@mantine/core';
 
-import AppRouter from '@/routes/AppRouter';
-import MainLayout from '@/components/Layout/MainLayout';
-import useGlobalStyles from '@/App.styles';
+import { AppRouter } from '@/navigation/AppRouter';
+import { MainLayout } from '@/components/Layout';
+import { useGlobalStyles } from '@/App.styles';
 
 export default function App() {
 	return (
