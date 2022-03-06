@@ -19,4 +19,10 @@ export const useGlobalStyles = (theme: MantineTheme) => ({
 		textDecoration: 'none',
 		color: 'inherit',
 	},
+	h4: {
+		fontSize: '20px',
+		lineHeight: '28px',
+		fontWeight: 500,
+		color: '#1e1f21',
+	},
 });

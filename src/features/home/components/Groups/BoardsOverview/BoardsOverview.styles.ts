@@ -2,10 +2,6 @@ import { createStyles } from '@mantine/core';
 
 export const useStyles = createStyles((theme) => {
 	return {
-		dashboardWrapper: {
-			marginTop: '18px',
-			width: '100%',
-		},
 		summaryCard: {
 			height: '400px',
 		},
@@ -14,6 +10,12 @@ export const useStyles = createStyles((theme) => {
 			display: 'flex',
 			height: '28px',
 			justifyContent: 'space-between',
+		},
+		gridContainer: {
+			paddingTop: '15px',
+		},
+		gridColumn: {
+			marginBottom: '6px',
 		},
 	};
 });
