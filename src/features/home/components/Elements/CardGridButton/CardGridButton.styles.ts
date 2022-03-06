@@ -7,10 +7,19 @@ export const useStyles = createStyles((theme) => {
 			width: '100%',
 			borderRadius: '7px',
 			paddingLeft: '8px',
+			position: 'relative',
 
 			'&:hover': {
 				backgroundColor: '#eceeef',
 			},
+		},
+		hoverWrapper: {
+			display: 'flex',
+			flexDirection: 'row',
+			justifyContent: 'space-between',
+			alignItems: 'center',
+			minHeight: '100%',
+			minWidth: '100%',
 		},
 		buttonLabel: {
 			fontSize: '14px',

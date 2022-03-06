@@ -27,6 +27,7 @@ export const useStyles = createStyles((theme) => {
 			maxWidth: '1200px',
 			width: '100%',
 			position: 'relative',
+			paddingBottom: '72px',
 		},
 	};
 });
