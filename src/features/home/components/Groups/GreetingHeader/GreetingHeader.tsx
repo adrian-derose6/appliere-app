@@ -33,7 +33,12 @@ export const GreetingHeader = () => {
 	const { colors } = useMantineTheme();
 
 	return (
-		<Group direction='column' align='center' spacing={15}>
+		<Group
+			direction='column'
+			align='center'
+			spacing={15}
+			className={classes.wrapper}
+		>
 			<Text className={classes.dateText}>Wednesday, March 2</Text>
 			<Title order={1} className={classes.greetingText}>
 				Good morning, Adrian

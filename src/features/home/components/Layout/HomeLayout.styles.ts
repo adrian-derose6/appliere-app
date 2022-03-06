@@ -22,11 +22,11 @@ export const useStyles = createStyles((theme) => {
 			minHeight: '100%',
 		},
 		content: {
-			alignItems: 'stretch',
 			display: 'flex',
 			flexDirection: 'column',
 			maxWidth: '1200px',
 			width: '100%',
+			position: 'relative',
 		},
 	};
 });

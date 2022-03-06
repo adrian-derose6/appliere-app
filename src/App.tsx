@@ -8,8 +8,8 @@ import { useGlobalStyles } from '@/App.styles';
 export default function App() {
 	return (
 		<AppProvider>
+			<Global styles={useGlobalStyles} />
 			<MainLayout>
-				<Global styles={useGlobalStyles} />
 				<AppRouter />
 			</MainLayout>
 		</AppProvider>

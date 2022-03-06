@@ -2,6 +2,9 @@ import { createStyles } from '@mantine/core';
 
 export const useStyles = createStyles((theme) => {
 	return {
+		wrapper: {
+			marginBottom: '12px',
+		},
 		dateText: {
 			fontSize: '16px',
 			lineHeight: '16px',
