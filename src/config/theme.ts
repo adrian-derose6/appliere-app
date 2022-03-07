@@ -1,4 +1,4 @@
-export const themeConfig = {
+export const themeConfig: {} = {
 	headings: {
 		fontFamily: 'Segoe UI, sans-serif',
 		fontWeight: 400,

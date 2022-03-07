@@ -19,6 +19,8 @@ import NavbarLink from './NavbarLink/NavbarLink';
 import { useStyles } from './NavbarLeft.styles';
 import { AuthContext } from '@/stores/contexts/auth-context';
 
+const logoIcon = require('@/assets/png/logo.png');
+
 const NavbarLeft = (props: Omit<NavbarProps, 'children'>) => {
 	const [isCollapseOpen, setIsCollapseOpen] = useState(false);
 	const { hovered, ref } = useHover();
@@ -37,7 +39,7 @@ const NavbarLeft = (props: Omit<NavbarProps, 'children'>) => {
 				<NavLink className={classes.logoLink} to='/home'>
 					<Image
 						height={30}
-						src={require('@/assets/logo.png')}
+						src={logoIcon}
 						fit='contain'
 						className={classes.logoIcon}
 					/>

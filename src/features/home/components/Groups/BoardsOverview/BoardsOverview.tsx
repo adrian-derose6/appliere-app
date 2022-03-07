@@ -59,7 +59,7 @@ export const BoardsOverview = () => {
 			<Container fluid padding={0} className={classes.gridContainer}>
 				<Grid gutter={0}>
 					<Grid.Col span={6} className={classes.gridColumn}>
-						<CardGridButton name='Create Project' />
+						<CardGridButton name='Create Board' newBoard />
 					</Grid.Col>
 					{boardsList}
 				</Grid>
