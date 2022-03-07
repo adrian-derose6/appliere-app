@@ -6,7 +6,7 @@ export const BoardLayout = () => {
 	return (
 		<>
 			<BoardNavigation />
-			<section>
+			<section style={{ paddingTop: 50 }}>
 				<Outlet />
 			</section>
 		</>

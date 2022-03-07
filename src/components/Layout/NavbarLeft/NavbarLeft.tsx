@@ -33,6 +33,7 @@ const NavbarLeft = (props: Omit<NavbarProps, 'children'>) => {
 			position={{ top: 0, left: 0 }}
 			className={classes.navbar}
 			ref={ref}
+			zIndex={500}
 			{...props}
 		>
 			<Navbar.Section>
