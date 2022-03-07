@@ -1,3 +1,4 @@
+import { Tabs } from '@mantine/core';
 import { NavLink } from 'react-router-dom';
 
 const boardLinks = [
@@ -26,13 +27,13 @@ const boardLinks = [
 export const BoardNavigation = () => {
 	return (
 		<nav>
-			<ul>
+			<Tabs>
 				{boardLinks.map((link, index) => (
-					<li key={index}>
+					<Tabs.Tab key={index} label={link.label}>
 						<NavLink to={link.path}>{link.label}</NavLink>
-					</li>
+					</Tabs.Tab>
 				))}
-			</ul>
+			</Tabs>
 		</nav>
 	);
 };

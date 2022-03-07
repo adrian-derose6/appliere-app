@@ -5,10 +5,10 @@ import { BoardNavigation } from './BoardNavigation';
 export const BoardLayout = () => {
 	return (
 		<>
+			<BoardNavigation />
 			<section>
 				<Outlet />
 			</section>
-			<BoardNavigation />
 		</>
 	);
 };
