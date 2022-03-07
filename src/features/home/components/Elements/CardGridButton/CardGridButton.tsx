@@ -13,7 +13,6 @@ interface CardGridButtonProps {
 	name: string;
 	due?: number | string;
 	newBoard?: boolean;
-	avatarSrc?: string;
 }
 
 export const CardGridButton = ({

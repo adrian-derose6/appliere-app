@@ -1,6 +1,8 @@
 import { Grid, Container, Card, Title } from '@mantine/core';
 
 import { BoardsOverview } from '@/features/home/components/Groups/BoardsOverview/BoardsOverview';
+import { ActivitiesOverview } from '../../Groups/ActivitiesOverview/ActivitiesOverview';
+import { ContactsOverview } from '../../Groups/ContactsOverview/ContactsOverview';
 
 import { useStyles } from './HomeDashboard.styles';
 
@@ -14,38 +16,10 @@ export const HomeDashboard = () => {
 					<BoardsOverview />
 				</Grid.Col>
 				<Grid.Col span={6}>
-					<Card
-						padding='lg'
-						shadow='none'
-						withBorder={true}
-						radius='md'
-						className={classes.summaryCard}
-					>
-						<Title order={3}>My Activities</Title>
-						<Grid>
-							<Grid.Col span={6}></Grid.Col>
-							<Grid.Col span={6}></Grid.Col>
-							<Grid.Col span={6}></Grid.Col>
-							<Grid.Col span={6}></Grid.Col>
-						</Grid>
-					</Card>
+					<ActivitiesOverview />
 				</Grid.Col>
 				<Grid.Col span={12}>
-					<Card
-						padding='lg'
-						shadow='none'
-						withBorder={true}
-						radius='md'
-						className={classes.summaryCard}
-					>
-						<Title order={3}>People</Title>
-						<Grid>
-							<Grid.Col span={6}></Grid.Col>
-							<Grid.Col span={6}></Grid.Col>
-							<Grid.Col span={6}></Grid.Col>
-							<Grid.Col span={6}></Grid.Col>
-						</Grid>
-					</Card>
+					<ContactsOverview />
 				</Grid.Col>
 			</Grid>
 		</Container>
