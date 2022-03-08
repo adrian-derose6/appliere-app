@@ -19,6 +19,8 @@ import NavbarLink from './NavbarLink/NavbarLink';
 import { useStyles } from './NavbarLeft.styles';
 import { AuthContext } from '@/stores/contexts/auth-context';
 
+const logoIcon = require('@/assets/png/logo.png');
+
 const NavbarLeft = (props: Omit<NavbarProps, 'children'>) => {
 	const [isCollapseOpen, setIsCollapseOpen] = useState(false);
 	const { hovered, ref } = useHover();
@@ -29,16 +31,16 @@ const NavbarLeft = (props: Omit<NavbarProps, 'children'>) => {
 		<Navbar
 			fixed
 			position={{ top: 0, left: 0 }}
-			height='100%'
 			className={classes.navbar}
 			ref={ref}
+			zIndex={500}
 			{...props}
 		>
 			<Navbar.Section>
 				<NavLink className={classes.logoLink} to='/home'>
 					<Image
 						height={30}
-						src={require('@/assets/logo.png')}
+						src={logoIcon}
 						fit='contain'
 						className={classes.logoIcon}
 					/>
@@ -90,7 +92,6 @@ const NavbarLeft = (props: Omit<NavbarProps, 'children'>) => {
 					iconComponent={<MdDynamicFeed />}
 					expand={hovered}
 				/>
-				<Space h='sm' />
 			</Navbar.Section>
 			<Navbar.Section className={classes.bottom}>
 				<UserMenu expand={hovered} />

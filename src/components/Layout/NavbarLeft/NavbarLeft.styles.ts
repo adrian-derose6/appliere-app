@@ -16,7 +16,7 @@ export const useStyles = createStyles(
 				border: 'none',
 				boxShadow: 'none',
 				width: '60px',
-
+				zIndex: 500,
 				'&:hover': {
 					width: '240px',
 					boxShadow: '0 0 50px 0 rgba(0, 0, 0, 0.6)',
@@ -62,7 +62,7 @@ export const useStyles = createStyles(
 				transitionProperty: 'margin',
 			},
 			bottom: {
-				padding: '0 10px 10px',
+				padding: '10px',
 			},
 		};
 	}

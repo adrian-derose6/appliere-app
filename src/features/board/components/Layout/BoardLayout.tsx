@@ -1,16 +1,14 @@
 import { Outlet } from 'react-router-dom';
 
-import BoardNavigation from './BoardNavigation';
+import { BoardNavigation } from './BoardNavigation';
 
-const BoardLayout = () => {
+export const BoardLayout = () => {
 	return (
 		<>
-			<section>
+			<BoardNavigation />
+			<section style={{ paddingTop: 50 }}>
 				<Outlet />
 			</section>
-			<BoardNavigation />
 		</>
 	);
 };
-
-export default BoardLayout;
