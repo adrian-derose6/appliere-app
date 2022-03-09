@@ -1,7 +1,7 @@
 import { Container, Title } from '@mantine/core';
 import { Draggable, Droppable } from 'react-beautiful-dnd';
 
-import { JobCard } from '../Elements/JobCard';
+import { JobCard } from '../4. Elements/JobCard';
 import { Collection, Job } from '../../types/board-types';
 import { useStyles } from './BoardColumn.styles';
 
