@@ -15,7 +15,7 @@ export const MainLayout = ({ children }: LayoutProps) => {
 		<AppShell
 			padding={0}
 			fixed={true}
-			navbar={<NavbarLeft />}
+			navbar={isLoggedIn ? <NavbarLeft /> : undefined}
 			styles={{
 				main: { position: 'relative', paddingLeft: '60px' },
 			}}

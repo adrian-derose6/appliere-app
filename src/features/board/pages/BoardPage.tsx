@@ -1,13 +1,15 @@
 import { useParams } from 'react-router-dom';
 
+import { Board } from '../components/Sections/Board';
+import { BoardProvider } from '../stores/contexts/board-context';
+
 export const BoardPage = () => {
 	const params = useParams();
 	const { boardId } = params;
 
 	return (
-		<>
-			<h1>Board Page</h1>
-			<p>{boardId}</p>
-		</>
+		<BoardProvider>
+			<Board />
+		</BoardProvider>
 	);
 };
