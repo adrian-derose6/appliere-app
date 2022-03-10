@@ -2,7 +2,7 @@ import { useContext } from 'react';
 import { Container } from '@mantine/core';
 import { DragDropContext, Droppable, DropResult } from 'react-beautiful-dnd';
 
-import { BoardColumn } from '../3. Groups/BoardColumn';
+import { BoardColumn } from '../3-Groups/BoardColumn';
 
 import {
 	BoardContext,
