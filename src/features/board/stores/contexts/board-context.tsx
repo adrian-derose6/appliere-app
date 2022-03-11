@@ -1,7 +1,7 @@
-import React, { useReducer, Dispatch } from 'react';
+import React, { useState, useReducer, Dispatch } from 'react';
 
 import { initialBoardState } from '../../stores/boardData';
-import { BoardState } from '../../types/board-types';
+import { BoardState, PlaceholderProps } from '../../types/board-types';
 import { Action } from '@/types/types';
 import { boardReducer } from '../reducers/boardReducer';
 
@@ -17,7 +17,7 @@ export const BoardContext = React.createContext<BoardContextObj | null>(null);
 export const BoardProvider = ({ children }: BoardProviderProps) => {
 	const [state, dispatch] = useReducer(boardReducer, initialBoardState);
 
-	const value = {
+	const value: BoardContextObj = {
 		state,
 		dispatch,
 	};

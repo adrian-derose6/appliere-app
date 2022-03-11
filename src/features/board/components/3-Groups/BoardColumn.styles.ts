@@ -1,12 +1,16 @@
 import { createStyles } from '@mantine/core';
 
-type stylesProps = { isDraggingOver?: boolean; isHoveringOver: boolean };
+type stylesProps = {
+	isDragging: boolean;
+	isDraggingOver?: boolean;
+	isHoveringOver: boolean;
+};
 
 export const useStyles = createStyles(
-	(theme, { isDraggingOver, isHoveringOver }: stylesProps) => {
+	(theme, { isDragging, isDraggingOver, isHoveringOver }: stylesProps) => {
 		return {
 			columnWrapper: {
-				backgroundColor: 'white',
+				backgroundColor: isDragging ? 'white' : 'transparent',
 				boxSizing: 'border-box',
 				margin: '8px 0',
 				padding: 0,
@@ -15,15 +19,16 @@ export const useStyles = createStyles(
 				display: 'flex',
 				flexDirection: 'column',
 				alignItems: 'center',
-				transition: 'border 0.2s ease',
+				transition: 'all 0.2s ease',
 				borderRadius: '6px',
-				border: isHoveringOver
-					? '1px solid lightgrey'
-					: '1px solid transparent',
+				boxShadow:
+					isDragging || isHoveringOver
+						? '0 0 0 1px #edeae9, 0 1px 4px 0 rgba(109, 110, 111, 0.08)'
+						: 'none',
 			},
 			columnHeader: {
 				padding: '20px 10px 20px',
-				width: '300px',
+				width: '100%',
 				boxSizing: 'border-box',
 				cursor: 'pointer',
 			},
@@ -44,18 +49,13 @@ export const useStyles = createStyles(
 				display: 'flex',
 				flexDirection: 'column',
 				alignItems: 'center',
+				position: 'relative',
+				backgroundColor: isDraggingOver ? theme.colors.gray[1] : 'inherit',
 			},
-			columnListButton: {
-				color: '#6d6e6f',
-				fill: '#6d6e6f',
-				width: '100%',
-				boxSizing: 'border-box',
-				transition: 'all 0.2s ease',
-
-				'&:hover': {
-					backgroundColor: 'lightgray',
-					color: theme.other.brandDarkColor,
-				},
+			placeholder: {
+				height: '100px',
+				maxWidth: '280px',
+				backgroundColor: 'red',
 			},
 		};
 	}

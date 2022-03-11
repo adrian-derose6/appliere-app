@@ -10,6 +10,7 @@ export const useStyles = createStyles((theme: MantineTheme) => {
 			height: '100%',
 			padding: '0 12px',
 			flexWrap: 'nowrap',
+			backgroundColor: '#f9f8f8',
 		},
 	};
 });

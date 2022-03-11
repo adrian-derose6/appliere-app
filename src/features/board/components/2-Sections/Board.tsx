@@ -3,6 +3,7 @@ import { Container } from '@mantine/core';
 import { DragDropContext, Droppable, DropResult } from 'react-beautiful-dnd';
 
 import { BoardColumn } from '../3-Groups/BoardColumn';
+import { AddButton } from '../4-Elements/AddButton';
 
 import {
 	BoardContext,
@@ -120,6 +121,11 @@ export const Board = (props: BoardProps) => {
 								);
 							}
 						)}
+						<AddButton
+							label='Add List'
+							style={{ fontSize: '16px', marginTop: 25 }}
+							iconSize='13px'
+						/>
 					</Container>
 				)}
 			</Droppable>
