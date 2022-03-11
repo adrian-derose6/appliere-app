@@ -1,10 +1,9 @@
+import { Link, useLocation } from 'react-router-dom';
 import { Menu, UnstyledButton, createStyles } from '@mantine/core';
 import { BsPlusLg } from 'react-icons/bs';
-import { CgToolbox } from 'react-icons/cg';
-import { VscCalendar } from 'react-icons/vsc';
-import { IoPeopleOutline } from 'react-icons/io5';
 
 import { BrandButton } from '@/components/Buttons';
+import { LinkType } from '../1-Layout/BoardNavigation';
 
 const useStyles = createStyles((theme) => {
 	return {
@@ -23,10 +22,12 @@ const useStyles = createStyles((theme) => {
 	};
 });
 
-type CreateMenuProps = {};
+type CreateMenuProps = { links: LinkType[] };
 
-export const CreateMenu = (props: CreateMenuProps) => {
+export const CreateMenu = ({ links }: CreateMenuProps) => {
+	const location = useLocation();
 	const { classes } = useStyles();
+
 	return (
 		<Menu
 			size={110}
@@ -45,9 +46,13 @@ export const CreateMenu = (props: CreateMenuProps) => {
 				itemHovered: classes.itemHovered,
 			}}
 		>
-			<Menu.Item icon={<CgToolbox />}>Job</Menu.Item>
-			<Menu.Item icon={<VscCalendar />}>Activity</Menu.Item>
-			<Menu.Item icon={<IoPeopleOutline />}>Contact</Menu.Item>
+			{links.map((item, index) => (
+				<Menu.Item key={index} icon={item.icon}>
+					<Link to={item.path} state={{ backgroundLocation: location }}>
+						{item.label}
+					</Link>
+				</Menu.Item>
+			))}
 		</Menu>
 	);
 };

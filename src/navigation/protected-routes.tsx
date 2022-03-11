@@ -1,6 +1,7 @@
 import { Navigate, RouteObject } from 'react-router-dom';
 
 import { boardRoutes } from '@/features/board/pages';
+import { AddJobModal } from '@/features/board/components/2-Sections/AddJobModal';
 import { HomePage } from '@/features/home';
 
 export const protectedRoutes: RouteObject[] = [

@@ -1,14 +1,8 @@
-import { useState, useContext } from 'react';
+import { useState } from 'react';
+import { Link, useLocation, useParams } from 'react-router-dom';
 import { isEmpty } from 'lodash';
 
-import {
-	Container,
-	Title,
-	ScrollArea,
-	Button,
-	Group,
-	Tooltip,
-} from '@mantine/core';
+import { Title, ScrollArea, Group } from '@mantine/core';
 import { useHover } from '@mantine/hooks';
 import { Draggable, Droppable } from 'react-beautiful-dnd';
 
@@ -33,6 +27,9 @@ export const BoardColumn = (props: BoardColumnProps) => {
 	const [isDragging, setIsDragging] = useState<boolean>(false);
 	const [isDraggingOver, setIsDraggingOver] = useState<boolean>(false);
 	const columnEmpty = isEmpty(props.jobs);
+
+	const location = useLocation();
+	const { boardId } = useParams();
 
 	const { hovered, ref } = useHover();
 	const { classes } = useStyles({
@@ -89,11 +86,16 @@ export const BoardColumn = (props: BoardColumnProps) => {
 											<JobCard key={job.id} job={job} index={index} />
 										))}
 										{provided.placeholder}
-										<AddButton
-											label='Add Job'
-											style={{ width: '100%', marginTop: 10 }}
-											iconSize='13px'
-										/>
+										<Link
+											to={`/add-job`}
+											state={{ backgroundLocation: location }}
+										>
+											<AddButton
+												label='Add Job'
+												style={{ width: '100%', marginTop: 10 }}
+												iconSize='13px'
+											/>
+										</Link>
 									</ScrollArea>
 								);
 							}}

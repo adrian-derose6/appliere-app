@@ -6,12 +6,21 @@ import { FaListUl } from 'react-icons/fa';
 import { IoPeopleOutline } from 'react-icons/io5';
 import { FiMap } from 'react-icons/fi';
 import { BsBarChartLine } from 'react-icons/bs';
+import { CgToolbox } from 'react-icons/cg';
+import { VscCalendar } from 'react-icons/vsc';
 
 import { ShareButton } from '@/components/Buttons';
 import { CreateMenu } from '../4-Elements/CreateMenu';
 import { useStyles } from './BoardNavigation.styles';
 
-const boardLinks = [
+export type LinkType = {
+	label: string;
+	path: string;
+	icon?: React.ReactNode;
+	state?: {};
+};
+
+const boardLinks: LinkType[] = [
 	{
 		label: 'Board',
 		path: 'board',
@@ -36,6 +45,24 @@ const boardLinks = [
 		label: 'Dashboard',
 		path: 'metrics',
 		icon: <BsBarChartLine />,
+	},
+];
+
+const modalLinks: LinkType[] = [
+	{
+		label: 'Jobs',
+		path: '/add-job',
+		icon: <CgToolbox />,
+	},
+	{
+		label: 'Activity',
+		path: '/add-activity',
+		icon: <VscCalendar />,
+	},
+	{
+		label: 'Contact',
+		path: '/add-contact',
+		icon: <IoPeopleOutline />,
 	},
 ];
 
@@ -93,7 +120,7 @@ export const BoardNavigation = () => {
 					<ShareButton size='xs' variant='default'>
 						Share
 					</ShareButton>
-					<CreateMenu />
+					<CreateMenu links={modalLinks} />
 				</Group>
 			</Group>
 		</Header>

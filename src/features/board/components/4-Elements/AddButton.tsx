@@ -5,6 +5,7 @@ interface Props {
 	label: string;
 	style?: {};
 	iconSize?: string;
+	onClick?: () => {};
 }
 
 const useStyles = createStyles((theme) => {

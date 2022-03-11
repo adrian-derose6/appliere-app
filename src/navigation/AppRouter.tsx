@@ -1,16 +1,28 @@
 import { useContext } from 'react';
-import { useRoutes } from 'react-router-dom';
+import { useRoutes, useLocation } from 'react-router-dom';
 
 import { AuthContext } from '@/stores/contexts/auth-context';
 
 import { protectedRoutes } from './protected-routes';
 import { publicRoutes } from './public-routes';
+import { modalRoutes } from './modal-routes';
 
 export const AppRouter = () => {
 	const { isLoggedIn } = useContext(AuthContext);
+	let location = useLocation();
+	let locationState = location.state as { backgroundLocation?: Location };
 
 	const activeRoutes = isLoggedIn ? protectedRoutes : publicRoutes;
-	const router = useRoutes([...activeRoutes]);
+	const mainRouter = useRoutes(
+		[...activeRoutes],
+		locationState?.backgroundLocation || location
+	);
+	const modalRouter = useRoutes([...modalRoutes]);
 
-	return <>{router}</>;
+	return (
+		<>
+			{mainRouter}
+			{locationState?.backgroundLocation && modalRouter}
+		</>
+	);
 };
