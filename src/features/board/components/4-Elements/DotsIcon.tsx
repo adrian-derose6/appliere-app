@@ -1,6 +1,6 @@
-import { Center, createStyles } from '@mantine/core';
+import { Center, Tooltip, createStyles } from '@mantine/core';
 import { useHover } from '@mantine/hooks';
-import { BsPlusLg } from 'react-icons/bs';
+import { BsThreeDots } from 'react-icons/bs';
 import { IconContext } from 'react-icons';
 
 type Props = {
@@ -23,17 +23,26 @@ const useStyles = createStyles((theme, { hovered }: StylesProps) => {
 	};
 });
 
-export const PlusIcon = ({ size }: Props) => {
+export const DotsIcon = ({ size }: Props) => {
 	const { hovered, ref } = useHover();
 	const { classes } = useStyles({ hovered });
 
 	return (
-		<Center ref={ref} className={classes.root}>
-			<IconContext.Provider
-				value={{ size, style: { transition: 'all 0.2s ease' } }}
-			>
-				<BsPlusLg />
-			</IconContext.Provider>
-		</Center>
+		<Tooltip
+			label='More actions'
+			withArrow
+			arrowSize={5}
+			position='bottom'
+			gutter={5}
+			styles={{ body: { fontSize: '12px' } }}
+		>
+			<Center ref={ref} className={classes.root}>
+				<IconContext.Provider
+					value={{ size, style: { transition: 'all 0.2s ease' } }}
+				>
+					<BsThreeDots />
+				</IconContext.Provider>
+			</Center>
+		</Tooltip>
 	);
 };

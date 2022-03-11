@@ -1,13 +1,15 @@
+import { isEmpty } from 'lodash';
 import { createStyles } from '@mantine/core';
 
-type stylesProps = {
+type StylesProps = {
 	isDragging: boolean;
 	isDraggingOver?: boolean;
 	isHoveringOver: boolean;
+	isEmpty: boolean;
 };
 
 export const useStyles = createStyles(
-	(theme, { isDragging, isDraggingOver, isHoveringOver }: stylesProps) => {
+	(theme, { isDragging, isDraggingOver, isHoveringOver }: StylesProps) => {
 		return {
 			columnWrapper: {
 				backgroundColor: isDragging ? 'white' : 'transparent',
@@ -50,12 +52,12 @@ export const useStyles = createStyles(
 				flexDirection: 'column',
 				alignItems: 'center',
 				position: 'relative',
-				backgroundColor: isDraggingOver ? theme.colors.gray[1] : 'inherit',
-			},
-			placeholder: {
-				height: '100px',
-				maxWidth: '280px',
-				backgroundColor: 'red',
+				background:
+					isDraggingOver || isEmpty
+						? 'linear-gradient(180deg, #f5f3f3, rgba(245, 243, 243, 0) 100%)'
+						: 'inherit',
+				backgroundClip: 'content-box',
+				borderRadius: '4px',
 			},
 		};
 	}

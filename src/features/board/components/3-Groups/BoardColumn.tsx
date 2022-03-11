@@ -1,4 +1,6 @@
 import { useState, useContext } from 'react';
+import { isEmpty } from 'lodash';
+
 import {
 	Container,
 	Title,
@@ -30,11 +32,14 @@ interface BoardColumnProps {
 export const BoardColumn = (props: BoardColumnProps) => {
 	const [isDragging, setIsDragging] = useState<boolean>(false);
 	const [isDraggingOver, setIsDraggingOver] = useState<boolean>(false);
+	const columnEmpty = isEmpty(props.jobs);
+
 	const { hovered, ref } = useHover();
 	const { classes } = useStyles({
 		isDraggingOver,
 		isHoveringOver: hovered,
 		isDragging,
+		isEmpty: columnEmpty,
 	});
 
 	return (
