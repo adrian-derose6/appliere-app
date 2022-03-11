@@ -9,7 +9,10 @@ type StylesProps = {
 };
 
 export const useStyles = createStyles(
-	(theme, { isDragging, isDraggingOver, isHoveringOver }: StylesProps) => {
+	(
+		theme,
+		{ isDragging, isDraggingOver, isHoveringOver, isEmpty }: StylesProps
+	) => {
 		return {
 			columnWrapper: {
 				backgroundColor: isDragging ? 'white' : 'transparent',

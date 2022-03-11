@@ -64,19 +64,7 @@ export const BoardColumn = (props: BoardColumnProps) => {
 								{props.collection.title}
 							</Title>
 							<Group>
-								<Tooltip
-									label='Add Tasks'
-									withArrow
-									arrowSize={5}
-									position='bottom'
-									gutter={0}
-									styles={{
-										root: { cursor: 'pointer' },
-										body: { fontSize: '12px' },
-									}}
-								>
-									<PlusIcon color='#6d6e6f' size='13px' />
-								</Tooltip>
+								<PlusIcon size='13px' />
 								<ColumnMenu />
 							</Group>
 						</Group>
@@ -103,7 +91,7 @@ export const BoardColumn = (props: BoardColumnProps) => {
 										{provided.placeholder}
 										<AddButton
 											label='Add Job'
-											style={{ width: '100%' }}
+											style={{ width: '100%', marginTop: 10 }}
 											iconSize='13px'
 										/>
 									</ScrollArea>

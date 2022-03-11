@@ -123,7 +123,7 @@ export const Board = (props: BoardProps) => {
 						)}
 						<AddButton
 							label='Add List'
-							style={{ fontSize: '16px', marginTop: 25 }}
+							style={{ fontSize: '16px', marginTop: 25, marginLeft: 10 }}
 							iconSize='13px'
 						/>
 					</Container>

@@ -16,7 +16,7 @@ const useStyles = createStyles((theme) => {
 			transition: 'all 0.2s ease',
 
 			'&:hover': {
-				backgroundColor: theme.colors.gray[1],
+				backgroundColor: '#e7e9fc',
 				color: theme.other.brandDarkColor,
 			},
 		},

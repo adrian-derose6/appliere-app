@@ -7,7 +7,8 @@ import { IoPeopleOutline } from 'react-icons/io5';
 import { FiMap } from 'react-icons/fi';
 import { BsBarChartLine } from 'react-icons/bs';
 
-import { BrandButton, ShareButton } from '@/components/Buttons';
+import { ShareButton } from '@/components/Buttons';
+import { CreateMenu } from '../4-Elements/CreateMenu';
 import { useStyles } from './BoardNavigation.styles';
 
 const boardLinks = [
@@ -92,7 +93,7 @@ export const BoardNavigation = () => {
 					<ShareButton size='xs' variant='default'>
 						Share
 					</ShareButton>
-					<BrandButton size='xs'>+ Create</BrandButton>
+					<CreateMenu />
 				</Group>
 			</Group>
 		</Header>
