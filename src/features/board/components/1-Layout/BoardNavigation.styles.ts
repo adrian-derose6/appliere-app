@@ -1,7 +1,6 @@
 import { createStyles, MantineProvider, MantineTheme } from '@mantine/core';
 
 export const useStyles = createStyles((theme: MantineTheme) => {
-	console.log(theme);
 	return {
 		headerRoot: {
 			display: 'flex',

@@ -32,7 +32,7 @@ const boardLinks = [
 		icon: <FiMap />,
 	},
 	{
-		label: 'Metrics',
+		label: 'Dashboard',
 		path: 'metrics',
 		icon: <BsBarChartLine />,
 	},

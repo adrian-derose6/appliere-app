@@ -17,7 +17,11 @@ export const MainLayout = ({ children }: LayoutProps) => {
 			fixed={true}
 			navbar={isLoggedIn ? <NavbarLeft /> : undefined}
 			styles={{
-				main: { position: 'relative', paddingLeft: '60px' },
+				main: {
+					position: 'relative',
+					paddingLeft: '60px',
+					boxSizing: 'border-box',
+				},
 			}}
 		>
 			{children}

@@ -6,7 +6,10 @@ export type Collection = {
 
 export type Job = {
 	id: string;
+	title: string;
 	company: string;
+	imageSrc?: string;
+	companyColor?: string;
 };
 
 export interface BoardState {

@@ -1,6 +1,7 @@
 import { Container, Title, ScrollArea, Button } from '@mantine/core';
 import { useHover } from '@mantine/hooks';
 import { Draggable, Droppable } from 'react-beautiful-dnd';
+import { TiPlus } from 'react-icons/ti';
 
 import { JobCard } from '../4-Elements/JobCard';
 import { Collection, Job } from '../../types/board-types';
@@ -51,6 +52,7 @@ export const BoardColumn = (props: BoardColumnProps) => {
 									className={classes.columnList}
 									ref={provided.innerRef}
 									{...provided.droppableProps}
+									scrollbarSize={10}
 								>
 									{props.jobs.map((job: Job, index: number) => (
 										<JobCard key={job.id} job={job} index={index} />
@@ -60,8 +62,9 @@ export const BoardColumn = (props: BoardColumnProps) => {
 										variant='subtle'
 										color='lightgray'
 										className={classes.columnListButton}
+										leftIcon={<TiPlus />}
 									>
-										+ Add job
+										Add job
 									</Button>
 								</ScrollArea>
 							);
