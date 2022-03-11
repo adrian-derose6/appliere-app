@@ -1,7 +1,7 @@
 export const themeConfig = {
 	headings: {
 		fontFamily: 'Segoe UI, sans-serif',
-		fontWeight: 400,
+		fontWeight: 500,
 		color: '#1e1f21',
 	},
 	other: {

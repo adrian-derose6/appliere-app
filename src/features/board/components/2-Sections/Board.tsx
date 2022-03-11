@@ -97,7 +97,12 @@ export const Board = (props: BoardProps) => {
 				type='collection'
 			>
 				{(provided) => (
-					<Container {...provided.droppableProps} ref={provided.innerRef}>
+					<Container
+						fluid
+						className={classes.boardWrapper}
+						{...provided.droppableProps}
+						ref={provided.innerRef}
+					>
 						{state.collectionOrder.map(
 							(collectionId: string, index: number) => {
 								const collection = state.collections[collectionId];
