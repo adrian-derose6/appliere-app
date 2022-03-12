@@ -1,7 +1,7 @@
-import React, { useState, useReducer, Dispatch } from 'react';
+import React, { useReducer, Dispatch } from 'react';
 
 import { initialBoardState } from '../../stores/boardData';
-import { BoardState, PlaceholderProps } from '../../types/board-types';
+import { BoardState } from '../../types/board-types';
 import { Action } from '@/types/types';
 import { boardReducer } from '../reducers/boardReducer';
 

@@ -9,6 +9,7 @@ import { BsBarChartLine } from 'react-icons/bs';
 import { CgToolbox } from 'react-icons/cg';
 import { VscCalendar } from 'react-icons/vsc';
 
+import { AddJobModal } from '../2-Sections/AddJobModal';
 import { ShareButton } from '@/components/Buttons';
 import { CreateMenu } from '../4-Elements/CreateMenu';
 import { useStyles } from './BoardNavigation.styles';

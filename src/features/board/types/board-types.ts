@@ -17,12 +17,3 @@ export interface BoardState {
 	collections: { [k: string]: Collection };
 	collectionOrder: string[];
 }
-
-export type PlaceholderProps =
-	| {
-			clientY: number;
-			clientX: number;
-			clientHeight: number;
-			clientWidth: number;
-	  }
-	| {};

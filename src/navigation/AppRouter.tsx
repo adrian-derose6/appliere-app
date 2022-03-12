@@ -9,8 +9,8 @@ import { modalRoutes } from './modal-routes';
 
 export const AppRouter = () => {
 	const { isLoggedIn } = useContext(AuthContext);
-	let location = useLocation();
-	let locationState = location.state as { backgroundLocation?: Location };
+	const location = useLocation();
+	const locationState = location.state as { backgroundLocation?: Location };
 
 	const activeRoutes = isLoggedIn ? protectedRoutes : publicRoutes;
 	const mainRouter = useRoutes(

@@ -6,10 +6,6 @@ import { Title, ScrollArea, Group } from '@mantine/core';
 import { useHover } from '@mantine/hooks';
 import { Draggable, Droppable } from 'react-beautiful-dnd';
 
-import {
-	BoardContext,
-	BoardContextObj,
-} from '../../stores/contexts/board-context';
 import { JobCard } from '../4-Elements/JobCard';
 import { AddButton } from '../4-Elements/AddButton';
 import { ColumnMenu } from '../4-Elements/ColumnMenu';
