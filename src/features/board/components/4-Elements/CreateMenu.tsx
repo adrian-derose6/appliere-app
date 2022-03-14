@@ -47,10 +47,14 @@ export const CreateMenu = ({ links }: CreateMenuProps) => {
 			}}
 		>
 			{links.map((item, index) => (
-				<Menu.Item key={index} icon={item.icon}>
-					<Link to={item.path} state={{ backgroundLocation: location }}>
-						{item.label}
-					</Link>
+				<Menu.Item<typeof Link>
+					component={Link}
+					to={item.path}
+					state={{ backgroundLocation: location }}
+					key={index}
+					icon={item.icon}
+				>
+					{item.label}
 				</Menu.Item>
 			))}
 		</Menu>

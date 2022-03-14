@@ -22,9 +22,6 @@ export const AddJobModal = (props: Props) => {
 		if (match?.pathname) {
 			var openTimeout = setTimeout(() => setOpened(true), 200);
 		}
-		return () => {
-			clearTimeout(openTimeout);
-		};
 	}, [match]);
 
 	const handleModalClose = () => {
