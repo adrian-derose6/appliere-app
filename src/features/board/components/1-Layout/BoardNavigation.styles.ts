@@ -4,7 +4,8 @@ export const useStyles = createStyles((theme: MantineTheme) => {
 	return {
 		headerRoot: {
 			display: 'flex',
-			width: 'calc(100vw - 60px)',
+			width: 'calc(100% - 60px)',
+			boxSizing: 'border-box',
 			flexDirection: 'row',
 			alignItems: 'center',
 			justifyContent: 'center',
@@ -32,5 +33,8 @@ export const useStyles = createStyles((theme: MantineTheme) => {
 		},
 		tabLabel: {},
 		buttonsWrapper: {},
+		controlLabelActive: {
+			color: `${theme.other.brandPrimaryColor} !important`,
+		},
 	};
 });

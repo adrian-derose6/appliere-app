@@ -46,7 +46,7 @@ export const AddJobModal = (props: Props) => {
 			opened={opened}
 			onClose={handleModalClose}
 		>
-			<Container fluid padding={0}>
+			<Container fluid>
 				<form onSubmit={form.onSubmit((values) => console.log(values))}>
 					<TextInput
 						required

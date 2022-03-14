@@ -31,7 +31,7 @@ const NavbarLeft = (props: Omit<NavbarProps, 'children'>) => {
 	return (
 		<Navbar
 			fixed
-			position={{ top: 0, left: 0 }}
+			position={{ top: 0, left: 0, bottom: 0 }}
 			className={classes.navbar}
 			ref={ref}
 			{...props}

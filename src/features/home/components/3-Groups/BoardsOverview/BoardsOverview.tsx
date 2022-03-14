@@ -47,16 +47,16 @@ export const BoardsOverview = () => {
 
 	return (
 		<Card
-			padding={24}
+			p={24}
 			shadow='none'
 			withBorder={true}
 			radius='md'
 			className={classes.summaryCard}
 		>
-			<Container fluid padding={0} className={classes.cardHeader}>
+			<Container fluid px={0} className={classes.cardHeader}>
 				<Title order={3}>Boards</Title>
 			</Container>
-			<Container fluid padding={0} className={classes.gridContainer}>
+			<Container fluid px={0} className={classes.gridContainer}>
 				<Grid gutter={0}>
 					<Grid.Col span={6} className={classes.gridColumn}>
 						<CardGridButton name='Create Board' newBoard id='6' />

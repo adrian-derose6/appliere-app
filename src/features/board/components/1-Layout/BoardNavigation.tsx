@@ -1,6 +1,18 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Tabs, Header, Group, Button } from '@mantine/core';
+import { useState, useEffect } from 'react';
+import {
+	useNavigate,
+	useLocation,
+	useMatch,
+	useResolvedPath,
+} from 'react-router-dom';
+import {
+	Header,
+	Group,
+	Button,
+	SegmentedControl,
+	Center,
+	Box,
+} from '@mantine/core';
 import { MdOutlineDashboardCustomize } from 'react-icons/md';
 import { FaListUl } from 'react-icons/fa';
 import { IoPeopleOutline } from 'react-icons/io5';
@@ -9,7 +21,6 @@ import { BsBarChartLine } from 'react-icons/bs';
 import { CgToolbox } from 'react-icons/cg';
 import { VscCalendar } from 'react-icons/vsc';
 
-import { AddJobModal } from '../2-Sections/AddJobModal';
 import { ShareButton } from '@/components/Buttons';
 import { CreateMenu } from '../4-Elements/CreateMenu';
 import { useStyles } from './BoardNavigation.styles';
@@ -21,30 +32,55 @@ export type LinkType = {
 	state?: {};
 };
 
-const boardLinks: LinkType[] = [
+const controlLinks = [
 	{
-		label: 'Board',
-		path: 'board',
+		label: (
+			<Center>
+				<MdOutlineDashboardCustomize />
+				<Box ml={10}>Board</Box>
+			</Center>
+		),
+		value: 'board',
 		icon: <MdOutlineDashboardCustomize />,
 	},
 	{
-		label: 'Activities',
-		path: 'activities',
+		label: (
+			<Center>
+				<FaListUl />
+				<Box ml={10}>Activities</Box>
+			</Center>
+		),
+		value: 'activities',
 		icon: <FaListUl />,
 	},
 	{
-		label: 'Contacts',
-		path: 'contacts',
+		label: (
+			<Center>
+				<IoPeopleOutline />
+				<Box ml={10}>Contacts</Box>
+			</Center>
+		),
+		value: 'contacts',
 		icon: <IoPeopleOutline />,
 	},
 	{
-		label: 'Map',
-		path: 'map',
+		label: (
+			<Center>
+				<FiMap />
+				<Box ml={10}>Map</Box>
+			</Center>
+		),
+		value: 'map',
 		icon: <FiMap />,
 	},
 	{
-		label: 'Dashboard',
-		path: 'metrics',
+		label: (
+			<Center>
+				<BsBarChartLine />
+				<Box ml={10}>Dashboard</Box>
+			</Center>
+		),
+		value: 'metrics',
 		icon: <BsBarChartLine />,
 	},
 ];
@@ -68,20 +104,25 @@ const modalLinks: LinkType[] = [
 ];
 
 export const BoardNavigation = () => {
-	const [activeTab, setActiveTab] = useState(0);
+	const [activeValue, setActiveValue] = useState('board');
 	const navigate = useNavigate();
+	const location = useLocation();
+	const match = useMatch('/track/boards/:boardId/b');
+	console.log(match);
 	const { classes } = useStyles();
 
-	const onChange = (active: number, tabKey: string) => {
-		setActiveTab(active);
-		navigate(tabKey);
+	useEffect(() => {}, [activeValue]);
+
+	const handleControlChange = (value: string) => {
+		setActiveValue(value);
+		navigate(value);
 	};
 
 	return (
 		<Header
 			height={50}
 			fixed
-			position={{ top: 0 }}
+			position={{ top: 0, right: 0 }}
 			zIndex={100}
 			classNames={{ root: classes.headerRoot }}
 		>
@@ -94,28 +135,14 @@ export const BoardNavigation = () => {
 			>
 				<Group>
 					<Button variant='subtle'>Board Name</Button>
-					<Tabs
-						variant='pills'
-						tabPadding={0}
-						active={activeTab}
-						onTabChange={onChange}
-						style={{ zIndex: 100 }}
+					<SegmentedControl
+						data={controlLinks}
+						value={activeValue}
+						onChange={handleControlChange}
 						classNames={{
-							root: classes.tabsRoot,
-							tabControl: classes.tabControl,
-							tabActive: classes.tabActive,
-							tabsListWrapper: classes.tabsListWrapper,
+							labelActive: classes.controlLabelActive,
 						}}
-					>
-						{boardLinks.map((link, index) => (
-							<Tabs.Tab
-								key={index}
-								label={link.label}
-								tabKey={link.path}
-								icon={link.icon}
-							></Tabs.Tab>
-						))}
-					</Tabs>
+					/>
 				</Group>
 				<Group spacing={10} className={classes.buttonsWrapper}>
 					<ShareButton size='xs' variant='default'>

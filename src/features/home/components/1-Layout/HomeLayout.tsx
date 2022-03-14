@@ -9,9 +9,9 @@ export const HomeLayout = ({ children }: HomeLayoutProps) => {
 	const { classes } = useStyles();
 
 	return (
-		<Container fluid padding={0} className={classes.pageWrapper}>
+		<Container fluid className={classes.pageWrapper}>
 			<Container fluid className={classes.contentWrapper}>
-				<Container fluid padding={0} className={classes.content}>
+				<Container fluid className={classes.content}>
 					{children}
 				</Container>
 			</Container>

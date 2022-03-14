@@ -43,11 +43,7 @@ export const GreetingHeader = () => {
 			<Title order={1} className={classes.greetingText}>
 				Good morning, Adrian
 			</Title>
-			<Paper
-				className={classes.achievementsWidgetPaper}
-				radius={60}
-				padding='xs'
-			>
+			<Paper className={classes.achievementsWidgetPaper} radius={60} p='xs'>
 				<Group direction='row' align='center' position='apart' spacing={0}>
 					<Menu
 						control={

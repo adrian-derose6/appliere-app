@@ -16,6 +16,7 @@ export const useStyles = createStyles(
 				border: 'none',
 				boxShadow: 'none',
 				width: '60px',
+				height: '100vh !important',
 				zIndex: 200,
 				'&:hover': {
 					width: '240px',

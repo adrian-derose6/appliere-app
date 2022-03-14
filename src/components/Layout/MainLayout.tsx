@@ -16,9 +16,13 @@ export const MainLayout = (props: LayoutProps) => {
 			fixed={true}
 			navbar={<NavbarLeft />}
 			styles={{
+				root: {
+					'--mantine-header-height': 0,
+				},
 				main: {
 					position: 'relative',
 					paddingLeft: '60px',
+					paddingTop: 0,
 					boxSizing: 'border-box',
 				},
 			}}

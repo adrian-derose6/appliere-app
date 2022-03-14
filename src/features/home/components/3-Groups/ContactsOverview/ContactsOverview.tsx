@@ -7,7 +7,7 @@ export const ContactsOverview = () => {
 
 	return (
 		<Card
-			padding='lg'
+			px='lg'
 			shadow='none'
 			withBorder={true}
 			radius='md'

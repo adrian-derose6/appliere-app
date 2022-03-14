@@ -8,10 +8,12 @@ export const BoardLayout = () => {
 			<BoardNavigation />
 			<section
 				style={{
-					paddingTop: 50,
 					minWidth: '100%',
-					height: 'calc(100vh - 50px)',
+					maxHeight: '100%',
+					minHeight: '100%',
 					overflow: 'hidden',
+					boxSizing: 'border-box',
+					paddingTop: 50,
 				}}
 			>
 				<Outlet />

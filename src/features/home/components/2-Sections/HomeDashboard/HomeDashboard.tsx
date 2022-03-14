@@ -10,7 +10,7 @@ export const HomeDashboard = () => {
 	const { classes } = useStyles();
 
 	return (
-		<Container fluid padding={0} className={classes.dashboardWrapper}>
+		<Container fluid className={classes.dashboardWrapper}>
 			<Grid align='stretch'>
 				<Grid.Col span={6}>
 					<BoardsOverview />

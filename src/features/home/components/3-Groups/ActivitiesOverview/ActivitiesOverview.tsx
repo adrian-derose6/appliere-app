@@ -7,13 +7,13 @@ export const ActivitiesOverview = () => {
 
 	return (
 		<Card
-			padding={24}
+			p={24}
 			shadow='none'
 			withBorder={true}
 			radius='md'
 			className={classes.summaryCard}
 		>
-			<Container fluid padding={0} className={classes.cardHeader}>
+			<Container fluid px={0} className={classes.cardHeader}>
 				<Title order={3}>Activities</Title>
 			</Container>
 			<Tabs
