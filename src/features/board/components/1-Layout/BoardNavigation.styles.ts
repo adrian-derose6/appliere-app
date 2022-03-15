@@ -33,6 +33,10 @@ export const useStyles = createStyles((theme: MantineTheme) => {
 		},
 		tabLabel: {},
 		buttonsWrapper: {},
+		label: {
+			paddingLeft: 20,
+			paddingRight: 20,
+		},
 		controlLabelActive: {
 			color: `${theme.other.brandPrimaryColor} !important`,
 		},

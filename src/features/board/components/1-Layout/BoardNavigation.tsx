@@ -104,14 +104,16 @@ const modalLinks: LinkType[] = [
 ];
 
 export const BoardNavigation = () => {
-	const [activeValue, setActiveValue] = useState('board');
+	const [activeValue, setActiveValue] = useState<string>('board');
 	const navigate = useNavigate();
-	const location = useLocation();
-	const match = useMatch('/track/boards/:boardId/b');
-	console.log(match);
+	const { pathname } = useLocation();
+
 	const { classes } = useStyles();
 
-	useEffect(() => {}, [activeValue]);
+	useEffect(() => {
+		const lastSegment = pathname.split('/').pop();
+		setActiveValue(() => lastSegment || 'board');
+	}, [activeValue, pathname]);
 
 	const handleControlChange = (value: string) => {
 		setActiveValue(value);
@@ -141,6 +143,7 @@ export const BoardNavigation = () => {
 						onChange={handleControlChange}
 						classNames={{
 							labelActive: classes.controlLabelActive,
+							label: classes.label,
 						}}
 					/>
 				</Group>

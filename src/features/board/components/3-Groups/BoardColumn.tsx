@@ -57,7 +57,15 @@ export const BoardColumn = (props: BoardColumnProps) => {
 								{props.collection.title}
 							</Title>
 							<Group>
-								<PlusIcon size='13px' />
+								<Link
+									to={`/add-job`}
+									state={{
+										backgroundLocation: location,
+										list: props.collection.id,
+									}}
+								>
+									<PlusIcon size='13px' />
+								</Link>
 								<ColumnMenu />
 							</Group>
 						</Group>
@@ -84,7 +92,10 @@ export const BoardColumn = (props: BoardColumnProps) => {
 										{provided.placeholder}
 										<Link
 											to={`/add-job`}
-											state={{ backgroundLocation: location }}
+											state={{
+												backgroundLocation: location,
+												list: props.collection.id,
+											}}
 										>
 											<AddButton
 												label='Add Job'

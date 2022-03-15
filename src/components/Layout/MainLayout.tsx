@@ -18,6 +18,7 @@ export const MainLayout = (props: LayoutProps) => {
 			styles={{
 				root: {
 					'--mantine-header-height': 0,
+					overflow: 'hidden',
 				},
 				main: {
 					position: 'relative',

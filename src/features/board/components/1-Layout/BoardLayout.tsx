@@ -9,9 +9,8 @@ export const BoardLayout = () => {
 			<section
 				style={{
 					minWidth: '100%',
-					maxHeight: '100%',
-					minHeight: '100%',
-					overflow: 'hidden',
+					height: '100vh',
+
 					boxSizing: 'border-box',
 					paddingTop: 50,
 				}}

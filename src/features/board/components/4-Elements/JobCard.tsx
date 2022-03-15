@@ -30,12 +30,13 @@ export const JobCard = (props: JobCardProps) => {
 					{...provided.dragHandleProps}
 					ref={provided.innerRef}
 					className={classes.card}
+					px={0}
 					sx={() => ({
 						backgroundColor: props.job.companyColor,
 					})}
 				>
 					<Group className={classes.info}>
-						<Avatar radius='xl' size={25} src={props.job.imageSrc}></Avatar>
+						<Avatar radius='xl' size={30} src={props.job.imageSrc}></Avatar>
 						<div>
 							<Text className={classes.title}>{props.job.title}</Text>
 							<Text className={classes.company}>{props.job.company}</Text>

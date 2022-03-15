@@ -98,8 +98,7 @@ export const Board = (props: BoardProps) => {
 				type='collection'
 			>
 				{(provided) => (
-					<Container
-						fluid
+					<div
 						className={classes.boardWrapper}
 						{...provided.droppableProps}
 						ref={provided.innerRef}
@@ -126,7 +125,7 @@ export const Board = (props: BoardProps) => {
 							style={{ fontSize: '16px', marginTop: 25, marginLeft: 10 }}
 							iconSize='13px'
 						/>
-					</Container>
+					</div>
 				)}
 			</Droppable>
 		</DragDropContext>
