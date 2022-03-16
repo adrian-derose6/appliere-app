@@ -1,1 +1,1 @@
-export * from './pages/HomePage';
+export * from './routes/HomePage';

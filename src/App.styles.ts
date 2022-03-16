@@ -3,6 +3,7 @@ import { MantineTheme } from '@mantine/core';
 export const useGlobalStyles = (theme: MantineTheme) => ({
 	body: {
 		margin: 0,
+		minHeight: '100vh',
 		fontFamily:
 			'-apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif',
 	},

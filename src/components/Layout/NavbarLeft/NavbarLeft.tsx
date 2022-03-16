@@ -7,6 +7,7 @@ import {
 	Space,
 	Divider,
 	Collapse,
+	Container,
 } from '@mantine/core';
 import { useHover } from '@mantine/hooks';
 import { FaHome, FaSearch } from 'react-icons/fa';
@@ -30,10 +31,9 @@ const NavbarLeft = (props: Omit<NavbarProps, 'children'>) => {
 	return (
 		<Navbar
 			fixed
-			position={{ top: 0, left: 0 }}
+			position={{ top: 0, left: 0, bottom: 0 }}
 			className={classes.navbar}
 			ref={ref}
-			zIndex={500}
 			{...props}
 		>
 			<Navbar.Section>
@@ -69,7 +69,7 @@ const NavbarLeft = (props: Omit<NavbarProps, 'children'>) => {
 					collapsible
 				/>
 				<Collapse in={isCollapseOpen}>
-					<h1>Collapse</h1>
+					<Container></Container>
 				</Collapse>
 				<Space h='sm' />
 				<Divider className={classes.divider} />

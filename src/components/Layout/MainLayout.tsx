@@ -1,14 +1,13 @@
 import { useContext } from 'react';
+import { Outlet } from 'react-router-dom';
 import { AppShell } from '@mantine/core';
 
 import NavbarLeft from '@/components/Layout/NavbarLeft/NavbarLeft';
 import { AuthContext } from '@/stores/contexts/auth-context';
 
-interface LayoutProps {
-	children: React.ReactNode;
-}
+interface LayoutProps {}
 
-export const MainLayout = ({ children }: LayoutProps) => {
+export const MainLayout = (props: LayoutProps) => {
 	const { isLoggedIn } = useContext(AuthContext);
 
 	return (
@@ -17,10 +16,19 @@ export const MainLayout = ({ children }: LayoutProps) => {
 			fixed={true}
 			navbar={<NavbarLeft />}
 			styles={{
-				main: { position: 'relative', paddingLeft: '60px' },
+				root: {
+					'--mantine-header-height': 0,
+					overflow: 'hidden',
+				},
+				main: {
+					position: 'relative',
+					paddingLeft: '60px',
+					paddingTop: 0,
+					boxSizing: 'border-box',
+				},
 			}}
 		>
-			{children}
+			<Outlet />
 		</AppShell>
 	);
 };
