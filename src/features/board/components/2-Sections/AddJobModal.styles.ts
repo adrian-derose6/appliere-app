@@ -2,20 +2,27 @@ import { createStyles } from '@mantine/core';
 
 export const useStyles = createStyles((theme) => {
 	return {
+		modal: {
+			overflow: 'hidden',
+		},
 		modalHeader: {
 			height: 40,
 			width: '100%',
 			display: 'flex',
 			alignItems: 'center',
 			justifyContent: 'center',
-			borderBottom: '1px solid rgba(25, 4, 69, 0.1)',
+			//borderBottom: '1px solid rgba(25, 4, 69, 0.1)',
 			margin: 0,
+			backgroundColor: theme.other.brandPrimaryColor,
+			position: 'relative',
+			boxShadow: '0px 1px 4px 0px rgba(179,174,174,0.75)',
 		},
 		modalTitle: {
-			color: theme.other.brandDarkColor,
+			color: 'white',
 			fontFamily: theme.headings.fontFamily,
 			fontSize: '16px',
 			fontWeight: 600,
+			margin: 0,
 		},
 		modalClose: {
 			visibility: 'hidden',
@@ -31,7 +38,9 @@ export const useStyles = createStyles((theme) => {
 			border: '1px solid rgba(169, 169, 169, 0.6)',
 			transition: 'all .2s ease',
 
-			'&:focus': {},
+			'&:focus': {
+				//border: `1px solid ${theme.other.brandPrimaryColor}`,
+			},
 		},
 		submitButton: {},
 		modalButton: {

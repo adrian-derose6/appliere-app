@@ -1,1 +1,1 @@
-export * from './pages/auth-routes';
+export * from './routes/auth-routes';

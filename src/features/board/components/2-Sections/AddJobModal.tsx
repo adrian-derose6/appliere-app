@@ -54,6 +54,7 @@ export const AddJobModal = (props: Props) => {
 			onClose={handleModalClose}
 			withCloseButton={false}
 			classNames={{
+				modal: classes.modal,
 				header: classes.modalHeader,
 				title: classes.modalTitle,
 				close: classes.modalClose,
@@ -98,12 +99,7 @@ export const AddJobModal = (props: Props) => {
 					<Button variant='default' size='xs' className={classes.modalButton}>
 						Discard
 					</Button>
-					<BrandButton
-						type='submit'
-						size='xs'
-						disabled
-						className={classes.modalButton}
-					>
+					<BrandButton type='submit' size='xs' className={classes.modalButton}>
 						Save Job
 					</BrandButton>
 				</Group>
