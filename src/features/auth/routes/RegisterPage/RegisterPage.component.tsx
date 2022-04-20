@@ -2,7 +2,7 @@ import { AuthContext } from '@/stores/contexts/auth-context';
 import { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-export const SignupPage = () => {
+export const RegisterPage = () => {
 	const { login } = useContext(AuthContext);
 	const navigate = useNavigate();
 

@@ -1,7 +1,7 @@
 import { Navigate } from 'react-router-dom';
 
-import { LoginPage } from './LoginPage';
-import { SignupPage } from './SignupPage';
+import { LoginPage } from './LoginPage/LoginPage.component';
+import { RegisterPage } from './RegisterPage/RegisterPage.component';
 
 export const authRoutes = [
 	{
@@ -13,7 +13,7 @@ export const authRoutes = [
 		element: <LoginPage />,
 	},
 	{
-		path: 'signup',
-		element: <SignupPage />,
+		path: 'create-account',
+		element: <RegisterPage />,
 	},
 ];
