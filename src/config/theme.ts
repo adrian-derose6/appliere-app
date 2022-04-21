@@ -18,8 +18,23 @@ export const themeConfig = {
 		/* Box Shadow */
 		shadow2:
 			'0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
+		shadow4:
+			'0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)',
 
 		/* Transition */
 		transition1: '0.3s ease-in-out all',
+	},
+};
+
+export const componentStyles = {
+	TextInput: {
+		input: {
+			boxShadow: 'rgb(25 4 69 / 5%) 0px 2px 7px',
+			border: '1px solid rgba(169, 169, 169, 0.6)',
+			transition: 'all .2s ease',
+		},
+		label: {
+			color: '#6d6e6f',
+		},
 	},
 };

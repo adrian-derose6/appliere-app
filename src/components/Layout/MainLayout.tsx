@@ -2,7 +2,7 @@ import { useContext } from 'react';
 import { Outlet } from 'react-router-dom';
 import { AppShell } from '@mantine/core';
 
-import NavbarLeft from '@/components/Layout/NavbarLeft/NavbarLeft';
+import NavbarLeft from '@/components/Layout/NavbarLeft/NavbarLeft.component';
 import { AuthContext } from '@/stores/contexts/auth-context';
 
 interface LayoutProps {}

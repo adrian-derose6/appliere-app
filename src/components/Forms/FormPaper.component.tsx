@@ -1,10 +1,15 @@
 import { useStyles } from './FormPaper.styles';
 
-type FormPaperProps = {
+interface FormPaperProps extends React.ComponentPropsWithoutRef<'form'> {
 	children: React.ReactNode;
-};
-export const FormPaper = ({ children }: FormPaperProps) => {
-	const { classes } = useStyles();
-
-	return <section className={classes.formWrapper}>{children}</section>;
+	className?: string;
+}
+export const FormPaper = ({ children, ...formProps }: FormPaperProps) => {
+	const { classes, cx } = useStyles();
+	console.log(formProps.className);
+	return (
+		<form className={cx(classes.form, formProps.className)} {...formProps}>
+			{children}
+		</form>
+	);
 };

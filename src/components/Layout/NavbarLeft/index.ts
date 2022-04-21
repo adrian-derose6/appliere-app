@@ -1,1 +1,1 @@
-export * from './NavbarLeft';
+export * from './NavbarLeft.component';

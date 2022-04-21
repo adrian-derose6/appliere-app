@@ -2,7 +2,7 @@ import { createStyles } from '@mantine/core';
 
 export const useStyles = createStyles((theme) => {
 	return {
-		formWrapper: {
+		form: {
 			width: '90vw',
 			maxWidth: theme.other.fixedWidth,
 			background: theme.colors.white,
