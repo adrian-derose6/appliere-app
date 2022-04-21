@@ -8,6 +8,8 @@ import {
 	TextInput,
 	Anchor,
 	PasswordInput,
+	SimpleGrid,
+	Checkbox,
 } from '@mantine/core';
 import { useForm, zodResolver } from '@mantine/form';
 import { z } from 'zod';
@@ -31,6 +33,13 @@ interface FormValues {
 	confirmPassword: string;
 }
 
+const authSchema = z.object({
+	firstName: z
+		.string()
+		.min(2, { message: 'Name should have at least 2 letters' }),
+	email: z.string().email({ message: 'Invalid email' }),
+});
+
 export const AuthForm = (props: AuthFormProps) => {
 	const { login } = useContext(AuthContext);
 	const navigate = useNavigate();
@@ -44,6 +53,7 @@ export const AuthForm = (props: AuthFormProps) => {
 			password: '',
 			confirmPassword: '',
 		},
+		schema: zodResolver(authSchema),
 
 		validate: {
 			email: (value) => (/^\S+@\S+$/.test(value) ? null : 'Invalid email'),
@@ -53,6 +63,7 @@ export const AuthForm = (props: AuthFormProps) => {
 	});
 
 	const handleSubmit = (values: FormValues) => {
+		console.log(values);
 		form.reset();
 	};
 
@@ -63,13 +74,13 @@ export const AuthForm = (props: AuthFormProps) => {
 				<Title className={classes.logoText}>appliere</Title>
 			</Center>
 			{!props.isMember && (
-				<>
+				<SimpleGrid cols={2}>
 					<TextInput
 						label='First Name'
 						type='text'
 						placeholder='e.g. Michael'
 						mb='md'
-						description='Required'
+						required
 						{...form.getInputProps('firstName')}
 					/>
 					<TextInput
@@ -79,14 +90,14 @@ export const AuthForm = (props: AuthFormProps) => {
 						mb='md'
 						{...form.getInputProps('lastName')}
 					/>
-				</>
+				</SimpleGrid>
 			)}
 			<TextInput
 				label='Email Address'
 				type='email'
 				placeholder='e.g. name@company.com'
 				mb='md'
-				description={props.isMember ? '' : 'Required'}
+				required
 				{...form.getInputProps('email')}
 			/>
 			<PasswordInput
@@ -94,18 +105,21 @@ export const AuthForm = (props: AuthFormProps) => {
 				type='password'
 				placeholder='e.g. ••••••'
 				mb='md'
-				description={props.isMember ? '' : 'Required'}
+				required
 				{...form.getInputProps('password')}
 			/>
 			{!props.isMember && (
-				<PasswordInput
-					label='Confirm Password'
-					type='password'
-					placeholder='e.g. ••••••'
-					mb='md'
-					description='Required'
-					{...form.getInputProps('confirmPassword')}
-				/>
+				<>
+					<PasswordInput
+						label='Confirm Password'
+						type='password'
+						placeholder='e.g. ••••••'
+						mb='md'
+						required
+						{...form.getInputProps('confirmPassword')}
+					/>
+					<Checkbox label='I agree to the terms of service and privacy policy.' />
+				</>
 			)}
 			<AuthButton mt='xl' type='submit'>
 				{props.isMember ? 'Login' : 'Create Account'}
