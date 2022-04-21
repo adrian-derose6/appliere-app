@@ -2,10 +2,6 @@ import { createStyles } from '@mantine/core';
 
 export const useStyles = createStyles((theme) => {
 	return {
-		wrapper: {
-			minHeight: '100vh',
-			backgroundColor: '#f9f8f8',
-		},
 		form: {
 			width: '400px',
 			boxSizing: 'border-box',
@@ -42,12 +38,13 @@ export const useStyles = createStyles((theme) => {
 			marginTop: '1rem',
 			textAlign: 'center',
 			color: 'gray',
-			fontSize: '1rem',
+			fontSize: '0.9rem',
 
 			a: {
 				marginLeft: '10px',
 				color: theme.other.brandPrimaryColor,
 				cursor: 'pointer',
+				fontSize: '0.9rem',
 
 				'&:hover': {
 					textDecoration: 'underline',

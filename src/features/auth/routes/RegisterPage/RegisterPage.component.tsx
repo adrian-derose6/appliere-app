@@ -1,16 +1,18 @@
 import { AuthContext } from '@/stores/contexts/auth-context';
+import { Center } from '@mantine/core';
 import { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { AuthForm } from '../../components/AuthForm/AuthForm.component';
+import { useStyles } from './RegisterPage.styles';
 
 export const RegisterPage = () => {
 	const { login } = useContext(AuthContext);
 	const navigate = useNavigate();
+	const { classes } = useStyles();
 
 	return (
-		<div>
-			<h1>Signup Page</h1>
-			<button onClick={() => login()}>Sign Up</button>
-			<button onClick={() => navigate('login')}>Login</button>
-		</div>
+		<Center className={classes.wrapper}>
+			<AuthForm />
+		</Center>
 	);
 };

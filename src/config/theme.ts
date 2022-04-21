@@ -1,3 +1,5 @@
+import { MantineTheme, MantineProvider } from '@mantine/core';
+
 export const themeConfig = {
 	headings: {
 		fontFamily: 'Segoe UI, sans-serif',
@@ -11,6 +13,7 @@ export const themeConfig = {
 		brandPrimaryColor: '#D3555E',
 		brandDarkColor: '#1e1f21',
 
+		letterSpacing: '1px',
 		/* Layout */
 		fixedWidth: '500px',
 		borderRadius: '0.25rem',
@@ -26,8 +29,8 @@ export const themeConfig = {
 	},
 };
 
-export const componentStyles = {
-	TextInput: {
+export const libraryStyles = {
+	TextInput: (theme: MantineTheme) => ({
 		input: {
 			boxShadow: 'rgb(25 4 69 / 5%) 0px 2px 7px',
 			border: '1px solid rgba(169, 169, 169, 0.6)',
@@ -35,6 +38,7 @@ export const componentStyles = {
 		},
 		label: {
 			color: '#6d6e6f',
+			letterSpacing: theme.other.letterSpacing,
 		},
-	},
+	}),
 };
