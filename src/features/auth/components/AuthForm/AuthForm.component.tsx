@@ -2,23 +2,18 @@ import { useState, useEffect, FormEvent } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import {
 	Center,
-	Container,
 	Image,
-	Group,
 	Title,
 	Text,
 	TextInput,
-	Box,
-	Button,
 	Anchor,
-	SimpleGrid,
 	PasswordInput,
 } from '@mantine/core';
+import { useForm, zodResolver } from '@mantine/form';
+import { z } from 'zod';
 
 import { AuthContext } from '@/stores/contexts/auth-context';
 import { useContext } from 'react';
-import { FormPaper } from '@/components/Forms/FormPaper.component';
-import { Logo } from '@/components/Logo';
 import { AuthButton } from '../AuthButton';
 import { useStyles } from './AuthForm.styles';
 
@@ -28,19 +23,41 @@ interface AuthFormProps {
 	isMember?: boolean;
 }
 
+interface FormValues {
+	firstName: string;
+	lastName: string;
+	email: string;
+	password: string;
+	confirmPassword: string;
+}
+
 export const AuthForm = (props: AuthFormProps) => {
 	const { login } = useContext(AuthContext);
 	const navigate = useNavigate();
 	const { classes } = useStyles();
 
-	const handleSubmit = (e: FormEvent) => {
-		e.preventDefault();
-		console.log('Submitted');
-		login();
+	const form = useForm<FormValues>({
+		initialValues: {
+			firstName: '',
+			lastName: '',
+			email: '',
+			password: '',
+			confirmPassword: '',
+		},
+
+		validate: {
+			email: (value) => (/^\S+@\S+$/.test(value) ? null : 'Invalid email'),
+			confirmPassword: (value, values) =>
+				value !== values.password ? 'Passwords did not match' : null,
+		},
+	});
+
+	const handleSubmit = (values: FormValues) => {
+		form.reset();
 	};
 
 	return (
-		<form className={classes.form} onSubmit={handleSubmit}>
+		<form className={classes.form} onSubmit={form.onSubmit(handleSubmit)}>
 			<Center className={classes.logoContainer}>
 				<Image height={35} src={logoIcon} fit='contain' />
 				<Title className={classes.logoText}>appliere</Title>
@@ -53,12 +70,14 @@ export const AuthForm = (props: AuthFormProps) => {
 						placeholder='e.g. Michael'
 						mb='md'
 						description='Required'
+						{...form.getInputProps('firstName')}
 					/>
 					<TextInput
 						label='Last Name'
 						type='text'
 						placeholder='e.g. Smith'
 						mb='md'
+						{...form.getInputProps('lastName')}
 					/>
 				</>
 			)}
@@ -68,6 +87,7 @@ export const AuthForm = (props: AuthFormProps) => {
 				placeholder='e.g. name@company.com'
 				mb='md'
 				description={props.isMember ? '' : 'Required'}
+				{...form.getInputProps('email')}
 			/>
 			<PasswordInput
 				label='Password'
@@ -75,6 +95,7 @@ export const AuthForm = (props: AuthFormProps) => {
 				placeholder='e.g. ••••••'
 				mb='md'
 				description={props.isMember ? '' : 'Required'}
+				{...form.getInputProps('password')}
 			/>
 			{!props.isMember && (
 				<PasswordInput
@@ -83,6 +104,7 @@ export const AuthForm = (props: AuthFormProps) => {
 					placeholder='e.g. ••••••'
 					mb='md'
 					description='Required'
+					{...form.getInputProps('confirmPassword')}
 				/>
 			)}
 			<AuthButton mt='xl' type='submit'>
