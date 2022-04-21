@@ -12,6 +12,7 @@ import {
 	Button,
 	Anchor,
 	SimpleGrid,
+	PasswordInput,
 } from '@mantine/core';
 
 import { AuthContext } from '@/stores/contexts/auth-context';
@@ -68,7 +69,7 @@ export const AuthForm = (props: AuthFormProps) => {
 				mb='md'
 				description={props.isMember ? '' : 'Required'}
 			/>
-			<TextInput
+			<PasswordInput
 				label='Password'
 				type='password'
 				placeholder='e.g. ••••••'
@@ -76,7 +77,7 @@ export const AuthForm = (props: AuthFormProps) => {
 				description={props.isMember ? '' : 'Required'}
 			/>
 			{!props.isMember && (
-				<TextInput
+				<PasswordInput
 					label='Confirm Password'
 					type='password'
 					placeholder='e.g. ••••••'
