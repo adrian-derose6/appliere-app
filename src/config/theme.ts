@@ -50,4 +50,12 @@ export const libraryStyles = {
 			color: '#6d6e6f',
 		},
 	}),
+	Checkbox: (theme: MantineTheme) => ({
+		input: {
+			'&:checked': {
+				backgroundColor: theme.other.brandPrimaryColor,
+				borderColor: theme.other.brandPrimaryColor,
+			},
+		},
+	}),
 };

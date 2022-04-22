@@ -12,6 +12,9 @@ import {
 	Checkbox,
 } from '@mantine/core';
 import { useForm, zodResolver } from '@mantine/form';
+import { BsPeople, BsPerson } from 'react-icons/bs';
+import { AiOutlineMail, AiOutlineLock } from 'react-icons/ai';
+import { RiLockPasswordLine } from 'react-icons/ri';
 
 import { AuthContext } from '@/stores/contexts/auth-context';
 import {
@@ -61,45 +64,45 @@ export const AuthForm = (props: AuthFormProps) => {
 			{!props.isMember && (
 				<SimpleGrid cols={2}>
 					<TextInput
-						label='First Name'
 						type='text'
-						placeholder='e.g. Michael'
+						placeholder='First Name'
 						mb='md'
+						icon={<BsPerson />}
 						required
 						{...form.getInputProps('firstName')}
 					/>
 					<TextInput
-						label='Last Name'
 						type='text'
-						placeholder='e.g. Smith'
+						placeholder='Last Name'
 						mb='md'
+						icon={<BsPeople />}
 						{...form.getInputProps('lastName')}
 					/>
 				</SimpleGrid>
 			)}
 			<TextInput
-				label='Email Address'
 				type='email'
-				placeholder='e.g. name@company.com'
+				placeholder='Email Address'
 				mb='md'
+				icon={<AiOutlineMail />}
 				required
 				{...form.getInputProps('email')}
 			/>
 			<PasswordInput
-				label='Password'
 				type='password'
-				placeholder='e.g. ••••••••'
+				placeholder='Password'
 				mb='md'
+				icon={<RiLockPasswordLine />}
 				required
 				{...form.getInputProps('password')}
 			/>
 			{!props.isMember && (
 				<>
 					<PasswordInput
-						label='Confirm Password'
 						type='password'
-						placeholder='e.g. ••••••••'
-						mb='md'
+						placeholder='Confirm Password'
+						mb='lg'
+						icon={<RiLockPasswordLine />}
 						required
 						{...form.getInputProps('confirmPassword')}
 					/>
