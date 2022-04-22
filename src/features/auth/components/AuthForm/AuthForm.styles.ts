@@ -5,7 +5,7 @@ export const useStyles = createStyles((theme) => {
 		form: {
 			width: '400px',
 			boxSizing: 'border-box',
-			background: theme.colors.white,
+			backgroundColor: 'white',
 			borderRadius: theme.other.borderRadius,
 			boxShadow: theme.other.shadow2,
 			borderTop: `5px solid ${theme.other.brandPrimaryColor}`,

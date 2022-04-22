@@ -1,23 +1,23 @@
-import { useState, useEffect, FormEvent } from 'react';
+import { useState, useEffect, FormEvent, useContext } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import {
 	Center,
-	Container,
 	Image,
-	Group,
 	Title,
 	Text,
 	TextInput,
-	Box,
-	Button,
 	Anchor,
+	PasswordInput,
 	SimpleGrid,
+	Checkbox,
 } from '@mantine/core';
+import { useForm, zodResolver } from '@mantine/form';
 
 import { AuthContext } from '@/stores/contexts/auth-context';
-import { useContext } from 'react';
-import { FormPaper } from '@/components/Forms/FormPaper.component';
-import { Logo } from '@/components/Logo';
+import {
+	registerSchema,
+	loginSchema,
+} from '@/features/auth/utils/auth-schemas';
 import { AuthButton } from '../AuthButton';
 import { useStyles } from './AuthForm.styles';
 
@@ -32,57 +32,85 @@ export const AuthForm = (props: AuthFormProps) => {
 	const navigate = useNavigate();
 	const { classes } = useStyles();
 
-	const handleSubmit = (e: FormEvent) => {
-		e.preventDefault();
-		console.log('Submitted');
-		login();
+	const schema = props.isMember ? loginSchema : registerSchema;
+
+	const form = useForm({
+		initialValues: {
+			firstName: '',
+			lastName: '',
+			email: '',
+			password: '',
+			confirmPassword: '',
+			termsAgreement: false,
+		},
+		schema: zodResolver(schema),
+	});
+
+	type FormValues = typeof form.values;
+
+	const handleSubmit = (values: FormValues) => {
+		console.log(values);
 	};
 
 	return (
-		<form className={classes.form} onSubmit={handleSubmit}>
+		<form className={classes.form} onSubmit={form.onSubmit(handleSubmit)}>
 			<Center className={classes.logoContainer}>
 				<Image height={35} src={logoIcon} fit='contain' />
 				<Title className={classes.logoText}>appliere</Title>
 			</Center>
 			{!props.isMember && (
-				<>
+				<SimpleGrid cols={2}>
 					<TextInput
 						label='First Name'
 						type='text'
 						placeholder='e.g. Michael'
 						mb='md'
-						description='Required'
+						required
+						{...form.getInputProps('firstName')}
 					/>
 					<TextInput
 						label='Last Name'
 						type='text'
 						placeholder='e.g. Smith'
 						mb='md'
+						{...form.getInputProps('lastName')}
 					/>
-				</>
+				</SimpleGrid>
 			)}
 			<TextInput
 				label='Email Address'
 				type='email'
 				placeholder='e.g. name@company.com'
 				mb='md'
-				description={props.isMember ? '' : 'Required'}
+				required
+				{...form.getInputProps('email')}
 			/>
-			<TextInput
+			<PasswordInput
 				label='Password'
 				type='password'
-				placeholder='e.g. ••••••'
+				placeholder='e.g. ••••••••'
 				mb='md'
-				description={props.isMember ? '' : 'Required'}
+				required
+				{...form.getInputProps('password')}
 			/>
 			{!props.isMember && (
-				<TextInput
-					label='Confirm Password'
-					type='password'
-					placeholder='e.g. ••••••'
-					mb='md'
-					description='Required'
-				/>
+				<>
+					<PasswordInput
+						label='Confirm Password'
+						type='password'
+						placeholder='e.g. ••••••••'
+						mb='md'
+						required
+						{...form.getInputProps('confirmPassword')}
+					/>
+					<Checkbox
+						label='I agree to the Terms of Service and Privacy Policy.'
+						size='xs'
+						radius='xs'
+						required
+						{...form.getInputProps('termsAgreement', { type: 'checkbox' })}
+					/>
+				</>
 			)}
 			<AuthButton mt='xl' type='submit'>
 				{props.isMember ? 'Login' : 'Create Account'}
