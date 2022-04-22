@@ -1,4 +1,4 @@
-import Axios, { AxiosRequestConfig, AxiosRequestHeaders } from 'axios';
+import Axios, { AxiosRequestConfig } from 'axios';
 
 import { API_URL } from '@/config/env-vars';
 import storage from '@/utils/storage';
@@ -16,12 +16,12 @@ function authRequestInterceptor(config: AxiosRequestConfig) {
 	return config;
 }
 
-export const axios = Axios.create({
+export const authFetch = Axios.create({
 	baseURL: API_URL,
 });
 
-axios.interceptors.request.use(authRequestInterceptor);
-axios.interceptors.response.use(
+authFetch.interceptors.request.use(authRequestInterceptor);
+authFetch.interceptors.response.use(
 	(response) => {
 		return response.data;
 	},
