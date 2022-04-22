@@ -38,7 +38,6 @@ export const libraryStyles = {
 		},
 		label: {
 			color: '#6d6e6f',
-			letterSpacing: theme.other.letterSpacing,
 		},
 	}),
 	PasswordInput: (theme: MantineTheme) => ({
@@ -49,7 +48,6 @@ export const libraryStyles = {
 		},
 		label: {
 			color: '#6d6e6f',
-			letterSpacing: theme.other.letterSpacing,
 		},
 	}),
 };

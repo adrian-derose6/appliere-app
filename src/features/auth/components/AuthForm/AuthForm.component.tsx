@@ -1,4 +1,4 @@
-import { useState, useEffect, FormEvent } from 'react';
+import { useState, useEffect, FormEvent, useContext } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import {
 	Center,
@@ -12,10 +12,12 @@ import {
 	Checkbox,
 } from '@mantine/core';
 import { useForm, zodResolver } from '@mantine/form';
-import { z } from 'zod';
 
 import { AuthContext } from '@/stores/contexts/auth-context';
-import { useContext } from 'react';
+import {
+	registerSchema,
+	loginSchema,
+} from '@/features/auth/utils/auth-schemas';
 import { AuthButton } from '../AuthButton';
 import { useStyles } from './AuthForm.styles';
 
@@ -25,27 +27,14 @@ interface AuthFormProps {
 	isMember?: boolean;
 }
 
-interface FormValues {
-	firstName: string;
-	lastName: string;
-	email: string;
-	password: string;
-	confirmPassword: string;
-}
-
-const authSchema = z.object({
-	firstName: z
-		.string()
-		.min(2, { message: 'Name should have at least 2 letters' }),
-	email: z.string().email({ message: 'Invalid email' }),
-});
-
 export const AuthForm = (props: AuthFormProps) => {
 	const { login } = useContext(AuthContext);
 	const navigate = useNavigate();
 	const { classes } = useStyles();
 
-	const form = useForm<FormValues>({
+	const schema = props.isMember ? loginSchema : registerSchema;
+
+	const form = useForm({
 		initialValues: {
 			firstName: '',
 			lastName: '',
@@ -53,18 +42,19 @@ export const AuthForm = (props: AuthFormProps) => {
 			password: '',
 			confirmPassword: '',
 		},
-		schema: zodResolver(authSchema),
-
 		validate: {
-			email: (value) => (/^\S+@\S+$/.test(value) ? null : 'Invalid email'),
 			confirmPassword: (value, values) =>
 				value !== values.password ? 'Passwords did not match' : null,
 		},
+		schema: zodResolver(schema),
 	});
+
+	type FormValues = typeof form.values;
 
 	const handleSubmit = (values: FormValues) => {
 		console.log(values);
 		form.reset();
+		login();
 	};
 
 	return (
