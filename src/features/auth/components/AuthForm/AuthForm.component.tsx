@@ -41,10 +41,7 @@ export const AuthForm = (props: AuthFormProps) => {
 			email: '',
 			password: '',
 			confirmPassword: '',
-		},
-		validate: {
-			confirmPassword: (value, values) =>
-				value !== values.password ? 'Passwords did not match' : null,
+			termsAgreement: false,
 		},
 		schema: zodResolver(schema),
 	});
@@ -53,8 +50,6 @@ export const AuthForm = (props: AuthFormProps) => {
 
 	const handleSubmit = (values: FormValues) => {
 		console.log(values);
-		form.reset();
-		login();
 	};
 
 	return (
@@ -93,7 +88,7 @@ export const AuthForm = (props: AuthFormProps) => {
 			<PasswordInput
 				label='Password'
 				type='password'
-				placeholder='e.g. ••••••'
+				placeholder='e.g. ••••••••'
 				mb='md'
 				required
 				{...form.getInputProps('password')}
@@ -103,12 +98,18 @@ export const AuthForm = (props: AuthFormProps) => {
 					<PasswordInput
 						label='Confirm Password'
 						type='password'
-						placeholder='e.g. ••••••'
+						placeholder='e.g. ••••••••'
 						mb='md'
 						required
 						{...form.getInputProps('confirmPassword')}
 					/>
-					<Checkbox label='I agree to the terms of service and privacy policy.' />
+					<Checkbox
+						label='I agree to the Terms of Service and Privacy Policy.'
+						size='xs'
+						radius='xs'
+						required
+						{...form.getInputProps('termsAgreement', { type: 'checkbox' })}
+					/>
 				</>
 			)}
 			<AuthButton mt='xl' type='submit'>
