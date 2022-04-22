@@ -10,7 +10,7 @@ function authRequestInterceptor(config: AxiosRequestConfig) {
 		config.headers.Accept = 'application/json';
 	}
 	if (token && config.headers) {
-		config.headers.authorization = `${token}`;
+		config.headers.Authorization = `Bearer ${token}`;
 	}
 
 	return config;
@@ -20,7 +20,9 @@ export const authFetch = Axios.create({
 	baseURL: API_URL,
 });
 
-authFetch.interceptors.request.use(authRequestInterceptor);
+authFetch.interceptors.request.use(authRequestInterceptor, (error) => {
+	return Promise.reject(error);
+});
 authFetch.interceptors.response.use(
 	(response) => {
 		return response.data;

@@ -1,23 +1,36 @@
-import React, { useState, FC } from 'react';
+import React, { useState, useContext } from 'react';
 
-export interface AuthContextObj {
-	token: string;
+import {
+	RegisterCredentialsDTO,
+	AuthUser,
+	registerWithEmailAndPassword,
+	UserResponse,
+} from '@/features/auth';
+import storage from '@/utils/storage';
+
+export interface AuthContext {
+	accessToken: string;
+	user?: AuthUser;
 	isLoggedIn: boolean;
 	logout: () => void;
 	login: () => void;
-	signup: () => void;
+	register: (data: RegisterCredentialsDTO) => Promise<AuthUser>;
 }
 
-export const AuthContext = React.createContext<AuthContextObj>({
-	token: '',
-	isLoggedIn: false,
-	logout: () => {},
-	login: () => {},
-	signup: () => {},
-});
+export const AuthContext = React.createContext<AuthContext | null>(null);
 
-export const AuthProvider: FC = ({ children }) => {
+type AuthProviderProps = {
+	children: React.ReactNode;
+};
+
+export const AuthProvider = ({ children }: AuthProviderProps) => {
 	const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
+
+	const handleUserResponse = (data: UserResponse) => {
+		const { accessToken, user } = data;
+		storage.setToken(accessToken);
+		return user;
+	};
 
 	const handleLogin = () => {
 		setIsLoggedIn(true);
@@ -27,19 +40,25 @@ export const AuthProvider: FC = ({ children }) => {
 		setIsLoggedIn(false);
 	};
 
-	const handleSignup = () => {
-		setIsLoggedIn(true);
+	const register = async (data: RegisterCredentialsDTO) => {
+		const response = await registerWithEmailAndPassword(data);
+		const user = handleUserResponse(response);
+		return user;
 	};
 
-	const contextValue: AuthContextObj = {
-		token: '',
+	const contextValue: AuthContext = {
+		accessToken: '',
 		isLoggedIn,
 		logout: handleLogout,
 		login: handleLogin,
-		signup: handleSignup,
+		register,
 	};
 
 	return (
 		<AuthContext.Provider value={contextValue}>{children}</AuthContext.Provider>
 	);
+};
+
+export const useAuth = (): AuthContext => {
+	return useContext(AuthContext) as AuthContext;
 };

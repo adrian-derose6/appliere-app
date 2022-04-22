@@ -9,7 +9,7 @@ export interface RegisterCredentialsDTO {
 	lastName: string;
 }
 
-export const register = (
+export const registerWithEmailAndPassword = (
 	data: RegisterCredentialsDTO
 ): Promise<UserResponse> => {
 	return authFetch.post('/auth/register', data);
