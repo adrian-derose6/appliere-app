@@ -14,9 +14,9 @@ import {
 import { useForm, zodResolver } from '@mantine/form';
 import { BsPeople, BsPerson } from 'react-icons/bs';
 import { AiOutlineMail, AiOutlineLock } from 'react-icons/ai';
-import { RiLockPasswordLine } from 'react-icons/ri';
+import { RiContactsBookLine, RiLockPasswordLine } from 'react-icons/ri';
 
-import { AuthContext, useAuth } from '@/stores/auth/AuthProvider';
+import { useAuth } from '@/stores/auth/AuthProvider';
 import {
 	registerSchema,
 	loginSchema,
@@ -31,7 +31,7 @@ interface AuthFormProps {
 }
 
 export const AuthForm = (props: AuthFormProps) => {
-	const { login } = useAuth();
+	const { login, register } = useAuth();
 	const navigate = useNavigate();
 	const { classes } = useStyles();
 
@@ -52,7 +52,14 @@ export const AuthForm = (props: AuthFormProps) => {
 	type FormValues = typeof form.values;
 
 	const handleSubmit = (values: FormValues) => {
-		console.log(values);
+		if (!props.isMember) {
+			register({
+				firstName: values.firstName,
+				lastName: values.lastName,
+				email: values.email,
+				password: values.password,
+			});
+		}
 	};
 
 	return (

@@ -1,4 +1,4 @@
-import { Action } from '@/types';
+import { Action } from '@/stores/types';
 import { BoardState } from '../../types/board-types';
 
 export const boardReducer = (state: BoardState, action: Action): BoardState => {
