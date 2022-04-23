@@ -10,6 +10,8 @@ import { AxiosError } from 'axios';
 import {
 	RegisterCredentialsDTO,
 	registerWithEmailAndPassword,
+	loginWithEmailAndPassword,
+	LoginCredentialsDTO,
 	AuthUser,
 	UserResponse,
 } from '@/features/auth';
@@ -38,7 +40,7 @@ const initialState: AuthState = {
 
 export interface AuthContext extends AuthState {
 	logout: () => void;
-	login: () => void;
+	login: (data: LoginCredentialsDTO) => Promise<void>;
 	register: (data: RegisterCredentialsDTO) => Promise<void>;
 }
 
@@ -80,11 +82,29 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 		}
 	};
 
+	const login = async (data: LoginCredentialsDTO) => {
+		dispatch({ type: LOGIN_USER_BEGIN });
+
+		try {
+			const response = await loginWithEmailAndPassword(data);
+			const { user, accessToken } = response;
+			storage.addUserToLocalStorage(user, accessToken);
+
+			dispatch({ type: LOGIN_USER_SUCCESS, payload: { user, accessToken } });
+		} catch (error: any) {
+			console.log(error.response.data);
+			dispatch({
+				type: LOGIN_USER_ERROR,
+				payload: { msg: error.response?.data.msg },
+			});
+		}
+	};
+
 	const value: AuthContext = useMemo(
 		() => ({
 			...state,
 			logout: handleLogout,
-			login: handleLogin,
+			login,
 			register,
 		}),
 		[state]
