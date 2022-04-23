@@ -51,6 +51,9 @@ export const useStyles = createStyles((theme) => {
 				},
 			},
 		},
+		errorText: {
+			color: theme.other.brandPrimaryColor,
+		},
 		loginForm: {},
 	};
 });

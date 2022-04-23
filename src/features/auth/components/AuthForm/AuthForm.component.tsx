@@ -12,8 +12,11 @@ import {
 	Checkbox,
 } from '@mantine/core';
 import { useForm, zodResolver } from '@mantine/form';
+import { BsPeople, BsPerson } from 'react-icons/bs';
+import { AiOutlineMail, AiOutlineLock } from 'react-icons/ai';
+import { RiContactsBookLine, RiLockPasswordLine } from 'react-icons/ri';
 
-import { AuthContext } from '@/stores/contexts/auth-context';
+import { useAuth } from '@/stores/auth/AuthProvider';
 import {
 	registerSchema,
 	loginSchema,
@@ -28,7 +31,7 @@ interface AuthFormProps {
 }
 
 export const AuthForm = (props: AuthFormProps) => {
-	const { login } = useContext(AuthContext);
+	const { login, register, isLoggedIn, isLoading, error, user } = useAuth();
 	const navigate = useNavigate();
 	const { classes } = useStyles();
 
@@ -49,7 +52,14 @@ export const AuthForm = (props: AuthFormProps) => {
 	type FormValues = typeof form.values;
 
 	const handleSubmit = (values: FormValues) => {
-		console.log(values);
+		if (!props.isMember) {
+			register({
+				firstName: values.firstName,
+				lastName: values.lastName,
+				email: values.email,
+				password: values.password,
+			});
+		}
 	};
 
 	return (
@@ -61,45 +71,45 @@ export const AuthForm = (props: AuthFormProps) => {
 			{!props.isMember && (
 				<SimpleGrid cols={2}>
 					<TextInput
-						label='First Name'
 						type='text'
-						placeholder='e.g. Michael'
+						placeholder='First Name'
 						mb='md'
+						icon={<BsPerson />}
 						required
 						{...form.getInputProps('firstName')}
 					/>
 					<TextInput
-						label='Last Name'
 						type='text'
-						placeholder='e.g. Smith'
+						placeholder='Last Name'
 						mb='md'
+						icon={<BsPeople />}
 						{...form.getInputProps('lastName')}
 					/>
 				</SimpleGrid>
 			)}
 			<TextInput
-				label='Email Address'
 				type='email'
-				placeholder='e.g. name@company.com'
+				placeholder='Email Address'
 				mb='md'
+				icon={<AiOutlineMail />}
 				required
 				{...form.getInputProps('email')}
 			/>
 			<PasswordInput
-				label='Password'
 				type='password'
-				placeholder='e.g. ••••••••'
+				placeholder='Password'
 				mb='md'
+				icon={<RiLockPasswordLine />}
 				required
 				{...form.getInputProps('password')}
 			/>
 			{!props.isMember && (
 				<>
 					<PasswordInput
-						label='Confirm Password'
 						type='password'
-						placeholder='e.g. ••••••••'
-						mb='md'
+						placeholder='Confirm Password'
+						mb='lg'
+						icon={<RiLockPasswordLine />}
 						required
 						{...form.getInputProps('confirmPassword')}
 					/>
@@ -112,7 +122,12 @@ export const AuthForm = (props: AuthFormProps) => {
 					/>
 				</>
 			)}
-			<AuthButton mt='xl' type='submit'>
+			{error && (
+				<Center mt='xl'>
+					<Text className={classes.errorText}>{error}</Text>
+				</Center>
+			)}
+			<AuthButton mt='xl' type='submit' disabled={isLoading}>
 				{props.isMember ? 'Login' : 'Create Account'}
 			</AuthButton>
 			<Text className={classes.hasAccountText} mt='lg'>

@@ -18,7 +18,7 @@ import UserMenu from './UserMenu/UserMenu';
 import NavbarLink from './NavbarLink/NavbarLink';
 
 import { useStyles } from './NavbarLeft.styles';
-import { AuthContext } from '@/stores/contexts/auth-context';
+import { AuthContext } from '@/stores/auth/AuthProvider';
 
 const logoIcon = require('@/assets/png/logo.png');
 

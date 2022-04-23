@@ -13,7 +13,7 @@ import {
 	Anchor,
 } from '@mantine/core';
 
-import { AuthContext } from '@/stores/contexts/auth-context';
+import { useAuth } from '@/stores/auth/AuthProvider';
 import { useContext } from 'react';
 import { FormPaper } from '@/components/Forms/FormPaper.component';
 import { Logo } from '@/components/Logo';
@@ -24,7 +24,7 @@ import { useStyles } from './LoginPage.styles';
 const logoIcon = require('@/assets/png/logo.png');
 
 export const LoginPage = () => {
-	const { login } = useContext(AuthContext);
+	const { login } = useAuth();
 	const navigate = useNavigate();
 	const { classes } = useStyles();
 

@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Menu, UnstyledButton } from '@mantine/core';
 
 import UserTab from './UserTab';
-import { AuthContext } from '@/stores/contexts/auth-context';
+import { useAuth } from '@/stores/auth/AuthProvider';
 import { useStyles } from './UserMenu.styles';
 
 interface UserMenuProps {
@@ -12,7 +12,7 @@ interface UserMenuProps {
 
 const UserMenu = ({ expand = false }: UserMenuProps) => {
 	const [isOpen, setIsOpen] = useState<boolean>(false);
-	const { logout } = useContext(AuthContext);
+	const { logout } = useAuth();
 
 	const navigate = useNavigate();
 	const { classes } = useStyles();

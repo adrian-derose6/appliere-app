@@ -1,12 +1,11 @@
 import { BrowserRouter } from 'react-router-dom';
 import { MantineProvider } from '@mantine/core';
-import { QueryClientProvider, QueryClient } from 'react-query';
+import { QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
 
-import { AuthProvider } from '@/stores/contexts/auth-context';
+import { queryClient } from '@/lib/react-query';
+import { AuthProvider } from '@/stores/auth/AuthProvider';
 import { themeConfig, libraryStyles } from '@/config/theme';
-
-const queryClient = new QueryClient();
 
 interface AppProviderProps {
 	children: React.ReactNode;
