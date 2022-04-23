@@ -16,7 +16,7 @@ import { BsPeople, BsPerson } from 'react-icons/bs';
 import { AiOutlineMail, AiOutlineLock } from 'react-icons/ai';
 import { RiLockPasswordLine } from 'react-icons/ri';
 
-import { AuthContext } from '@/stores/contexts/auth-context';
+import { AuthContext, useAuth } from '@/stores/auth/AuthProvider';
 import {
 	registerSchema,
 	loginSchema,
@@ -31,7 +31,7 @@ interface AuthFormProps {
 }
 
 export const AuthForm = (props: AuthFormProps) => {
-	const { login } = useContext(AuthContext);
+	const { login } = useAuth();
 	const navigate = useNavigate();
 	const { classes } = useStyles();
 

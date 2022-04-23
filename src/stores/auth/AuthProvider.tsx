@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useReducer, Dispatch } from 'react';
 
 import {
 	RegisterCredentialsDTO,
@@ -6,6 +6,7 @@ import {
 	registerWithEmailAndPassword,
 	UserResponse,
 } from '@/features/auth';
+import { authReducer } from './reducer';
 import storage from '@/utils/storage';
 
 export interface AuthContext {
@@ -24,6 +25,7 @@ type AuthProviderProps = {
 };
 
 export const AuthProvider = ({ children }: AuthProviderProps) => {
+	const [dispatch, state] = useReducer(authReducer, {});
 	const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
 
 	const handleUserResponse = (data: UserResponse) => {

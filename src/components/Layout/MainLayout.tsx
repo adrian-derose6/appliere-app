@@ -3,12 +3,12 @@ import { Outlet } from 'react-router-dom';
 import { AppShell } from '@mantine/core';
 
 import NavbarLeft from '@/components/Layout/NavbarLeft/NavbarLeft.component';
-import { AuthContext } from '@/stores/contexts/auth-context';
+import { useAuth } from '@/stores/auth/AuthProvider';
 
 interface LayoutProps {}
 
 export const MainLayout = (props: LayoutProps) => {
-	const { isLoggedIn } = useContext(AuthContext);
+	const { isLoggedIn } = useAuth();
 
 	return (
 		<AppShell
