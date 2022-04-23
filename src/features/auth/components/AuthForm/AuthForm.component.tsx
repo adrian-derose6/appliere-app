@@ -13,8 +13,8 @@ import {
 } from '@mantine/core';
 import { useForm, zodResolver } from '@mantine/form';
 import { BsPeople, BsPerson } from 'react-icons/bs';
-import { AiOutlineMail, AiOutlineLock } from 'react-icons/ai';
-import { RiContactsBookLine, RiLockPasswordLine } from 'react-icons/ri';
+import { AiOutlineMail } from 'react-icons/ai';
+import { RiLockPasswordLine } from 'react-icons/ri';
 
 import { useAuth } from '@/stores/auth/AuthProvider';
 import {
@@ -31,8 +31,7 @@ interface AuthFormProps {
 }
 
 export const AuthForm = (props: AuthFormProps) => {
-	const { login, register, isLoggedIn, isLoading, error, user } = useAuth();
-	const navigate = useNavigate();
+	const { login, register, isLoading, error } = useAuth();
 	const { classes } = useStyles();
 
 	const schema = props.isMember ? loginSchema : registerSchema;
@@ -59,6 +58,11 @@ export const AuthForm = (props: AuthFormProps) => {
 				email: values.email,
 				password: values.password,
 			});
+		} else {
+			login({
+				email: values.email,
+				password: values.password,
+			});
 		}
 	};
 
@@ -75,6 +79,7 @@ export const AuthForm = (props: AuthFormProps) => {
 						placeholder='First Name'
 						mb='md'
 						icon={<BsPerson />}
+						disabled={isLoading}
 						required
 						{...form.getInputProps('firstName')}
 					/>
@@ -83,6 +88,7 @@ export const AuthForm = (props: AuthFormProps) => {
 						placeholder='Last Name'
 						mb='md'
 						icon={<BsPeople />}
+						disabled={isLoading}
 						{...form.getInputProps('lastName')}
 					/>
 				</SimpleGrid>
@@ -92,6 +98,7 @@ export const AuthForm = (props: AuthFormProps) => {
 				placeholder='Email Address'
 				mb='md'
 				icon={<AiOutlineMail />}
+				disabled={isLoading}
 				required
 				{...form.getInputProps('email')}
 			/>
@@ -100,6 +107,7 @@ export const AuthForm = (props: AuthFormProps) => {
 				placeholder='Password'
 				mb='md'
 				icon={<RiLockPasswordLine />}
+				disabled={isLoading}
 				required
 				{...form.getInputProps('password')}
 			/>
@@ -110,6 +118,7 @@ export const AuthForm = (props: AuthFormProps) => {
 						placeholder='Confirm Password'
 						mb='lg'
 						icon={<RiLockPasswordLine />}
+						disabled={isLoading}
 						required
 						{...form.getInputProps('confirmPassword')}
 					/>
@@ -117,6 +126,7 @@ export const AuthForm = (props: AuthFormProps) => {
 						label='I agree to the Terms of Service and Privacy Policy.'
 						size='xs'
 						radius='xs'
+						disabled={isLoading}
 						required
 						{...form.getInputProps('termsAgreement', { type: 'checkbox' })}
 					/>

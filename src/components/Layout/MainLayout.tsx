@@ -8,8 +8,6 @@ import { useAuth } from '@/stores/auth/AuthProvider';
 interface LayoutProps {}
 
 export const MainLayout = (props: LayoutProps) => {
-	const { isLoggedIn } = useAuth();
-
 	return (
 		<AppShell
 			padding={0}
