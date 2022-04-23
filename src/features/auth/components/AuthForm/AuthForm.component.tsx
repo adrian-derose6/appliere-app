@@ -31,8 +31,7 @@ interface AuthFormProps {
 }
 
 export const AuthForm = (props: AuthFormProps) => {
-	const { login, register, isLoading, error, user } = useAuth();
-	const navigate = useNavigate();
+	const { login, register, isLoading, error } = useAuth();
 	const { classes } = useStyles();
 
 	const schema = props.isMember ? loginSchema : registerSchema;
@@ -80,6 +79,7 @@ export const AuthForm = (props: AuthFormProps) => {
 						placeholder='First Name'
 						mb='md'
 						icon={<BsPerson />}
+						disabled={isLoading}
 						required
 						{...form.getInputProps('firstName')}
 					/>
@@ -88,6 +88,7 @@ export const AuthForm = (props: AuthFormProps) => {
 						placeholder='Last Name'
 						mb='md'
 						icon={<BsPeople />}
+						disabled={isLoading}
 						{...form.getInputProps('lastName')}
 					/>
 				</SimpleGrid>
@@ -97,6 +98,7 @@ export const AuthForm = (props: AuthFormProps) => {
 				placeholder='Email Address'
 				mb='md'
 				icon={<AiOutlineMail />}
+				disabled={isLoading}
 				required
 				{...form.getInputProps('email')}
 			/>
@@ -105,6 +107,7 @@ export const AuthForm = (props: AuthFormProps) => {
 				placeholder='Password'
 				mb='md'
 				icon={<RiLockPasswordLine />}
+				disabled={isLoading}
 				required
 				{...form.getInputProps('password')}
 			/>
@@ -115,6 +118,7 @@ export const AuthForm = (props: AuthFormProps) => {
 						placeholder='Confirm Password'
 						mb='lg'
 						icon={<RiLockPasswordLine />}
+						disabled={isLoading}
 						required
 						{...form.getInputProps('confirmPassword')}
 					/>
@@ -122,6 +126,7 @@ export const AuthForm = (props: AuthFormProps) => {
 						label='I agree to the Terms of Service and Privacy Policy.'
 						size='xs'
 						radius='xs'
+						disabled={isLoading}
 						required
 						{...form.getInputProps('termsAgreement', { type: 'checkbox' })}
 					/>
