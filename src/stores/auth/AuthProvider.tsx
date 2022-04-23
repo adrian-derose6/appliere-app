@@ -1,4 +1,10 @@
-import React, { useState, useContext, useReducer } from 'react';
+import React, {
+	useState,
+	useContext,
+	useReducer,
+	useMemo,
+	ReactNode,
+} from 'react';
 import { AxiosError } from 'axios';
 
 import {
@@ -27,6 +33,7 @@ const initialState: AuthState = {
 	user: user,
 	isLoggedIn: false,
 	isLoading: false,
+	error: null,
 };
 
 export interface AuthContext extends AuthState {
@@ -37,17 +44,13 @@ export interface AuthContext extends AuthState {
 
 export const AuthContext = React.createContext<AuthContext | null>(null);
 
-type AuthProviderProps = {
-	children: React.ReactNode;
-};
-
-export const AuthProvider = ({ children }: AuthProviderProps) => {
+export const AuthProvider = ({ children }: { children: ReactNode }) => {
 	const [state, dispatch] = useReducer(authReducer, initialState);
 	const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
 
 	const handleUserResponse = (data: UserResponse) => {
 		const { accessToken, user } = data;
-		storage.addUserToLocalStorage(user, token);
+		storage.addUserToLocalStorage(user, accessToken);
 		return { accessToken, user };
 	};
 
@@ -64,26 +67,26 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
 		try {
 			const response = await registerWithEmailAndPassword(data);
-			console.log(response);
-			const { accessToken, user } = handleUserResponse(response);
+			const { user, accessToken } = handleUserResponse(response);
 
 			dispatch({ type: REGISTER_USER_SUCCESS, payload: { user, accessToken } });
-		} catch (error) {
-			const err = error as AxiosError;
-			console.log(err);
+		} catch (error: any) {
 			dispatch({
 				type: REGISTER_USER_ERROR,
-				payload: { msg: err.response?.data.msg },
+				payload: { msg: error.response?.data.msg },
 			});
 		}
 	};
 
-	const value: AuthContext = {
-		...state,
-		logout: handleLogout,
-		login: handleLogin,
-		register,
-	};
+	const value: AuthContext = useMemo(
+		() => ({
+			...state,
+			logout: handleLogout,
+			login: handleLogin,
+			register,
+		}),
+		[state]
+	);
 
 	return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };

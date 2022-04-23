@@ -2,7 +2,8 @@ import { AuthUser } from '@/features/auth';
 
 export interface AuthState {
 	accessToken: string;
-	user: AuthUser | null;
+	user?: AuthUser;
 	isLoggedIn: boolean;
 	isLoading: boolean;
+	error?: any;
 }
