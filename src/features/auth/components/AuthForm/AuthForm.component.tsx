@@ -13,8 +13,8 @@ import {
 } from '@mantine/core';
 import { useForm, zodResolver } from '@mantine/form';
 import { BsPeople, BsPerson } from 'react-icons/bs';
-import { AiOutlineMail, AiOutlineLock } from 'react-icons/ai';
-import { RiContactsBookLine, RiLockPasswordLine } from 'react-icons/ri';
+import { AiOutlineMail } from 'react-icons/ai';
+import { RiLockPasswordLine } from 'react-icons/ri';
 
 import { useAuth } from '@/stores/auth/AuthProvider';
 import {
@@ -60,6 +60,11 @@ export const AuthForm = (props: AuthFormProps) => {
 				password: values.password,
 			});
 		}
+
+		login({
+			email: values.email,
+			password: values.password,
+		});
 	};
 
 	return (

@@ -56,10 +56,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 		return { accessToken, user };
 	};
 
-	const handleLogin = () => {
-		setIsLoggedIn(true);
-	};
-
 	const handleLogout = () => {
 		setIsLoggedIn(false);
 	};
