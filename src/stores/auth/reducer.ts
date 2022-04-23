@@ -26,14 +26,17 @@ export const authReducer = (state: AuthState, action: Action): AuthState => {
 			return {
 				...state,
 				isLoading: false,
-				isLoggedIn: true,
 				accessToken,
 				user,
 				error: null,
 			};
 		}
 		case REGISTER_USER_ERROR: {
-			return { ...state, isLoading: false, error: action.payload.msg };
+			return {
+				...state,
+				isLoading: false,
+				error: action.payload.msg,
+			};
 		}
 		case LOGIN_USER_BEGIN: {
 			return {
@@ -48,7 +51,6 @@ export const authReducer = (state: AuthState, action: Action): AuthState => {
 			return {
 				...state,
 				isLoading: false,
-				isLoggedIn: true,
 				accessToken,
 				user,
 				error: null,

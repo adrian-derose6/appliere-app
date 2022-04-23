@@ -33,9 +33,8 @@ const token = storage.getToken();
 const user = storage.getUser();
 
 export const initialState: AuthState = {
-	accessToken: token || '',
+	accessToken: token || undefined,
 	user: user || undefined,
-	isLoggedIn: false,
 	isLoading: false,
 	error: null,
 };
@@ -50,12 +49,6 @@ export const AuthContext = React.createContext<AuthContext | null>(null);
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
 	const [state, dispatch] = useReducer(authReducer, initialState);
-
-	const handleUserResponse = (data: UserResponse) => {
-		const { accessToken, user } = data;
-		storage.addUserToLocalStorage(user, accessToken);
-		return { accessToken, user };
-	};
 
 	const register = async (data: RegisterCredentialsDTO) => {
 		dispatch({ type: REGISTER_USER_BEGIN });
@@ -94,8 +87,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 	};
 
 	const logout = () => {
-		storage.removeUserFromLocalStorage();
 		dispatch({ type: LOGOUT_USER });
+		storage.removeUserFromLocalStorage();
 	};
 
 	const value: AuthContext = useMemo(

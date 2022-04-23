@@ -31,7 +31,7 @@ interface AuthFormProps {
 }
 
 export const AuthForm = (props: AuthFormProps) => {
-	const { login, register, isLoggedIn, isLoading, error, user } = useAuth();
+	const { login, register, isLoading, error, user } = useAuth();
 	const navigate = useNavigate();
 	const { classes } = useStyles();
 
@@ -59,12 +59,12 @@ export const AuthForm = (props: AuthFormProps) => {
 				email: values.email,
 				password: values.password,
 			});
+		} else {
+			login({
+				email: values.email,
+				password: values.password,
+			});
 		}
-
-		login({
-			email: values.email,
-			password: values.password,
-		});
 	};
 
 	return (

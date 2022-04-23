@@ -15,9 +15,9 @@ export const AppProvider = ({ children }: AppProviderProps) => {
 		<MantineProvider theme={themeConfig} styles={libraryStyles}>
 			<QueryClientProvider client={queryClient}>
 				<ReactQueryDevtools />
-				<AuthProvider>
-					<BrowserRouter>{children}</BrowserRouter>
-				</AuthProvider>
+				<BrowserRouter>
+					<AuthProvider>{children}</AuthProvider>
+				</BrowserRouter>
 			</QueryClientProvider>
 		</MantineProvider>
 	);
