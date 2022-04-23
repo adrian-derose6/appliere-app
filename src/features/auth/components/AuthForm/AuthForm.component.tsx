@@ -31,7 +31,7 @@ interface AuthFormProps {
 }
 
 export const AuthForm = (props: AuthFormProps) => {
-	const { login, register } = useAuth();
+	const { login, register, isLoggedIn, isLoading, error, user } = useAuth();
 	const navigate = useNavigate();
 	const { classes } = useStyles();
 
@@ -122,7 +122,12 @@ export const AuthForm = (props: AuthFormProps) => {
 					/>
 				</>
 			)}
-			<AuthButton mt='xl' type='submit'>
+			{error && (
+				<Center mt='xl'>
+					<Text className={classes.errorText}>{error}</Text>
+				</Center>
+			)}
+			<AuthButton mt='xl' type='submit' disabled={isLoading}>
 				{props.isMember ? 'Login' : 'Create Account'}
 			</AuthButton>
 			<Text className={classes.hasAccountText} mt='lg'>

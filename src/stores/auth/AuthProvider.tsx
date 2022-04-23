@@ -67,10 +67,12 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
 		try {
 			const response = await registerWithEmailAndPassword(data);
-			const { user, accessToken } = handleUserResponse(response);
+			const { user, accessToken } = response;
+			storage.addUserToLocalStorage(user, accessToken);
 
 			dispatch({ type: REGISTER_USER_SUCCESS, payload: { user, accessToken } });
 		} catch (error: any) {
+			console.log(error.response.data);
 			dispatch({
 				type: REGISTER_USER_ERROR,
 				payload: { msg: error.response?.data.msg },

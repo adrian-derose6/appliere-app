@@ -16,6 +16,7 @@ export const authReducer = (state: AuthState, action: Action) => {
 			return {
 				...state,
 				isLoading: true,
+				error: null,
 			};
 		}
 		case REGISTER_USER_SUCCESS: {
@@ -27,6 +28,7 @@ export const authReducer = (state: AuthState, action: Action) => {
 				isLoggedIn: true,
 				accessToken,
 				user,
+				error: null,
 			};
 		}
 		case REGISTER_USER_ERROR: {
