@@ -1,18 +1,25 @@
-import React, { useState, useContext, useReducer, Dispatch } from 'react';
+import React, { useState, useContext, useReducer } from 'react';
 
 import {
 	RegisterCredentialsDTO,
-	AuthUser,
 	registerWithEmailAndPassword,
+	AuthUser,
 	UserResponse,
 } from '@/features/auth';
 import { authReducer } from './reducer';
+import { AuthState } from './types';
 import storage from '@/utils/storage';
 
-export interface AuthContext {
-	accessToken: string;
-	user?: AuthUser;
-	isLoggedIn: boolean;
+const token = storage.getToken();
+const user = storage.getUser();
+
+const initialState: AuthState = {
+	accessToken: token || '',
+	user: user ? user : null,
+	isLoggedIn: false,
+};
+
+export interface AuthContext extends AuthState {
 	logout: () => void;
 	login: () => void;
 	register: (data: RegisterCredentialsDTO) => Promise<AuthUser>;
@@ -25,7 +32,7 @@ type AuthProviderProps = {
 };
 
 export const AuthProvider = ({ children }: AuthProviderProps) => {
-	const [dispatch, state] = useReducer(authReducer, {});
+	const [state, dispatch] = useReducer(authReducer, initialState);
 	const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
 
 	const handleUserResponse = (data: UserResponse) => {
@@ -48,17 +55,14 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 		return user;
 	};
 
-	const contextValue: AuthContext = {
-		accessToken: '',
-		isLoggedIn,
+	const value: AuthContext = {
+		...state,
 		logout: handleLogout,
 		login: handleLogin,
 		register,
 	};
 
-	return (
-		<AuthContext.Provider value={contextValue}>{children}</AuthContext.Provider>
-	);
+	return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
 
 export const useAuth = (): AuthContext => {
