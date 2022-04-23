@@ -1,6 +1,6 @@
-import { MetricsPage } from './../../features/metrics/pages/MetricsPage';
 import { Action } from '@/stores/types';
 import { AuthState } from './types';
+import { initialState } from './AuthProvider';
 import {
 	REGISTER_USER_BEGIN,
 	REGISTER_USER_SUCCESS,
@@ -8,9 +8,10 @@ import {
 	LOGIN_USER_BEGIN,
 	LOGIN_USER_SUCCESS,
 	LOGIN_USER_ERROR,
+	LOGOUT_USER,
 } from './actions';
 
-export const authReducer = (state: AuthState, action: Action) => {
+export const authReducer = (state: AuthState, action: Action): AuthState => {
 	switch (action.type) {
 		case REGISTER_USER_BEGIN: {
 			return {
@@ -55,6 +56,13 @@ export const authReducer = (state: AuthState, action: Action) => {
 		}
 		case LOGIN_USER_ERROR: {
 			return { ...state, isLoading: false, error: action.payload.msg };
+		}
+		case LOGOUT_USER: {
+			return {
+				...initialState,
+				user: undefined,
+				accessToken: undefined,
+			};
 		}
 		default:
 			return state;

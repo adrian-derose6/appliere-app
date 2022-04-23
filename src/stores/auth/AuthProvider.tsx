@@ -4,6 +4,7 @@ import React, {
 	useReducer,
 	useMemo,
 	ReactNode,
+	useEffect,
 } from 'react';
 import { AxiosError } from 'axios';
 
@@ -24,15 +25,16 @@ import {
 	LOGIN_USER_BEGIN,
 	LOGIN_USER_SUCCESS,
 	LOGIN_USER_ERROR,
+	LOGOUT_USER,
 } from './actions';
 import storage from '@/utils/storage';
 
 const token = storage.getToken();
 const user = storage.getUser();
 
-const initialState: AuthState = {
-	accessToken: token,
-	user: user,
+export const initialState: AuthState = {
+	accessToken: token || '',
+	user: user || undefined,
 	isLoggedIn: false,
 	isLoading: false,
 	error: null,
@@ -48,16 +50,11 @@ export const AuthContext = React.createContext<AuthContext | null>(null);
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
 	const [state, dispatch] = useReducer(authReducer, initialState);
-	const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
 
 	const handleUserResponse = (data: UserResponse) => {
 		const { accessToken, user } = data;
 		storage.addUserToLocalStorage(user, accessToken);
 		return { accessToken, user };
-	};
-
-	const handleLogout = () => {
-		setIsLoggedIn(false);
 	};
 
 	const register = async (data: RegisterCredentialsDTO) => {
@@ -96,10 +93,15 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 		}
 	};
 
+	const logout = () => {
+		storage.removeUserFromLocalStorage();
+		dispatch({ type: LOGOUT_USER });
+	};
+
 	const value: AuthContext = useMemo(
 		() => ({
 			...state,
-			logout: handleLogout,
+			logout,
 			login,
 			register,
 		}),
