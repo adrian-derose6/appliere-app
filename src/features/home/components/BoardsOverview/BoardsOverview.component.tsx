@@ -1,8 +1,7 @@
 import { ReactNode } from 'react';
 import { Card, Container, Grid, Title, ScrollArea } from '@mantine/core';
-import { v4 as uuidv4 } from 'uuid';
 
-import { CardGridButton } from '../../4-Elements/CardGridButton/CardGridButton';
+import { CardGridButton } from '../Elements/CardGridButton/CardGridButton.component';
 
 import { useStyles } from './BoardsOverview.styles';
 
