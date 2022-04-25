@@ -42,7 +42,12 @@ export const useStyles = createStyles(
 				fontWeight: 500,
 			},
 			menuRoot: {
-				opacity: hovered ? 1 : 0,
+				backgroundColor: 'transparent',
+
+				'&:hovered': {
+					backgroundColor: 'white',
+				},
+				zIndex: 500,
 			},
 		};
 	}

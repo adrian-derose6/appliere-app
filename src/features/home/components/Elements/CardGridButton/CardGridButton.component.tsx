@@ -6,6 +6,7 @@ import { useHover } from '@mantine/hooks';
 import { BoardIcon, getRandomColor } from '@/assets/svg/BoardIcon';
 import { BOARD_ICON_COLORS } from '@/assets/svg/board-icon-colors';
 import { CreateBoardIcon } from '@/assets/svg/CreateBoardIcon';
+import { BoardMenu } from '../BoardMenu/BoardMenu.component';
 
 import { useStyles } from './CardGridButton.styles';
 
@@ -41,28 +42,21 @@ export const CardGridButton = ({
 	const dueString = due && typeof due === 'number' ? due.toString() : due;
 
 	return (
-		<Link to={`/track/boards/${id}/board`}>
-			<UnstyledButton className={classes.gridButton}>
-				<div className={classes.hoverWrapper} ref={ref}>
-					<Group>
-						{icon}
-						<div>
-							<Text className={classes.buttonLabel}>{name}</Text>
-							{due ? (
-								<Text size='xs' color='gray'>
-									{`${dueString}`} activities due soon
-								</Text>
-							) : null}
-						</div>
-					</Group>
-					<Menu style={{ right: 10 }} classNames={{ root: classes.menuRoot }}>
-						<Menu.Item>Share...</Menu.Item>
-						<Menu.Item>Add to favorites</Menu.Item>
-						<Menu.Item>Edit board details</Menu.Item>
-						<Menu.Item>Copy board link</Menu.Item>
-					</Menu>
-				</div>
-			</UnstyledButton>
-		</Link>
+		<UnstyledButton className={classes.gridButton}>
+			<div className={classes.hoverWrapper} ref={ref}>
+				<Group>
+					{icon}
+					<div>
+						<Text className={classes.buttonLabel}>{name}</Text>
+						{!!due && (
+							<Text size='xs' color='gray'>
+								{`${dueString}`} activities due soon
+							</Text>
+						)}
+					</div>
+				</Group>
+				{hovered && <BoardMenu />}
+			</div>
+		</UnstyledButton>
 	);
 };
