@@ -1,4 +1,4 @@
-import { BoardState } from '../types/board-types';
+import { BoardState } from '../types';
 
 export const initialBoardState: BoardState = {
 	jobs: {

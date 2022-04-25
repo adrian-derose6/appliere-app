@@ -17,3 +17,25 @@ export interface BoardState {
 	collections: { [k: string]: Collection };
 	collectionOrder: string[];
 }
+
+export type JobType = {
+	company: string;
+	position: string;
+};
+
+export interface Board {
+	_id: string;
+	boardName: string;
+	createdBy: string;
+	lists: [
+		{
+			_id: string;
+			title: string;
+			jobs: JobType[];
+		}
+	];
+}
+
+export type Boards = {
+	boards: Board[];
+};

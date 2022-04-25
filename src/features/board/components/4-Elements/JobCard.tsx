@@ -3,7 +3,7 @@ import { Draggable } from 'react-beautiful-dnd';
 import { FiPlusCircle } from 'react-icons/fi';
 import { IconContext } from 'react-icons';
 
-import { Job } from '../../types/board-types';
+import { Job } from '../../types';
 import { useStyles } from './JobCard.styles';
 
 interface JobCardProps {
