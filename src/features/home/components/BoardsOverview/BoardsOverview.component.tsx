@@ -1,9 +1,8 @@
-import { ReactNode, useState, useEffect } from 'react';
 import { Card, Container, Grid, Title } from '@mantine/core';
 
 import { CardGridButton } from '../Elements/CardGridButton/CardGridButton.component';
 import { useStyles } from './BoardsOverview.styles';
-import { getBoards } from '@/features/board/api/getBoards';
+import { useBoards } from '@/features/board';
 
 const BOARDS_LIST = [
 	{
@@ -34,12 +33,10 @@ const BOARDS_LIST = [
 ];
 
 export const BoardsOverview = () => {
-	const [boards, setBoards] = useState([]);
+	const { isLoading, data: boards, isSuccess } = useBoards();
 	const { classes } = useStyles();
 
-	useEffect(() => {}, []);
-
-	const boardsList = boards.map((board: any) => {
+	const boardsList = BOARDS_LIST.map((board: any) => {
 		return (
 			<Grid.Col key={board._id} span={6} className={classes.gridColumn}>
 				<CardGridButton id={board._id} name={board.boardName} due={0} />
