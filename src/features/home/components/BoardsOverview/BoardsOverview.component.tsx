@@ -1,6 +1,6 @@
-import { Card, Container, Grid, Title } from '@mantine/core';
+import { Card, Container, Grid, Title, useMantineTheme } from '@mantine/core';
 
-import { CardGridButton } from '../Elements/CardGridButton/CardGridButton.component';
+import { BoardLink } from '../Elements/BoardLink/BoardLink.component';
 import { useStyles } from './BoardsOverview.styles';
 import { useGetBoards } from '@/features/board';
 
@@ -34,6 +34,7 @@ const BOARDS_LIST = [
 
 export const BoardsOverview = () => {
 	const { isLoading, data, isSuccess } = useGetBoards();
+	const theme = useMantineTheme();
 	const { classes } = useStyles();
 
 	let boardsList;
@@ -41,8 +42,8 @@ export const BoardsOverview = () => {
 	if (isSuccess) {
 		boardsList = data?.boards.map((board: any) => {
 			return (
-				<Grid.Col key={board._id} span={6} className={classes.gridColumn}>
-					<CardGridButton id={board._id} name={board.name} due={0} />
+				<Grid.Col key={board._id} md={12} lg={6} className={classes.gridColumn}>
+					<BoardLink id={board._id} name={board.name} due={0} />
 				</Grid.Col>
 			);
 		});
@@ -65,8 +66,8 @@ export const BoardsOverview = () => {
 			</Container>
 			<Container fluid px={0} className={classes.gridContainer}>
 				<Grid gutter={0}>
-					<Grid.Col span={6} className={classes.gridColumn}>
-						<CardGridButton name='Create Board' newBoard id='6' />
+					<Grid.Col md={12} lg={6} className={classes.gridColumn}>
+						<BoardLink name='Create Board' newBoard id='6' />
 					</Grid.Col>
 					{boardsList}
 				</Grid>
