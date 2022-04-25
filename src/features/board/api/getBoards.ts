@@ -5,7 +5,8 @@ import { useQuery } from 'react-query';
 
 export const getBoards = async (): Promise<Boards> => {
 	const res = await authFetch.get('/boards');
-	return res.data;
+	console.log(res);
+	return res.data.boards;
 };
 
 type QueryFnType = typeof getBoards;
@@ -18,6 +19,6 @@ export const useBoards = ({ config }: UseBoardsOptions = {}) => {
 	return useQuery<ExtractFnReturnType<QueryFnType>>({
 		...config,
 		queryKey: ['boards'],
-		queryFn: getBoards,
+		queryFn: () => getBoards(),
 	});
 };

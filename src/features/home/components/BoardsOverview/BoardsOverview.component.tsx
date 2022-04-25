@@ -35,7 +35,9 @@ const BOARDS_LIST = [
 export const BoardsOverview = () => {
 	const { isLoading, data: boards, isSuccess } = useBoards();
 	const { classes } = useStyles();
-
+	if (isSuccess) {
+		console.log(boards);
+	}
 	const boardsList = BOARDS_LIST.map((board: any) => {
 		return (
 			<Grid.Col key={board._id} span={6} className={classes.gridColumn}>
