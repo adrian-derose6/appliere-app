@@ -28,7 +28,7 @@ interface BoardLinkProps {
 }
 
 export const BoardLink = ({ id, name, due, newBoard }: BoardLinkProps) => {
-	const { mutate, isLoading } = useCreateBoard();
+	const { mutate, isLoading, isSuccess } = useCreateBoard();
 	const [iconColor, setIconColor] = useState({ name: '', hex: '' });
 	const [inputDisplayed, setInputDisplayed] = useState<boolean>(false);
 	const [inputText, setInputText] = useState<string>('');
@@ -43,7 +43,12 @@ export const BoardLink = ({ id, name, due, newBoard }: BoardLinkProps) => {
 			const randomColor = getRandomColor(BOARD_ICON_COLORS);
 			setIconColor(randomColor);
 		}
-	}, [newBoard]);
+
+		if (isSuccess) {
+			setInputDisplayed(false);
+			setInputText('');
+		}
+	}, [newBoard, isSuccess]);
 
 	const icon = newBoard ? (
 		<CreateBoardIcon hovered={hovered} />
@@ -51,7 +56,6 @@ export const BoardLink = ({ id, name, due, newBoard }: BoardLinkProps) => {
 		<BoardIcon color={iconColor} />
 	);
 	const dueString = due && typeof due === 'number' ? due.toString() : due;
-
 	const handleClick = () => {
 		if (newBoard) {
 			setInputDisplayed(true);
