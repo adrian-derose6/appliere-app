@@ -15,6 +15,7 @@ import { BOARD_ICON_COLORS } from '@/assets/svg/board-icon-colors';
 import { CreateBoardIcon } from '@/assets/svg/CreateBoardIcon';
 import { BoardOptions } from '../BoardOptions/BoardOptions.component';
 import { BrandButton } from '@/components/Buttons';
+import { DotsIcon } from '@/components';
 
 import { useStyles } from './BoardLink.styles';
 

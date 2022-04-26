@@ -7,7 +7,7 @@ type Props = {
 	color?: string;
 	size?: string;
 	hoverable?: boolean;
-	label?: string;
+	label: string;
 };
 
 type StylesProps = { hovered: boolean };

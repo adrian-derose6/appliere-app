@@ -1,7 +1,8 @@
 import { SyntheticEvent } from 'react';
-import { Menu } from '@mantine/core';
+import { Menu, UnstyledButton } from '@mantine/core';
 
 import { useStyles } from './BoardOptions.styles';
+import { DotsIcon } from '@/features/board/components/4-Elements/DotsIcon';
 
 type BoardMenuProps = {
 	visible: boolean;
@@ -18,6 +19,11 @@ export const BoardOptions = ({ visible }: BoardMenuProps) => {
 			onClick={handleClick}
 			style={{ right: 10 }}
 			classNames={{ root: classes.menuRoot }}
+			control={
+				<UnstyledButton>
+					<DotsIcon />
+				</UnstyledButton>
+			}
 		>
 			<Menu.Item>Share...</Menu.Item>
 			<Menu.Item>Add to favorites</Menu.Item>
