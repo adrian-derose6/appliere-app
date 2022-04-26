@@ -3,10 +3,11 @@ import { createStyles, MantineTheme } from '@mantine/core';
 interface stylesProps {
 	hovered: boolean;
 	newBoard?: boolean;
+	inputDisplayed: boolean;
 }
 
 export const useStyles = createStyles(
-	(theme: MantineTheme, { hovered, newBoard }: stylesProps) => {
+	(theme: MantineTheme, { hovered, newBoard, inputDisplayed }: stylesProps) => {
 		const labelColor = {
 			newBoardColor: !hovered ? '#6d6e6f' : '#1e1f21',
 			normalColor: '#1e1f21',
@@ -21,7 +22,8 @@ export const useStyles = createStyles(
 				position: 'relative',
 
 				'&:hover': {
-					backgroundColor: '#eceeef',
+					backgroundColor: inputDisplayed ? 'transparent' : '#eceeef',
+					cursor: inputDisplayed ? 'default' : 'pointer',
 				},
 			},
 			hoverWrapper: {
@@ -42,7 +44,15 @@ export const useStyles = createStyles(
 				fontWeight: 500,
 			},
 			menuRoot: {
-				opacity: hovered ? 1 : 0,
+				backgroundColor: 'transparent',
+
+				'&:hovered': {
+					backgroundColor: 'white',
+				},
+				zIndex: 500,
+			},
+			createButton: {
+				transition: theme.other.transition1,
 			},
 		};
 	}

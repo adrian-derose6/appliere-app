@@ -9,7 +9,7 @@ import { Draggable, Droppable } from 'react-beautiful-dnd';
 import { JobCard } from '../4-Elements/JobCard';
 import { AddButton } from '../4-Elements/AddButton';
 import { ColumnMenu } from '../4-Elements/ColumnMenu';
-import { Collection, Job } from '../../types/board-types';
+import { Collection, Job } from '../../types';
 import { PlusIcon } from '../4-Elements/PlusIcon';
 import { useStyles } from './BoardColumn.styles';
 

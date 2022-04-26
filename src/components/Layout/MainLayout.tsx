@@ -1,32 +1,33 @@
-import { useContext } from 'react';
 import { Outlet } from 'react-router-dom';
-import { AppShell } from '@mantine/core';
+import { AppShell, createStyles } from '@mantine/core';
 
 import NavbarLeft from '@/components/Layout/NavbarLeft/NavbarLeft.component';
 import { useAuth } from '@/stores/auth/AuthProvider';
 
-interface LayoutProps {}
+export function MainLayout() {
+	const { root, main } = useStyles().classes;
 
-export const MainLayout = (props: LayoutProps) => {
 	return (
 		<AppShell
 			padding={0}
 			fixed={true}
 			navbar={<NavbarLeft />}
-			styles={{
-				root: {
-					'--mantine-header-height': 0,
-					overflow: 'hidden',
-				},
-				main: {
-					position: 'relative',
-					paddingLeft: '60px',
-					paddingTop: 0,
-					boxSizing: 'border-box',
-				},
-			}}
+			classNames={{ root, main }}
 		>
 			<Outlet />
 		</AppShell>
 	);
-};
+}
+
+const useStyles = createStyles((theme) => ({
+	root: {
+		'--mantine-header-height': 0,
+		overflow: 'hidden',
+	},
+	main: {
+		position: 'relative',
+		paddingLeft: '60px',
+		paddingTop: 0,
+		boxSizing: 'border-box',
+	},
+}));

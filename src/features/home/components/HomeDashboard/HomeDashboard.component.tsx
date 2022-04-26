@@ -1,9 +1,8 @@
-import { Grid, Container, Card, Title } from '@mantine/core';
+import { Grid, Container } from '@mantine/core';
 
-import { BoardsOverview } from '@/features/home/components/3-Groups/BoardsOverview/BoardsOverview';
-import { ActivitiesOverview } from '../../3-Groups/ActivitiesOverview/ActivitiesOverview';
-import { ContactsOverview } from '../../3-Groups/ContactsOverview/ContactsOverview';
-
+import { BoardsOverview } from '@/features/home/components/BoardsOverview/BoardsOverview.component';
+import { ActivitiesOverview } from '../ActivitiesOverview/ActivitiesOverview.component';
+import { ContactsOverview } from '../ContactsOverview/ContactsOverview.component';
 import { useStyles } from './HomeDashboard.styles';
 
 export const HomeDashboard = () => {

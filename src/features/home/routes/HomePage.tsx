@@ -1,6 +1,8 @@
-import { HomeLayout } from '@/features/home/components/1-Layout/HomeLayout';
-import { GreetingHeader } from '@/features/home/components/2-Sections/GreetingHeader/GreetingHeader';
-import { HomeDashboard } from '@/features/home/components/2-Sections/HomeDashboard/HomeDashboard';
+import {
+	HomeLayout,
+	GreetingHeader,
+	HomeDashboard,
+} from '@/features/home/components';
 
 export const HomePage = () => {
 	return (

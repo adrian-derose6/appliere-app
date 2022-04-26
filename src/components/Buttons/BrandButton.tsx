@@ -6,7 +6,7 @@ import {
 	ButtonProps,
 } from '@mantine/core';
 
-type Props = ButtonProps<any> & {
+type Props = ButtonProps<'button'> & {
 	children: React.ReactNode;
 };
 
@@ -22,12 +22,12 @@ const useStyles = createStyles((theme: MantineTheme) => {
 	};
 });
 
-export const BrandButton = ({ children, ...props }: Props) => {
+export const BrandButton = ({ children, ...buttonProps }: Props) => {
 	const theme = useMantineTheme();
 	const { classes } = useStyles();
 
 	return (
-		<Button classNames={{ root: classes.buttonRoot }} {...props}>
+		<Button classNames={{ root: classes.buttonRoot }} {...buttonProps}>
 			{children}
 		</Button>
 	);

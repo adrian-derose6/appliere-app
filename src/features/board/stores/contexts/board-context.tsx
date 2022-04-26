@@ -1,7 +1,7 @@
 import React, { useReducer, Dispatch } from 'react';
 
 import { initialBoardState } from '../../stores/boardData';
-import { BoardState } from '../../types/board-types';
+import { BoardState } from '../../types';
 import { Action } from '@/stores/types';
 import { boardReducer } from '../reducers/boardReducer';
 
