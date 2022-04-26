@@ -1,9 +1,9 @@
 import { authFetch } from '@/lib/axios';
-import { Boards } from '../types';
+import { BoardsResponse } from '../types';
 import { QueryConfig, ExtractFnReturnType } from '@/lib/react-query';
 import { useQuery } from 'react-query';
 
-export const getBoards = (): Promise<Boards> => {
+export const getBoards = (): Promise<BoardsResponse> => {
 	return authFetch.get('/boards');
 };
 
