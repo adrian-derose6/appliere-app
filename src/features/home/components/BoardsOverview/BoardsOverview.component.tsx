@@ -1,4 +1,4 @@
-import { Card, Container, Grid, Title, useMantineTheme } from '@mantine/core';
+import { Card, Container, Grid, Title, ScrollArea } from '@mantine/core';
 
 import { BoardLink } from '../Elements/BoardLink/BoardLink.component';
 import { useStyles } from './BoardsOverview.styles';
@@ -34,7 +34,6 @@ const BOARDS_LIST = [
 
 export const BoardsOverview = () => {
 	const { isLoading, data, isSuccess } = useGetBoards();
-	const theme = useMantineTheme();
 	const { classes } = useStyles();
 
 	let boardsList;
@@ -64,14 +63,14 @@ export const BoardsOverview = () => {
 			<Container fluid px={0} className={classes.cardHeader}>
 				<Title order={3}>Boards</Title>
 			</Container>
-			<Container fluid px={0} className={classes.gridContainer}>
+			<ScrollArea px={0} className={classes.gridContainer}>
 				<Grid gutter={0}>
-					<Grid.Col md={12} lg={6} className={classes.gridColumn}>
-						<BoardLink name='Create Board' newBoard id='6' />
-					</Grid.Col>
 					{boardsList}
+					<Grid.Col md={12} lg={6} className={classes.gridColumn}>
+						<BoardLink name='New Board' newBoard id='6' />
+					</Grid.Col>
 				</Grid>
-			</Container>
+			</ScrollArea>
 		</Card>
 	);
 };

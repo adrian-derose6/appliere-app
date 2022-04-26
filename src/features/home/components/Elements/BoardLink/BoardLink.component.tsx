@@ -1,12 +1,20 @@
-import { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { Group, UnstyledButton, Text, Menu } from '@mantine/core';
+import {
+	useState,
+	useEffect,
+	SyntheticEvent,
+	FormEvent,
+	ChangeEventHandler,
+	ChangeEvent,
+} from 'react';
+import { useNavigate } from 'react-router-dom';
+import { Group, UnstyledButton, Text, TextInput, Input } from '@mantine/core';
 import { useHover } from '@mantine/hooks';
 
 import { BoardIcon, getRandomColor } from '@/assets/svg/BoardIcon';
 import { BOARD_ICON_COLORS } from '@/assets/svg/board-icon-colors';
 import { CreateBoardIcon } from '@/assets/svg/CreateBoardIcon';
 import { BoardOptions } from '../BoardOptions/BoardOptions.component';
+import { BrandButton } from '@/components/Buttons';
 
 import { useStyles } from './BoardLink.styles';
 
@@ -19,9 +27,12 @@ interface BoardLinkProps {
 
 export const BoardLink = ({ id, name, due, newBoard }: BoardLinkProps) => {
 	const [iconColor, setIconColor] = useState({ name: '', hex: '' });
+	const [inputDisplayed, setInputDisplayed] = useState<boolean>(false);
+	const [inputText, setInputText] = useState<string>('');
+	const [isLoading, setIsLoading] = useState<boolean>(false);
 	const navigate = useNavigate();
 	const { hovered, ref } = useHover();
-	const { classes } = useStyles({ hovered, newBoard });
+	const { classes } = useStyles({ hovered, newBoard, inputDisplayed });
 
 	const linkTo = `/track/boards/${id}/board`;
 
@@ -41,18 +52,49 @@ export const BoardLink = ({ id, name, due, newBoard }: BoardLinkProps) => {
 
 	const handleClick = () => {
 		if (newBoard) {
-			return;
+			setInputDisplayed(true);
+		} else {
+			navigate(linkTo);
 		}
-		navigate(linkTo);
+	};
+
+	const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+		setInputText(e.target.value);
+	};
+
+	const handleCreateBoard = () => {
+		setIsLoading(true);
+		setTimeout(() => setIsLoading(false), 2000);
 	};
 
 	return (
 		<UnstyledButton onClick={handleClick} className={classes.gridButton}>
 			<div className={classes.hoverWrapper} ref={ref}>
-				<Group>
+				<Group direction='row' noWrap>
 					{icon}
 					<div>
-						<Text className={classes.buttonLabel}>{name}</Text>
+						{newBoard && inputDisplayed ? (
+							<Group direction='row' position='apart' noWrap>
+								<Input
+									placeholder='Board Name'
+									variant='unstyled'
+									value={inputText}
+									onChange={handleInputChange}
+									autoFocus
+									disabled={isLoading}
+								/>
+								<BrandButton
+									size='xs'
+									disabled={inputText.length === 0 || isLoading}
+									className={classes.createButton}
+									onClick={handleCreateBoard}
+								>
+									Create
+								</BrandButton>
+							</Group>
+						) : (
+							<Text className={classes.buttonLabel}>{name}</Text>
+						)}
 						{!!due && (
 							<Text size='xs' color='gray'>
 								{`${dueString}`} activities due soon
