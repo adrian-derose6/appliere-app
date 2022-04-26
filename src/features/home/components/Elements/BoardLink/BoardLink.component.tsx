@@ -18,6 +18,7 @@ import { BrandButton } from '@/components/Buttons';
 import { DotsIcon } from '@/components';
 
 import { useStyles } from './BoardLink.styles';
+import { useCreateBoard } from '@/features/board';
 
 interface BoardLinkProps {
 	id: string;
@@ -27,10 +28,10 @@ interface BoardLinkProps {
 }
 
 export const BoardLink = ({ id, name, due, newBoard }: BoardLinkProps) => {
+	const { mutate, isLoading } = useCreateBoard();
 	const [iconColor, setIconColor] = useState({ name: '', hex: '' });
 	const [inputDisplayed, setInputDisplayed] = useState<boolean>(false);
 	const [inputText, setInputText] = useState<string>('');
-	const [isLoading, setIsLoading] = useState<boolean>(false);
 	const navigate = useNavigate();
 	const { hovered, ref } = useHover();
 	const { classes } = useStyles({ hovered, newBoard, inputDisplayed });
@@ -64,8 +65,7 @@ export const BoardLink = ({ id, name, due, newBoard }: BoardLinkProps) => {
 	};
 
 	const handleCreateBoard = () => {
-		setIsLoading(true);
-		setTimeout(() => setIsLoading(false), 2000);
+		mutate({ data: { name: inputText } });
 	};
 
 	return (

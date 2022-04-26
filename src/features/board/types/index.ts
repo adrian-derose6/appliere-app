@@ -25,7 +25,7 @@ export type JobType = {
 
 export interface Board {
 	_id: string;
-	boardName: string;
+	name: string;
 	createdBy: string;
 	lists: [
 		{
@@ -36,6 +36,6 @@ export interface Board {
 	];
 }
 
-export type Boards = {
+export type BoardsResponse = {
 	boards: Board[];
 };

@@ -2,7 +2,8 @@ import { Card, Container, Grid, Title, ScrollArea } from '@mantine/core';
 
 import { BoardLink } from '../Elements/BoardLink/BoardLink.component';
 import { useStyles } from './BoardsOverview.styles';
-import { useGetBoards } from '@/features/board';
+import { useGetBoards, createBoard } from '@/features/board';
+import { useCreateBoard } from '../../../board/api/createBoard';
 
 export const BoardsOverview = () => {
 	const { isLoading, data, isSuccess } = useGetBoards();
