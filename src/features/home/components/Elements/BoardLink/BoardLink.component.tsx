@@ -1,11 +1,10 @@
 import { useState, useEffect, ChangeEvent, FormEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Group, UnstyledButton, Text, ActionIcon, Input } from '@mantine/core';
-import { useHover } from '@mantine/hooks';
+import { useHover, useClickOutside } from '@mantine/hooks';
 import { FaPlus } from 'react-icons/fa';
 
-import { BoardIcon, getRandomColor } from '@/assets/svg/BoardIcon';
-import { BOARD_ICON_COLORS } from '@/assets/svg/board-icon-colors';
+import { BoardIcon } from '@/assets/svg/BoardIcon';
 import { CreateBoardIcon } from '@/assets/svg/CreateBoardIcon';
 import { BoardOptions } from '../BoardOptions/BoardOptions.component';
 import { useStyles } from './BoardLink.styles';
@@ -53,31 +52,28 @@ export const BoardLink = ({
 	const [inputDisplayed, setInputDisplayed] = useState<boolean>(false);
 	const [nameInput, setNameInput] = useState<string>('');
 	const navigate = useNavigate();
+	const inputRef = useClickOutside(() => {
+		setInputDisplayed(false);
+		setNameInput('');
+	});
 	const { hovered, ref } = useHover();
 	const { classes } = useStyles({ hovered, newBoard, inputDisplayed });
 
 	const linkTo = `/track/boards/${id}/board`;
 
 	useEffect(() => {
-		let isMounted = true;
-
-		if (isMounted) {
-			if (createBoardSuccess) {
-				setInputDisplayed(false);
-				setNameInput('');
-			}
+		if (createBoardSuccess || updateBoardSuccess) {
+			setInputDisplayed(false);
+			setNameInput('');
 		}
-		return () => {
-			isMounted = false;
-		};
-	}, [createBoardSuccess, deleteBoardSuccess]);
+	}, [createBoardSuccess, updateBoardSuccess]);
 
 	const dueString = due && typeof due === 'number' ? due.toString() : due;
 
 	const handleClick = () => {
 		if (newBoard) {
 			setInputDisplayed(true);
-		} else {
+		} else if (!inputDisplayed) {
 			navigate(linkTo);
 		}
 	};
@@ -86,11 +82,20 @@ export const BoardLink = ({
 		setNameInput(e.target.value);
 	};
 
-	const handleCreateBoard = (e: FormEvent) => {
+	const handleSubmit = (e: FormEvent) => {
 		e.preventDefault();
-		createBoardMutate({
-			data: { name: nameInput },
-		});
+		const data = { name: nameInput };
+
+		if (newBoard) {
+			createBoardMutate({
+				data,
+			});
+		} else {
+			updateBoardMutate({
+				data,
+				boardId: id,
+			});
+		}
 	};
 
 	const handleSelectOption = (option: string) => {
@@ -101,6 +106,10 @@ export const BoardLink = ({
 			}
 			case DELETE: {
 				deleteBoardMutate({ boardId: id });
+				break;
+			}
+			case RENAME: {
+				setInputDisplayed(true);
 				break;
 			}
 			default: {
@@ -119,8 +128,12 @@ export const BoardLink = ({
 						<BoardIcon color={iconColor} />
 					)}
 					<div>
-						{newBoard && inputDisplayed ? (
-							<form onSubmit={handleCreateBoard}>
+						{inputDisplayed ? (
+							<form
+								onSubmit={handleSubmit}
+								ref={inputRef}
+								className={classes.nameForm}
+							>
 								<Group direction='row' position='apart' noWrap>
 									<Input
 										placeholder='Board Name'
@@ -152,7 +165,7 @@ export const BoardLink = ({
 						)}
 					</div>
 				</Group>
-				{!newBoard && (
+				{newBoard || inputDisplayed ? null : (
 					<BoardOptions visible={hovered} onSelect={handleSelectOption} />
 				)}
 			</div>

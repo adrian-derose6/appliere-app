@@ -51,6 +51,9 @@ export const useStyles = createStyles(
 				},
 				zIndex: 500,
 			},
+			nameForm: {
+				transition: theme.other.transition1,
+			},
 			plusButtonFilled: {
 				transition: theme.other.transition1,
 				backgroundColor: theme.other.brandPrimaryColor,
