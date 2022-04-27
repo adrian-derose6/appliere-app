@@ -8,36 +8,50 @@ import { BoardIcon, getRandomColor } from '@/assets/svg/BoardIcon';
 import { BOARD_ICON_COLORS } from '@/assets/svg/board-icon-colors';
 import { CreateBoardIcon } from '@/assets/svg/CreateBoardIcon';
 import { BoardOptions } from '../BoardOptions/BoardOptions.component';
-
 import { useStyles } from './BoardLink.styles';
-import { useCreateBoard } from '@/features/board';
-import { useUpdateBoard } from '@/features/board';
+import {
+	useCreateBoard,
+	useUpdateBoard,
+	useDeleteBoard,
+} from '@/features/board';
 import { BoardActions } from '@/features/home/types';
+import { Color } from '@/assets/svg/board-icon-colors';
 
 const { SHARE, RENAME, ARCHIVE, DELETE } = BoardActions;
 
 interface BoardLinkProps {
 	id: string;
 	name: string;
+	iconColor?: Color;
 	due?: number | string;
 	newBoard?: boolean;
 }
 
-export const BoardLink = ({ id, name, due, newBoard }: BoardLinkProps) => {
+export const BoardLink = ({
+	id,
+	name,
+	iconColor,
+	due,
+	newBoard,
+}: BoardLinkProps) => {
 	const {
-		mutate: createMutate,
-		isLoading: createLoading,
-		isSuccess: createSuccess,
+		mutate: createBoardMutate,
+		isLoading: createBoardLoading,
+		isSuccess: createBoardSuccess,
 	} = useCreateBoard();
 	const {
-		mutate: updateMutate,
-		isLoading: updateLoading,
-		isSuccess: updateSuccess,
+		mutate: updateBoardMutate,
+		isLoading: updateBoardLoading,
+		isSuccess: updateBoardSuccess,
 	} = useUpdateBoard({ params: { updateAll: true } });
+	const {
+		mutate: deleteBoardMutate,
+		isLoading: deleteBoardLoading,
+		isSuccess: deleteBoardSuccess,
+	} = useDeleteBoard();
 
-	const [iconColor, setIconColor] = useState({ name: '', hex: '' });
 	const [inputDisplayed, setInputDisplayed] = useState<boolean>(false);
-	const [inputText, setInputText] = useState<string>('');
+	const [nameInput, setNameInput] = useState<string>('');
 	const navigate = useNavigate();
 	const { hovered, ref } = useHover();
 	const { classes } = useStyles({ hovered, newBoard, inputDisplayed });
@@ -45,18 +59,21 @@ export const BoardLink = ({ id, name, due, newBoard }: BoardLinkProps) => {
 	const linkTo = `/track/boards/${id}/board`;
 
 	useEffect(() => {
-		if (!newBoard) {
-			const randomColor = getRandomColor(BOARD_ICON_COLORS);
-			setIconColor(randomColor);
-		}
+		let isMounted = true;
 
-		if (createSuccess) {
-			setInputDisplayed(false);
-			setInputText('');
+		if (isMounted) {
+			if (createBoardSuccess) {
+				setInputDisplayed(false);
+				setNameInput('');
+			}
 		}
-	}, [newBoard, createSuccess]);
+		return () => {
+			isMounted = false;
+		};
+	}, [createBoardSuccess, deleteBoardSuccess]);
 
 	const dueString = due && typeof due === 'number' ? due.toString() : due;
+
 	const handleClick = () => {
 		if (newBoard) {
 			setInputDisplayed(true);
@@ -66,17 +83,29 @@ export const BoardLink = ({ id, name, due, newBoard }: BoardLinkProps) => {
 	};
 
 	const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
-		setInputText(e.target.value);
+		setNameInput(e.target.value);
 	};
 
 	const handleCreateBoard = (e: FormEvent) => {
 		e.preventDefault();
-		createMutate({ data: { name: inputText } });
+		createBoardMutate({
+			data: { name: nameInput },
+		});
 	};
 
 	const handleSelectOption = (option: string) => {
-		if (option === ARCHIVE) {
-			updateMutate({ data: { archived: true }, boardId: id });
+		switch (option) {
+			case ARCHIVE: {
+				updateBoardMutate({ data: { archived: true }, boardId: id });
+				break;
+			}
+			case DELETE: {
+				deleteBoardMutate({ boardId: id });
+				break;
+			}
+			default: {
+				break;
+			}
 		}
 	};
 
@@ -97,15 +126,15 @@ export const BoardLink = ({ id, name, due, newBoard }: BoardLinkProps) => {
 										placeholder='Board Name'
 										name='boardName'
 										variant='unstyled'
-										value={inputText}
+										value={nameInput}
 										onChange={handleInputChange}
 										autoFocus
-										disabled={createLoading || updateLoading}
+										disabled={createBoardLoading || updateBoardLoading}
 									/>
 									<ActionIcon
 										size='sm'
 										variant='filled'
-										disabled={inputText.length === 0 || createLoading}
+										disabled={nameInput.length === 0 || createBoardLoading}
 										classNames={{ filled: classes.plusButtonFilled }}
 										type='submit'
 									>

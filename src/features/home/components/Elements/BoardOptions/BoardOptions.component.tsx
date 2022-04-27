@@ -21,7 +21,6 @@ export const BoardOptions = ({ visible, onSelect }: BoardOptionsProps) => {
 	const handleItemSelect = useCallback(
 		(e: SyntheticEvent) => {
 			const action = e.currentTarget.getAttribute('data-action') as string;
-
 			onSelect?.(action);
 		},
 		[onSelect]

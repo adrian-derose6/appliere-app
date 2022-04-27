@@ -1,3 +1,5 @@
+import { Color } from '@/assets/svg/board-icon-colors';
+
 export type Collection = {
 	id: string;
 	title: string;
@@ -32,6 +34,9 @@ export type List = {
 export interface Board {
 	_id: string;
 	name: string;
+	icon: {
+		color: Color;
+	};
 	archived: boolean;
 	createdBy: string;
 	lists: List[];
@@ -39,4 +44,5 @@ export interface Board {
 
 export type BoardsResponse = {
 	boards: Board[];
+	numOfBoards: number;
 };

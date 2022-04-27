@@ -2,8 +2,7 @@ import { Card, Container, Grid, Title, ScrollArea } from '@mantine/core';
 
 import { BoardLink } from '../Elements/BoardLink/BoardLink.component';
 import { useStyles } from './BoardsOverview.styles';
-import { useGetBoards, createBoard } from '@/features/board';
-import { useCreateBoard } from '../../../board/api/createBoard';
+import { useGetBoards } from '@/features/board';
 
 export const BoardsOverview = () => {
 	const { isLoading, data, isSuccess } = useGetBoards();
@@ -15,7 +14,12 @@ export const BoardsOverview = () => {
 		boardsList = data?.boards.map((board: any) => {
 			return (
 				<Grid.Col key={board._id} md={12} lg={6} className={classes.gridColumn}>
-					<BoardLink id={board._id} name={board.name} due={0} />
+					<BoardLink
+						id={board._id}
+						name={board.name}
+						iconColor={board.icon.color}
+						due={0}
+					/>
 				</Grid.Col>
 			);
 		});
