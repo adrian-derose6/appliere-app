@@ -1,10 +1,5 @@
 import { useState, useEffect } from 'react';
-import {
-	useNavigate,
-	useLocation,
-	useMatch,
-	useResolvedPath,
-} from 'react-router-dom';
+import { useNavigate, useLocation, useParams } from 'react-router-dom';
 import {
 	Header,
 	Group,
@@ -22,7 +17,8 @@ import { CgToolbox } from 'react-icons/cg';
 import { VscCalendar } from 'react-icons/vsc';
 
 import { ShareButton } from '@/components/Buttons';
-import { CreateMenu } from '../4-Elements/CreateMenu';
+import { CreateMenu } from '../Elements/CreateMenu';
+import { useGetBoards } from '@/features/board';
 import { useStyles } from './BoardNavigation.styles';
 
 export type LinkType = {
@@ -104,15 +100,19 @@ const modalLinks: LinkType[] = [
 ];
 
 export const BoardNavigation = () => {
+	const { data } = useGetBoards();
 	const [activeValue, setActiveValue] = useState<string>('board');
 	const navigate = useNavigate();
+	const params = useParams();
 	const { pathname } = useLocation();
-
 	const { classes } = useStyles();
 
+	const board = data?.boards.find((board) => board._id === params.boardId);
+	const boardName = board?.name;
+
 	useEffect(() => {
-		const lastSegment = pathname.split('/').pop();
-		setActiveValue(() => lastSegment || 'board');
+		const lastUrlSegment = pathname.split('/').pop();
+		setActiveValue(() => lastUrlSegment || 'board');
 	}, [activeValue, pathname]);
 
 	const handleControlChange = (value: string) => {
@@ -136,7 +136,7 @@ export const BoardNavigation = () => {
 				className={classes.headerLayout}
 			>
 				<Group>
-					<Button variant='subtle'>Board Name</Button>
+					<Button variant='subtle'>{boardName}</Button>
 					<SegmentedControl
 						data={controlLinks}
 						value={activeValue}

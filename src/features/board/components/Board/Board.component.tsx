@@ -2,8 +2,8 @@ import { useContext } from 'react';
 import { Container } from '@mantine/core';
 import { DragDropContext, Droppable, DropResult } from 'react-beautiful-dnd';
 
-import { BoardColumn } from '../3-Groups/BoardColumn';
-import { AddButton } from '../4-Elements/AddButton';
+import { BoardColumn } from '../JobsList/BoardColumn';
+import { AddButton } from '../Elements/AddButton';
 
 import {
 	BoardContext,
@@ -11,9 +11,7 @@ import {
 } from '../../stores/contexts/board-context';
 import { useStyles } from './Board.styles';
 
-interface BoardProps {}
-
-export const Board = (props: BoardProps) => {
+export const Board = () => {
 	const { state, dispatch } = useContext(BoardContext) as BoardContextObj;
 	//const { jobs, collections, collectionOrder } = state;
 	const { classes } = useStyles();

@@ -1,6 +1,6 @@
 import { RouteObject } from 'react-router-dom';
 
-import { BoardLayout } from '../components/1-Layout/BoardLayout';
+import { BoardLayout } from '../components/Layout/BoardLayout';
 import { BoardsOverview } from './BoardsOverview';
 import { BoardPage } from './BoardPage';
 import { ContactsPage } from '@/features/contacts';

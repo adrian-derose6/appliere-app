@@ -1,5 +1,5 @@
 import { authFetch } from '@/lib/axios';
-import { BoardsResponse } from '../types';
+import { BoardsResponse } from '@/features/board/types';
 import { QueryConfig, ExtractFnReturnType } from '@/lib/react-query';
 import { useQuery } from 'react-query';
 
@@ -11,12 +11,15 @@ type QueryFnType = typeof getBoards;
 
 type UseBoardsOptions = {
 	config?: QueryConfig<QueryFnType>;
-	select?: string;
+	enabled?: boolean;
 };
 
-export const useGetBoards = ({ config }: UseBoardsOptions = {}) => {
+export const useGetBoards = (
+	{ config, enabled }: UseBoardsOptions = { enabled: true }
+) => {
 	return useQuery<ExtractFnReturnType<QueryFnType>>({
 		...config,
+		enabled,
 		queryKey: ['boards'],
 		queryFn: () => getBoards(),
 	});

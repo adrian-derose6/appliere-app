@@ -1,102 +1,160 @@
-import {
-	useState,
-	useEffect,
-	SyntheticEvent,
-	FormEvent,
-	ChangeEventHandler,
-	ChangeEvent,
-} from 'react';
+import { useState, useEffect, ChangeEvent, FormEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Group, UnstyledButton, Text, TextInput, Input } from '@mantine/core';
-import { useHover } from '@mantine/hooks';
+import { Group, UnstyledButton, Text, ActionIcon, Input } from '@mantine/core';
+import { useHover, useClickOutside } from '@mantine/hooks';
+import { FaPlus } from 'react-icons/fa';
 
-import { BoardIcon, getRandomColor } from '@/assets/svg/BoardIcon';
-import { BOARD_ICON_COLORS } from '@/assets/svg/board-icon-colors';
+import { BoardIcon } from '@/assets/svg/BoardIcon';
 import { CreateBoardIcon } from '@/assets/svg/CreateBoardIcon';
 import { BoardOptions } from '../BoardOptions/BoardOptions.component';
-import { BrandButton } from '@/components/Buttons';
-import { DotsIcon } from '@/components';
-
 import { useStyles } from './BoardLink.styles';
-import { useCreateBoard } from '@/features/board';
+import {
+	useCreateBoard,
+	useUpdateBoard,
+	useDeleteBoard,
+} from '@/features/board';
+import { BoardActions } from '@/features/home/types';
+import { Color } from '@/assets/svg/board-icon-colors';
+
+const { SHARE, RENAME, ARCHIVE, DELETE } = BoardActions;
 
 interface BoardLinkProps {
 	id: string;
 	name: string;
+	iconColor?: Color;
 	due?: number | string;
 	newBoard?: boolean;
 }
 
-export const BoardLink = ({ id, name, due, newBoard }: BoardLinkProps) => {
-	const { mutate, isLoading, isSuccess } = useCreateBoard();
-	const [iconColor, setIconColor] = useState({ name: '', hex: '' });
+export const BoardLink = ({
+	id,
+	name,
+	iconColor,
+	due,
+	newBoard,
+}: BoardLinkProps) => {
+	const {
+		mutate: createBoardMutate,
+		isLoading: createBoardLoading,
+		isSuccess: createBoardSuccess,
+	} = useCreateBoard();
+	const {
+		mutate: updateBoardMutate,
+		isLoading: updateBoardLoading,
+		isSuccess: updateBoardSuccess,
+	} = useUpdateBoard({ params: { updateAll: true } });
+	const {
+		mutate: deleteBoardMutate,
+		isLoading: deleteBoardLoading,
+		isSuccess: deleteBoardSuccess,
+	} = useDeleteBoard();
+
 	const [inputDisplayed, setInputDisplayed] = useState<boolean>(false);
-	const [inputText, setInputText] = useState<string>('');
+	const [nameInput, setNameInput] = useState<string>('');
 	const navigate = useNavigate();
+	const inputRef = useClickOutside(() => {
+		setInputDisplayed(false);
+		setNameInput('');
+	});
 	const { hovered, ref } = useHover();
 	const { classes } = useStyles({ hovered, newBoard, inputDisplayed });
 
 	const linkTo = `/track/boards/${id}/board`;
 
 	useEffect(() => {
-		if (!newBoard) {
-			const randomColor = getRandomColor(BOARD_ICON_COLORS);
-			setIconColor(randomColor);
-		}
-
-		if (isSuccess) {
+		if (createBoardSuccess || updateBoardSuccess) {
 			setInputDisplayed(false);
-			setInputText('');
+			setNameInput('');
 		}
-	}, [newBoard, isSuccess]);
+	}, [createBoardSuccess, updateBoardSuccess]);
 
-	const icon = newBoard ? (
-		<CreateBoardIcon hovered={hovered} />
-	) : (
-		<BoardIcon color={iconColor} />
-	);
 	const dueString = due && typeof due === 'number' ? due.toString() : due;
+
 	const handleClick = () => {
 		if (newBoard) {
 			setInputDisplayed(true);
-		} else {
+		} else if (!inputDisplayed) {
 			navigate(linkTo);
 		}
 	};
 
 	const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
-		setInputText(e.target.value);
+		setNameInput(e.target.value);
 	};
 
-	const handleCreateBoard = () => {
-		mutate({ data: { name: inputText } });
+	const handleSubmit = (e: FormEvent) => {
+		e.preventDefault();
+		const data = { name: nameInput };
+
+		if (newBoard) {
+			createBoardMutate({
+				data,
+			});
+		} else {
+			updateBoardMutate({
+				data,
+				boardId: id,
+			});
+		}
+	};
+
+	const handleSelectOption = (option: string) => {
+		switch (option) {
+			case ARCHIVE: {
+				updateBoardMutate({ data: { archived: true }, boardId: id });
+				break;
+			}
+			case DELETE: {
+				deleteBoardMutate({ boardId: id });
+				break;
+			}
+			case RENAME: {
+				setInputDisplayed(true);
+				break;
+			}
+			default: {
+				break;
+			}
+		}
 	};
 
 	return (
 		<UnstyledButton onClick={handleClick} className={classes.gridButton}>
 			<div className={classes.hoverWrapper} ref={ref}>
 				<Group direction='row' noWrap>
-					{icon}
+					{newBoard ? (
+						<CreateBoardIcon hovered={hovered} />
+					) : (
+						<BoardIcon color={iconColor} />
+					)}
 					<div>
-						{newBoard && inputDisplayed ? (
-							<Group direction='row' position='apart' noWrap>
-								<Input
-									placeholder='Board Name'
-									variant='unstyled'
-									value={inputText}
-									onChange={handleInputChange}
-									autoFocus
-									disabled={isLoading}
-								/>
-								<BrandButton
-									size='xs'
-									disabled={inputText.length === 0 || isLoading}
-									className={classes.createButton}
-									onClick={handleCreateBoard}
-								>
-									Create
-								</BrandButton>
-							</Group>
+						{inputDisplayed ? (
+							<form
+								onSubmit={handleSubmit}
+								ref={inputRef}
+								className={classes.nameForm}
+							>
+								<Group direction='row' position='apart' noWrap>
+									<Input
+										placeholder='Board Name'
+										name='boardName'
+										variant='unstyled'
+										value={nameInput}
+										onChange={handleInputChange}
+										autoFocus
+										disabled={createBoardLoading || updateBoardLoading}
+									/>
+									<ActionIcon
+										size='sm'
+										variant='filled'
+										disabled={nameInput.length === 0 || createBoardLoading}
+										classNames={{ filled: classes.plusButtonFilled }}
+										type='submit'
+									>
+										<FaPlus />
+									</ActionIcon>
+								</Group>
+							</form>
 						) : (
 							<Text className={classes.buttonLabel}>{name}</Text>
 						)}
@@ -107,7 +165,9 @@ export const BoardLink = ({ id, name, due, newBoard }: BoardLinkProps) => {
 						)}
 					</div>
 				</Group>
-				{!newBoard && <BoardOptions visible={hovered} />}
+				{newBoard || inputDisplayed ? null : (
+					<BoardOptions visible={hovered} onSelect={handleSelectOption} />
+				)}
 			</div>
 		</UnstyledButton>
 	);

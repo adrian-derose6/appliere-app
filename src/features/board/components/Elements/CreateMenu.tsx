@@ -3,7 +3,7 @@ import { Menu, UnstyledButton, createStyles } from '@mantine/core';
 import { BsPlusLg } from 'react-icons/bs';
 
 import { BrandButton } from '@/components/Buttons';
-import { LinkType } from '../1-Layout/BoardNavigation';
+import { LinkType } from '../Layout/BoardNavigation.components';
 
 const useStyles = createStyles((theme) => {
 	return {
