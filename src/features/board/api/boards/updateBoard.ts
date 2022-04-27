@@ -3,7 +3,7 @@ import { useMutation } from 'react-query';
 import { authFetch } from '@/lib/axios';
 import { MutationConfig, queryClient } from '@/lib/react-query';
 
-import { Board } from '../types';
+import { Board } from '@/features/board/types';
 
 export type UpdateBoardDTO = {
 	data: {
@@ -24,7 +24,6 @@ type UseUpdateBoardOptions = {
 	config?: MutationConfig<typeof updateBoard>;
 	params: {
 		updateAll?: boolean;
-		updateSingle?: boolean;
 	};
 };
 

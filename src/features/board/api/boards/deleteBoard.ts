@@ -3,7 +3,7 @@ import { useMutation } from 'react-query';
 import { authFetch } from '@/lib/axios';
 import { MutationConfig, queryClient } from '@/lib/react-query';
 
-import { Board } from '../types';
+import { Board } from '@/features/board/types';
 
 export const deleteBoard = ({ boardId }: { boardId: string }) => {
 	return authFetch.delete(`/boards/${boardId}`);

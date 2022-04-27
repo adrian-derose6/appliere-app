@@ -22,17 +22,16 @@ interface BoardColumnProps {
 export const BoardColumn = (props: BoardColumnProps) => {
 	const [isDragging, setIsDragging] = useState<boolean>(false);
 	const [isDraggingOver, setIsDraggingOver] = useState<boolean>(false);
-	const columnEmpty = isEmpty(props.jobs);
+	const isListEmpty = isEmpty(props.jobs);
 
 	const location = useLocation();
-	const { boardId } = useParams();
 
 	const { hovered, ref } = useHover();
 	const { classes } = useStyles({
 		isDraggingOver,
 		isHoveringOver: hovered,
 		isDragging,
-		isEmpty: columnEmpty,
+		isEmpty: isListEmpty,
 	});
 
 	return (

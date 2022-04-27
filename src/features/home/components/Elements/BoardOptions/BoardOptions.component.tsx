@@ -3,7 +3,6 @@ import { Menu, UnstyledButton } from '@mantine/core';
 
 import { useStyles } from './BoardOptions.styles';
 import { DotsIcon } from '@/features/board/components/Elements/DotsIcon';
-import { useUpdateBoard } from '@/features/board';
 import { BoardActions } from '@/features/home/types';
 
 type BoardOptionsProps = {
