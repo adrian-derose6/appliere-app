@@ -11,7 +11,6 @@ type QueryFnType = typeof getBoards;
 
 type UseBoardsOptions = {
 	config?: QueryConfig<QueryFnType>;
-	select?: string;
 };
 
 export const useGetBoards = ({ config }: UseBoardsOptions = {}) => {

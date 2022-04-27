@@ -1,18 +1,31 @@
-import { SyntheticEvent } from 'react';
+import { SyntheticEvent, useCallback } from 'react';
 import { Menu, UnstyledButton } from '@mantine/core';
 
 import { useStyles } from './BoardOptions.styles';
 import { DotsIcon } from '@/features/board/components/4-Elements/DotsIcon';
+import { useUpdateBoard } from '@/features/board';
+import { BoardActions } from '@/features/home/types';
 
-type BoardMenuProps = {
+type BoardOptionsProps = {
 	visible: boolean;
+	onSelect: (value: string) => void;
 };
-export const BoardOptions = ({ visible }: BoardMenuProps) => {
+
+export const BoardOptions = ({ visible, onSelect }: BoardOptionsProps) => {
 	const { classes } = useStyles({ visible });
 
 	const handleClick = (e: SyntheticEvent) => {
 		e.stopPropagation();
 	};
+
+	const handleItemSelect = useCallback(
+		(e: SyntheticEvent) => {
+			const action = e.currentTarget.getAttribute('data-action') as string;
+
+			onSelect?.(action);
+		},
+		[onSelect]
+	);
 
 	return (
 		<Menu
@@ -25,10 +38,18 @@ export const BoardOptions = ({ visible }: BoardMenuProps) => {
 				</UnstyledButton>
 			}
 		>
-			<Menu.Item>Share...</Menu.Item>
-			<Menu.Item>Add to favorites</Menu.Item>
-			<Menu.Item>Edit board details</Menu.Item>
-			<Menu.Item>Copy board link</Menu.Item>
+			<Menu.Item data-action={BoardActions.SHARE} onClick={handleItemSelect}>
+				Share...
+			</Menu.Item>
+			<Menu.Item data-action={BoardActions.RENAME} onClick={handleItemSelect}>
+				Rename
+			</Menu.Item>
+			<Menu.Item data-action={BoardActions.ARCHIVE} onClick={handleItemSelect}>
+				Archive
+			</Menu.Item>
+			<Menu.Item data-action={BoardActions.DELETE} onClick={handleItemSelect}>
+				Delete
+			</Menu.Item>
 		</Menu>
 	);
 };

@@ -23,17 +23,18 @@ export type JobType = {
 	position: string;
 };
 
+export type List = {
+	_id: string;
+	title: string;
+	jobs: JobType[];
+};
+
 export interface Board {
 	_id: string;
 	name: string;
+	archived: boolean;
 	createdBy: string;
-	lists: [
-		{
-			_id: string;
-			title: string;
-			jobs: JobType[];
-		}
-	];
+	lists: List[];
 }
 
 export type BoardsResponse = {

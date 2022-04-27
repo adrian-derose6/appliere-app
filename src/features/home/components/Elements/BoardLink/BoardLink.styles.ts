@@ -51,8 +51,13 @@ export const useStyles = createStyles(
 				},
 				zIndex: 500,
 			},
-			createButton: {
+			plusButtonFilled: {
 				transition: theme.other.transition1,
+				backgroundColor: theme.other.brandPrimaryColor,
+
+				'&:hover': {
+					backgroundColor: '#b44951',
+				},
 			},
 		};
 	}
