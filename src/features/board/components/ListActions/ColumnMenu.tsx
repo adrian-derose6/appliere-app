@@ -1,6 +1,6 @@
 import { Menu, Tooltip, UnstyledButton } from '@mantine/core';
 
-import { DotsIcon } from './DotsIcon';
+import { DotsIcon } from '../Elements/DotsIcon';
 
 type Props = {};
 export const ColumnMenu = (props: Props) => {

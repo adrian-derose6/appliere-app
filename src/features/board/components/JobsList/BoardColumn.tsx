@@ -6,11 +6,11 @@ import { Title, ScrollArea, Group } from '@mantine/core';
 import { useHover } from '@mantine/hooks';
 import { Draggable, Droppable } from 'react-beautiful-dnd';
 
-import { JobCard } from '../4-Elements/JobCard';
-import { AddButton } from '../4-Elements/AddButton';
-import { ColumnMenu } from '../4-Elements/ColumnMenu';
+import { JobCard } from '../JobCard/JobCard';
+import { AddButton } from '../Elements/AddButton';
+import { ColumnMenu } from '../ListActions/ColumnMenu';
 import { Collection, Job } from '../../types';
-import { PlusIcon } from '../4-Elements/PlusIcon';
+import { PlusIcon } from '../Elements/PlusIcon';
 import { useStyles } from './BoardColumn.styles';
 
 interface BoardColumnProps {

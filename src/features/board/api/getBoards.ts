@@ -11,11 +11,15 @@ type QueryFnType = typeof getBoards;
 
 type UseBoardsOptions = {
 	config?: QueryConfig<QueryFnType>;
+	enabled?: boolean;
 };
 
-export const useGetBoards = ({ config }: UseBoardsOptions = {}) => {
+export const useGetBoards = (
+	{ config, enabled }: UseBoardsOptions = { enabled: true }
+) => {
 	return useQuery<ExtractFnReturnType<QueryFnType>>({
 		...config,
+		enabled,
 		queryKey: ['boards'],
 		queryFn: () => getBoards(),
 	});

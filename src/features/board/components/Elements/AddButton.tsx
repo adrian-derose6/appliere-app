@@ -1,7 +1,7 @@
 import { Button, ButtonProps, createStyles } from '@mantine/core';
 import { BsPlusLg } from 'react-icons/bs';
 
-interface Props {
+interface Props extends ButtonProps<'button'> {
 	label: string;
 	style?: {};
 	iconSize?: string;
