@@ -26,13 +26,13 @@ export type JobType = {
 };
 
 export type List = {
-	_id: string;
+	id: string;
 	title: string;
 	jobs: JobType[];
 };
 
 export interface Board {
-	_id: string;
+	id: string;
 	name: string;
 	icon: {
 		color: Color;

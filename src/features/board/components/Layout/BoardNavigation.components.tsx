@@ -107,7 +107,7 @@ export const BoardNavigation = () => {
 	const { pathname } = useLocation();
 	const { classes } = useStyles();
 
-	const board = data?.boards.find((board) => board._id === params.boardId);
+	const board = data?.boards.find((board) => board.id === params.boardId);
 	const boardName = board?.name;
 
 	useEffect(() => {

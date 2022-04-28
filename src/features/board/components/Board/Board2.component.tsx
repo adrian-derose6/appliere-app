@@ -1,8 +1,9 @@
 import { useContext } from 'react';
 import { useParams } from 'react-router-dom';
+import { Container } from '@mantine/core';
 import { DragDropContext, Droppable, DropResult } from 'react-beautiful-dnd';
 
-import { JobsList } from '../JobsList/JobsList.component';
+import { BoardColumn } from '../JobsList/BoardColumn';
 import { AddButton } from '../Elements/AddButton';
 import {
 	BoardContext,
@@ -15,19 +16,11 @@ export const Board = () => {
 	const { state, dispatch } = useContext(BoardContext) as BoardContextObj;
 	const { boardId } = useParams<{ boardId: string }>();
 
-	const { data, isLoading, isSuccess, isError } = useGetLists({
+	const { data, isLoading, isSuccess } = useGetLists({
 		boardId: boardId as string,
 	});
 	console.log(data);
 	const { classes } = useStyles();
-
-	if (isLoading) {
-		return <h1>Loading Lists...</h1>;
-	}
-
-	if (isError) {
-		return <h1>Error: Could not fetch lists</h1>;
-	}
 
 	const onDragEnd = (result: DropResult) => {
 		const { destination, source, draggableId, type } = result;
@@ -114,9 +107,23 @@ export const Board = () => {
 						{...provided.droppableProps}
 						ref={provided.innerRef}
 					>
-						{data.data?.lists.map((list: any, index: number) => {
-							return <JobsList index={index} list={list} />;
-						})}
+						{state.collectionOrder.map(
+							(collectionId: string, index: number) => {
+								const collection = state.collections[collectionId];
+								const jobs = collection.jobIds.map(
+									(jobId: string) => state.jobs[jobId]
+								);
+
+								return (
+									<BoardColumn
+										key={collection.id}
+										index={index}
+										collection={collection}
+										jobs={jobs}
+									/>
+								);
+							}
+						)}
 						<AddButton
 							label='Add List'
 							style={{ fontSize: '16px', marginTop: 25, marginLeft: 10 }}

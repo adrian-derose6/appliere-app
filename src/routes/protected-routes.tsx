@@ -10,28 +10,28 @@ export const protectedRoutes: RouteObject[] = [
 		element: <MainLayout />,
 		children: [
 			{
-				path: '/home',
+				path: 'home',
 				element: <HomePage />,
 			},
 			{
-				path: '/jobs',
+				path: 'jobs',
 				element: null,
 			},
 			{
-				path: '/browse',
+				path: 'browse',
 				element: null,
 			},
 			{
-				path: '/track/contacts',
+				path: 'track/contacts',
 				element: null,
 			},
 			{
-				path: '/track/boards',
+				path: 'track/boards',
 				children: boardRoutes,
 			},
 			{
 				path: '*',
-				element: <Navigate replace to='/home' />,
+				element: <Navigate replace to='home' />,
 			},
 		],
 	},
