@@ -12,7 +12,6 @@ import { useGetLists, useUpdateLists } from '@/features/board/api';
 import { useStyles } from './Board.styles';
 
 export const Board = () => {
-	const { state, dispatch } = useContext(BoardContext) as BoardContextObj;
 	const { boardId } = useParams<{ boardId: string }>();
 	const {
 		data: listsData,
@@ -36,7 +35,7 @@ export const Board = () => {
 	if (getListsError) {
 		return <h1>Error: Could not fetch lists</h1>;
 	}
-
+	console.log('Lists: ', listsData.data.lists);
 	const onDragEnd = (result: DropResult) => {
 		const { destination, source, draggableId, type } = result;
 
@@ -63,56 +62,12 @@ export const Board = () => {
 
 			updatedLists.splice(source.index, 1);
 			updatedLists.splice(destination.index, 0, oldLists[source.index]);
-
+			console.log(updatedLists);
 			updateListsMutate({
 				data: { lists: updatedLists },
 				boardId: boardId as string,
 			});
 			return;
-		}
-
-		const startCol = state.collections[source.droppableId];
-		const finishCol = state.collections[destination.droppableId];
-
-		if (startCol === finishCol) {
-			let newJobIds = [...startCol.jobIds];
-
-			newJobIds.splice(source.index, 1);
-			newJobIds.splice(destination.index, 0, draggableId);
-
-			const newCollection = {
-				...startCol,
-				jobIds: newJobIds,
-			};
-
-			dispatch({ type: 'MOVE_ITEM_WITHIN', payload: { newCollection } });
-		}
-
-		// Moving from one list to another
-		if (startCol !== finishCol) {
-			let startJobIds = [...startCol.jobIds];
-			let finishJobIds = [...finishCol.jobIds];
-
-			startJobIds.splice(source.index, 1);
-			finishJobIds.splice(destination.index, 0, draggableId);
-
-			const newStartCol = {
-				...startCol,
-				jobIds: startJobIds,
-			};
-
-			const newFinishCol = {
-				...finishCol,
-				jobIds: finishJobIds,
-			};
-
-			dispatch({
-				type: 'MOVE_ITEM_BETWEEN',
-				payload: {
-					newStartCol,
-					newFinishCol,
-				},
-			});
 		}
 	};
 
@@ -126,7 +81,7 @@ export const Board = () => {
 						ref={provided.innerRef}
 					>
 						{listsData.data?.lists.map((list: any, index: number) => {
-							return <JobsList index={index} list={list} />;
+							return <JobsList index={list.id} list={list} />;
 						})}
 						<AddButton
 							label='Add List'
