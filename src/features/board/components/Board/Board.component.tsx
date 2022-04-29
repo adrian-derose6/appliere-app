@@ -8,29 +8,42 @@ import {
 	BoardContext,
 	BoardContextObj,
 } from '@/features/board/stores/contexts/board-context';
-import { useGetLists } from '@/features/board/api';
+import { useGetLists, useUpdateLists } from '@/features/board/api';
 import { useStyles } from './Board.styles';
 
 export const Board = () => {
 	const { state, dispatch } = useContext(BoardContext) as BoardContextObj;
 	const { boardId } = useParams<{ boardId: string }>();
-
-	const { data, isLoading, isSuccess, isError } = useGetLists({
+	const {
+		data: listsData,
+		isLoading: getListsLoading,
+		isSuccess: getListsSuccess,
+		isError: getListsError,
+	} = useGetLists({
 		boardId: boardId as string,
 	});
-	console.log(data);
+	const {
+		mutate: updateListsMutate,
+		isLoading: updateListsLoading,
+		isError: updateListsError,
+	} = useUpdateLists();
 	const { classes } = useStyles();
 
-	if (isLoading) {
+	if (getListsLoading) {
 		return <h1>Loading Lists...</h1>;
 	}
 
-	if (isError) {
+	if (getListsError) {
 		return <h1>Error: Could not fetch lists</h1>;
 	}
 
 	const onDragEnd = (result: DropResult) => {
 		const { destination, source, draggableId, type } = result;
+
+		console.log('Source: ', source);
+		console.log('Destination: ', destination);
+		console.log('Draggable ID: ', draggableId);
+		console.log('Type: ', type);
 
 		if (!destination) {
 			return;
@@ -43,15 +56,17 @@ export const Board = () => {
 			return;
 		}
 
-		if (type === 'collection') {
-			const newCollectionOrder = Array.from(state.collectionOrder);
+		// Move list position
+		if (type === 'list') {
+			const oldLists = listsData.data.lists;
+			const updatedLists = Array.from(oldLists);
 
-			newCollectionOrder.splice(source.index, 1);
-			newCollectionOrder.splice(destination.index, 0, draggableId);
+			updatedLists.splice(source.index, 1);
+			updatedLists.splice(destination.index, 0, oldLists[source.index]);
 
-			dispatch({
-				type: 'MOVE_COLLECTION',
-				payload: newCollectionOrder,
+			updateListsMutate({
+				data: { lists: updatedLists },
+				boardId: boardId as string,
 			});
 			return;
 		}
@@ -103,18 +118,14 @@ export const Board = () => {
 
 	return (
 		<DragDropContext onDragEnd={onDragEnd}>
-			<Droppable
-				droppableId='all-collections'
-				direction='horizontal'
-				type='collection'
-			>
+			<Droppable droppableId='board' direction='horizontal' type='list'>
 				{(provided) => (
 					<div
 						className={classes.boardWrapper}
 						{...provided.droppableProps}
 						ref={provided.innerRef}
 					>
-						{data.data?.lists.map((list: any, index: number) => {
+						{listsData.data?.lists.map((list: any, index: number) => {
 							return <JobsList index={index} list={list} />;
 						})}
 						<AddButton

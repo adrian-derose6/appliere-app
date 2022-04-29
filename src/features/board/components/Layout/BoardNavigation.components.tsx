@@ -133,9 +133,10 @@ export const BoardNavigation = () => {
 				align='center'
 				position='apart'
 				spacing='xs'
+				noWrap
 				className={classes.headerLayout}
 			>
-				<Group>
+				<Group noWrap>
 					<Button variant='subtle'>{boardName}</Button>
 					<SegmentedControl
 						data={controlLinks}
@@ -147,7 +148,7 @@ export const BoardNavigation = () => {
 						}}
 					/>
 				</Group>
-				<Group spacing={10} className={classes.buttonsWrapper}>
+				<Group spacing={10} className={classes.buttonsWrapper} noWrap>
 					<ShareButton size='xs' variant='default'>
 						Share
 					</ShareButton>

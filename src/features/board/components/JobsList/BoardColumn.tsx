@@ -23,7 +23,6 @@ export const BoardColumn = (props: BoardColumnProps) => {
 	const [isDragging, setIsDragging] = useState<boolean>(false);
 	const [isDraggingOver, setIsDraggingOver] = useState<boolean>(false);
 	const isListEmpty = isEmpty(props.jobs);
-
 	const location = useLocation();
 
 	const { hovered, ref } = useHover();
