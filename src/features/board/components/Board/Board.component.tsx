@@ -1,6 +1,6 @@
 import { useContext } from 'react';
 import { useParams } from 'react-router-dom';
-import { DragDropContext, Droppable, DropResult } from 'react-beautiful-dnd';
+import { DndContext, useDroppable } from '@dnd-kit/core';
 
 import { JobsList } from '../JobsList/JobsList.component';
 import { AddButton } from '../Elements/AddButton';
@@ -26,6 +26,9 @@ export const Board = () => {
 		isLoading: updateListsLoading,
 		isError: updateListsError,
 	} = useUpdateLists();
+	const { isOver, setNodeRef } = useDroppable({
+		id: 'board',
+	});
 	const { classes } = useStyles();
 
 	if (getListsLoading) {
@@ -36,61 +39,19 @@ export const Board = () => {
 		return <h1>Error: Could not fetch lists</h1>;
 	}
 	console.log('Lists: ', listsData.data.lists);
-	const onDragEnd = (result: DropResult) => {
-		const { destination, source, draggableId, type } = result;
-
-		console.log('Source: ', source);
-		console.log('Destination: ', destination);
-		console.log('Draggable ID: ', draggableId);
-		console.log('Type: ', type);
-
-		if (!destination) {
-			return;
-		}
-
-		if (
-			destination.droppableId === source.droppableId &&
-			destination.index === source.index
-		) {
-			return;
-		}
-
-		// Move list position
-		if (type === 'list') {
-			const oldLists = listsData.data.lists;
-			const updatedLists = Array.from(oldLists);
-
-			updatedLists.splice(source.index, 1);
-			updatedLists.splice(destination.index, 0, oldLists[source.index]);
-			console.log(updatedLists);
-			updateListsMutate({
-				data: { lists: updatedLists },
-				boardId: boardId as string,
-			});
-			return;
-		}
-	};
 
 	return (
-		<DragDropContext onDragEnd={onDragEnd}>
-			<Droppable droppableId='board' direction='horizontal' type='list'>
-				{(provided) => (
-					<div
-						className={classes.boardWrapper}
-						{...provided.droppableProps}
-						ref={provided.innerRef}
-					>
-						{listsData.data?.lists.map((list: any, index: number) => {
-							return <JobsList index={list.id} list={list} />;
-						})}
-						<AddButton
-							label='Add List'
-							style={{ fontSize: '16px', marginTop: 25, marginLeft: 10 }}
-							iconSize='13px'
-						/>
-					</div>
-				)}
-			</Droppable>
-		</DragDropContext>
+		<DndContext>
+			<div className={classes.boardWrapper} ref={setNodeRef}>
+				{listsData.data?.lists.map((list: any, index: number) => {
+					return <JobsList index={list.id} list={list} />;
+				})}
+				<AddButton
+					label='Add List'
+					style={{ fontSize: '16px', marginTop: 25, marginLeft: 10 }}
+					iconSize='13px'
+				/>
+			</div>
+		</DndContext>
 	);
 };
