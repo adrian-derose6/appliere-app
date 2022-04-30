@@ -22,15 +22,18 @@ const ErrorFallback = () => {
 type AppProviderProps = {
 	children: React.ReactNode;
 };
+
 export const AppProvider = ({ children }: AppProviderProps) => {
 	return (
-		<MantineProvider theme={themeConfig} styles={libraryStyles}>
-			<QueryClientProvider client={queryClient}>
-				<ReactQueryDevtools />
-				<BrowserRouter>
-					<AuthProvider>{children}</AuthProvider>
-				</BrowserRouter>
-			</QueryClientProvider>
-		</MantineProvider>
+		<ErrorBoundary FallbackComponent={ErrorFallback}>
+			<MantineProvider theme={themeConfig} styles={libraryStyles}>
+				<QueryClientProvider client={queryClient}>
+					<ReactQueryDevtools />
+					<BrowserRouter>
+						<AuthProvider>{children}</AuthProvider>
+					</BrowserRouter>
+				</QueryClientProvider>
+			</MantineProvider>
+		</ErrorBoundary>
 	);
 };

@@ -24,33 +24,22 @@ const InnerList = React.memo(({ lists }: { lists: any }) => {
 });
 
 export const Board = () => {
-	const [lists, setLists] = useState<any>([]);
 	const params = useParams();
 	const {
-		data: listsData,
+		data: lists,
 		isLoading,
 		isSuccess,
 		isError,
 	} = useGetLists({
 		boardId: params.boardId as string,
-		config: { enabled: false },
+		config: {
+			select: (data) => data.lists,
+		},
 	});
+
 	const updateMutation = useUpdateLists();
-	const prevLists = usePrevious(lists);
 	const { classes } = useStyles();
 	console.log('Lists State: ', lists);
-
-	useEffect(() => {
-		if (listsData && lists.length === 0) {
-			setLists(listsData.lists);
-		}
-		if (lists !== prevLists) {
-			updateMutation.mutate({
-				data: { lists },
-				boardId: params.boardId as string,
-			});
-		}
-	}, [listsData, updateMutation]);
 
 	if (isLoading) {
 		return <h1>Loading Lists...</h1>;
@@ -79,10 +68,13 @@ export const Board = () => {
 			return;
 		}
 
-		// Move list position
+		// Reorder Lists
 		if (type === 'list') {
 			const newLists = reorder(lists, source.index, destination.index);
-			setLists(newLists);
+			updateMutation.mutate({
+				boardId: params.boardId as string,
+				data: { lists: newLists },
+			});
 		}
 	};
 

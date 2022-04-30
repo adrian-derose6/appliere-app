@@ -58,9 +58,9 @@ export const useUpdateLists = ({ config }: UseUpdateListsOptions = {}) => {
 				);
 			}
 		},
-		onSuccess: (data, variables) => {
+		onSettled: (data, err, variables) => {
 			console.log('On Update Success: ', data);
-			queryClient.setQueryData(['board', variables.boardId, 'lists'], data);
+			queryClient.invalidateQueries(['board', variables.boardId, 'lists']);
 		},
 		...config,
 		mutationFn: (vars) => updateLists(vars),

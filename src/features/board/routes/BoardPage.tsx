@@ -8,16 +8,14 @@ export const BoardPage = () => {
 	const params = useParams();
 
 	return (
-		<BoardProvider>
-			<ScrollArea
-				styles={{
-					viewport: {
-						height: '100%',
-					},
-				}}
-			>
-				<Board />
-			</ScrollArea>
-		</BoardProvider>
+		<ScrollArea
+			styles={{
+				viewport: {
+					height: '100%',
+				},
+			}}
+		>
+			<Board />
+		</ScrollArea>
 	);
 };
