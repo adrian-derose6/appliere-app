@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { DragDropContext, Droppable, DropResult } from 'react-beautiful-dnd';
 
@@ -6,6 +6,7 @@ import { JobsList } from '../JobsList/JobsList.component';
 import { AddButton } from '../Elements/AddButton';
 
 import { useGetLists, useUpdateLists } from '@/features/board/api';
+import usePrevious from '@/hooks/usePrevious';
 import { useStyles } from './Board.styles';
 
 const reorder = (list: any, startIndex: number, endIndex: number) => {
@@ -32,24 +33,24 @@ export const Board = () => {
 		isError,
 	} = useGetLists({
 		boardId: params.boardId as string,
+		config: { enabled: false },
 	});
 	const updateMutation = useUpdateLists();
+	const prevLists = usePrevious(lists);
 	const { classes } = useStyles();
 	console.log('Lists State: ', lists);
 
 	useEffect(() => {
-		let mounted = true;
-
-		if (mounted) {
-			if (listsData && lists.length === 0) {
-				setLists(listsData.lists);
-			}
+		if (listsData && lists.length === 0) {
+			setLists(listsData.lists);
 		}
-
-		return () => {
-			mounted = false;
-		};
-	}, [listsData, lists]);
+		if (lists !== prevLists) {
+			updateMutation.mutate({
+				data: { lists },
+				boardId: params.boardId as string,
+			});
+		}
+	}, [listsData, updateMutation]);
 
 	if (isLoading) {
 		return <h1>Loading Lists...</h1>;
@@ -82,10 +83,6 @@ export const Board = () => {
 		if (type === 'list') {
 			const newLists = reorder(lists, source.index, destination.index);
 			setLists(newLists);
-			updateMutation.mutate({
-				data: { lists: newLists },
-				boardId: params.boardId as string,
-			});
 		}
 	};
 
