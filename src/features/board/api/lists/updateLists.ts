@@ -12,11 +12,12 @@ export type UpdateListsDTO = {
 	boardId: string;
 };
 
-export const updateLists = ({
+export const updateLists = async ({
 	data,
 	boardId,
 }: UpdateListsDTO): Promise<any> => {
-	return authFetch.patch(`/boards/${boardId}/lists`, data);
+	const res = await authFetch.patch(`/boards/${boardId}/lists`, data);
+	return res.data;
 };
 
 type UseUpdateListsOptions = {
@@ -26,37 +27,42 @@ type UseUpdateListsOptions = {
 export const useUpdateLists = ({ config }: UseUpdateListsOptions = {}) => {
 	return useMutation({
 		onMutate: async (updatingLists: any) => {
-			await queryClient.cancelQueries(['board', updatingLists?.boardId]);
+			// Cancel queries
+			await queryClient.cancelQueries([
+				'board',
+				updatingLists?.boardId,
+				'lists',
+			]);
 
+			// Snapshot of previous query data
 			const previousLists = queryClient.getQueryData<any>([
 				'board',
 				updatingLists?.boardId,
 				'lists',
 			]);
 
+			// Set anticipated query data
 			queryClient.setQueryData(['board', updatingLists?.boardId, 'lists'], {
 				...previousLists,
-				data: {
-					...updatingLists.data,
-					id: updatingLists.boardId,
-				},
+				lists: updatingLists.data.lists,
 			});
 
+			// Return snapshot
 			return { previousLists };
 		},
-		onError: (_, __, context: any) => {
+		onError: (_, variables, context: any) => {
 			if (context?.previousLists) {
 				queryClient.setQueryData(
-					['board', context.previousBoard.id, 'lists'],
+					['board', variables.boardId, 'lists'],
 					context.previousLists
 				);
 			}
 		},
-		onSuccess: (data) => {
+		onSuccess: (data, variables) => {
 			console.log('On Update Success: ', data);
-			queryClient.invalidateQueries(['board', data.data.id, 'lists']);
+			queryClient.setQueryData(['board', variables.boardId, 'lists'], data);
 		},
 		...config,
-		mutationFn: updateLists,
+		mutationFn: (vars) => updateLists(vars),
 	});
 };

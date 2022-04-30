@@ -1,57 +1,113 @@
-import { useContext } from 'react';
+import React, { useContext, useState, useEffect, useRef } from 'react';
 import { useParams } from 'react-router-dom';
-import { DndContext, useDroppable } from '@dnd-kit/core';
+import { DragDropContext, Droppable, DropResult } from 'react-beautiful-dnd';
 
 import { JobsList } from '../JobsList/JobsList.component';
 import { AddButton } from '../Elements/AddButton';
-import {
-	BoardContext,
-	BoardContextObj,
-} from '@/features/board/stores/contexts/board-context';
+
 import { useGetLists, useUpdateLists } from '@/features/board/api';
 import { useStyles } from './Board.styles';
 
+const reorder = (list: any, startIndex: number, endIndex: number) => {
+	const result = Array.from(list);
+	const [removed] = result.splice(startIndex, 1);
+	result.splice(endIndex, 0, removed);
+
+	return result;
+};
+
+const InnerList = React.memo(({ lists }: { lists: any }) => {
+	return lists.map((list: any, index: number) => {
+		return <JobsList key={list.id} index={index} list={list} />;
+	});
+});
+
 export const Board = () => {
-	const { boardId } = useParams<{ boardId: string }>();
+	const [lists, setLists] = useState<any>([]);
+	const params = useParams();
 	const {
 		data: listsData,
-		isLoading: getListsLoading,
-		isSuccess: getListsSuccess,
-		isError: getListsError,
+		isLoading,
+		isSuccess,
+		isError,
 	} = useGetLists({
-		boardId: boardId as string,
+		boardId: params.boardId as string,
 	});
-	const {
-		mutate: updateListsMutate,
-		isLoading: updateListsLoading,
-		isError: updateListsError,
-	} = useUpdateLists();
-	const { isOver, setNodeRef } = useDroppable({
-		id: 'board',
-	});
+	const updateMutation = useUpdateLists();
 	const { classes } = useStyles();
+	console.log('Lists State: ', lists);
 
-	if (getListsLoading) {
+	useEffect(() => {
+		let mounted = true;
+
+		if (mounted) {
+			if (listsData && lists.length === 0) {
+				setLists(listsData.lists);
+			}
+		}
+
+		return () => {
+			mounted = false;
+		};
+	}, [listsData, lists]);
+
+	if (isLoading) {
 		return <h1>Loading Lists...</h1>;
 	}
 
-	if (getListsError) {
+	if (isError) {
 		return <h1>Error: Could not fetch lists</h1>;
 	}
-	console.log('Lists: ', listsData.data.lists);
+
+	const onDragEnd = (result: DropResult) => {
+		const { destination, source, draggableId, type } = result;
+
+		console.log('Source: ', source);
+		console.log('Destination: ', destination);
+		console.log('Draggable ID: ', draggableId);
+		console.log('Type: ', type);
+
+		if (!destination) {
+			return;
+		}
+
+		if (
+			destination.droppableId === source.droppableId &&
+			destination.index === source.index
+		) {
+			return;
+		}
+
+		// Move list position
+		if (type === 'list') {
+			const newLists = reorder(lists, source.index, destination.index);
+			setLists(newLists);
+			updateMutation.mutate({
+				data: { lists: newLists },
+				boardId: params.boardId as string,
+			});
+		}
+	};
 
 	return (
-		<DndContext>
-			<div className={classes.boardWrapper} ref={setNodeRef}>
-				{listsData.data?.lists.map((list: any, index: number) => {
-					return <JobsList index={list.id} list={list} />;
-				})}
-				<AddButton
-					label='Add List'
-					style={{ fontSize: '16px', marginTop: 25, marginLeft: 10 }}
-					iconSize='13px'
-				/>
-			</div>
-		</DndContext>
+		<DragDropContext onDragEnd={onDragEnd}>
+			<Droppable droppableId='all-lists' direction='horizontal' type='list'>
+				{(provided, snapshot) => (
+					<div
+						className={classes.boardWrapper}
+						{...provided.droppableProps}
+						ref={provided.innerRef}
+					>
+						<InnerList lists={lists} />
+						{provided.placeholder}
+						<AddButton
+							label='Add List'
+							className={classes.addButton}
+							iconSize='13px'
+						/>
+					</div>
+				)}
+			</Droppable>
+		</DragDropContext>
 	);
 };

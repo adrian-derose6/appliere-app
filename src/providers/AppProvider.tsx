@@ -24,15 +24,13 @@ type AppProviderProps = {
 };
 export const AppProvider = ({ children }: AppProviderProps) => {
 	return (
-		<ErrorBoundary FallbackComponent={ErrorFallback}>
-			<MantineProvider theme={themeConfig} styles={libraryStyles}>
-				<QueryClientProvider client={queryClient}>
-					<ReactQueryDevtools />
-					<BrowserRouter>
-						<AuthProvider>{children}</AuthProvider>
-					</BrowserRouter>
-				</QueryClientProvider>
-			</MantineProvider>
-		</ErrorBoundary>
+		<MantineProvider theme={themeConfig} styles={libraryStyles}>
+			<QueryClientProvider client={queryClient}>
+				<ReactQueryDevtools />
+				<BrowserRouter>
+					<AuthProvider>{children}</AuthProvider>
+				</BrowserRouter>
+			</QueryClientProvider>
+		</MantineProvider>
 	);
 };

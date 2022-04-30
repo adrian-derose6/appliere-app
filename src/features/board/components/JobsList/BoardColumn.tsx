@@ -33,12 +33,13 @@ export const BoardColumn = (props: BoardColumnProps) => {
 		isEmpty: isListEmpty,
 	});
 
+	console.log('Render Column: ', props.collection.id);
 	return (
 		<Draggable draggableId={props.collection.id} index={props.index}>
 			{(provided, snapshot) => {
-				if (isDragging !== snapshot.isDragging) {
+				/*if (isDragging !== snapshot.isDragging) {
 					setIsDragging(snapshot.isDragging);
-				}
+				}*/
 				return (
 					<div
 						{...provided.draggableProps}
@@ -73,9 +74,9 @@ export const BoardColumn = (props: BoardColumnProps) => {
 							//type={props.column.id === 'column-3' ? 'done' : 'active'}
 						>
 							{(provided, snapshot) => {
-								if (isDraggingOver !== snapshot.isDraggingOver) {
+								/*if (isDraggingOver !== snapshot.isDraggingOver) {
 									setIsDraggingOver(snapshot.isDraggingOver);
-								}
+								}*/
 
 								return (
 									<ScrollArea

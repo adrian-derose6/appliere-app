@@ -12,5 +12,6 @@ export const useStyles = createStyles((theme: MantineTheme) => {
 			flexWrap: 'nowrap',
 			backgroundColor: '#f9f8f8',
 		},
+		addButton: { fontSize: '16px', marginTop: 25, marginLeft: 10 },
 	};
 });

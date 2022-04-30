@@ -6,7 +6,6 @@ import { BoardProvider } from '../stores/contexts/board-context';
 
 export const BoardPage = () => {
 	const params = useParams();
-	const { boardId } = params;
 
 	return (
 		<BoardProvider>

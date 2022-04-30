@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import { Container } from '@mantine/core';
 import { DragDropContext, Droppable, DropResult } from 'react-beautiful-dnd';
 
+import { JobsList } from '../JobsList/JobsList.component';
 import { BoardColumn } from '../JobsList/BoardColumn';
 import { AddButton } from '../Elements/AddButton';
 import {
@@ -14,14 +15,9 @@ import { useStyles } from './Board.styles';
 
 export const Board = () => {
 	const { state, dispatch } = useContext(BoardContext) as BoardContextObj;
-	const { boardId } = useParams<{ boardId: string }>();
-
-	const { data, isLoading, isSuccess } = useGetLists({
-		boardId: boardId as string,
-	});
-	console.log(data);
 	const { classes } = useStyles();
 
+	console.log('Render Board');
 	const onDragEnd = (result: DropResult) => {
 		const { destination, source, draggableId, type } = result;
 
@@ -113,7 +109,6 @@ export const Board = () => {
 								const jobs = collection.jobIds.map(
 									(jobId: string) => state.jobs[jobId]
 								);
-
 								return (
 									<BoardColumn
 										key={collection.id}
@@ -124,6 +119,7 @@ export const Board = () => {
 								);
 							}
 						)}
+						{provided.placeholder}
 						<AddButton
 							label='Add List'
 							style={{ fontSize: '16px', marginTop: 25, marginLeft: 10 }}
