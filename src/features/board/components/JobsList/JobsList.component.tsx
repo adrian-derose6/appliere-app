@@ -63,11 +63,7 @@ export const JobsList = (props: JobsListProps) => {
 								<ColumnMenu />
 							</Group>
 						</Group>
-						<Droppable
-							droppableId={props.list.id}
-							type='job'
-							//type={props.column.id === 'column-3' ? 'done' : 'active'}
-						>
+						<Droppable droppableId={props.list.id} type='job'>
 							{(provided, snapshot) => {
 								if (isDraggingOver !== snapshot.isDraggingOver) {
 									setIsDraggingOver(snapshot.isDraggingOver);
@@ -80,6 +76,15 @@ export const JobsList = (props: JobsListProps) => {
 										{...provided.droppableProps}
 										scrollbarSize={10}
 									>
+										{props.list.jobs.map((job: any, index: number) => (
+											<JobCard
+												key={job.id}
+												jobId={job.id}
+												title={job.title}
+												employer={job.employer}
+												index={index}
+											/>
+										))}
 										{provided.placeholder}
 										<Link
 											to={`/add-job`}

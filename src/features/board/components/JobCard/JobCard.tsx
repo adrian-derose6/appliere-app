@@ -3,11 +3,14 @@ import { Draggable } from 'react-beautiful-dnd';
 import { FiPlusCircle } from 'react-icons/fi';
 import { IconContext } from 'react-icons';
 
-import { Job } from '../../types';
 import { useStyles } from './JobCard.styles';
 
 interface JobCardProps {
-	job: Job;
+	jobId: string;
+	title: string;
+	employer: string;
+	avatar?: string;
+	companyColor?: string;
 	index: number;
 }
 
@@ -19,11 +22,18 @@ const PlusIcon = () => {
 	);
 };
 
-export const JobCard = (props: JobCardProps) => {
+export const JobCard = ({
+	jobId,
+	index,
+	title,
+	employer,
+	avatar,
+	companyColor,
+}: JobCardProps) => {
 	const { classes } = useStyles();
 
 	return (
-		<Draggable draggableId={props.job.id} index={props.index}>
+		<Draggable draggableId={jobId} index={index}>
 			{(provided, snapshot) => (
 				<Container
 					{...provided.draggableProps}
@@ -32,14 +42,14 @@ export const JobCard = (props: JobCardProps) => {
 					className={classes.card}
 					px={0}
 					sx={() => ({
-						backgroundColor: props.job.companyColor,
+						backgroundColor: companyColor || 'rgba(76, 106, 164, 0.85)',
 					})}
 				>
 					<Group className={classes.info}>
-						<Avatar radius='xl' size={30} src={props.job.imageSrc}></Avatar>
+						<Avatar radius='xl' size={30} src={avatar || ''}></Avatar>
 						<div>
-							<Text className={classes.title}>{props.job.title}</Text>
-							<Text className={classes.company}>{props.job.company}</Text>
+							<Text className={classes.title}>{title}</Text>
+							<Text className={classes.company}>{employer}</Text>
 						</div>
 					</Group>
 					<Group position='right' className={classes.misc} spacing='xs'>
