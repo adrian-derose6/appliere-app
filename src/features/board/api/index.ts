@@ -5,3 +5,4 @@ export * from './boards/deleteBoard';
 export * from './boards/updateBoard';
 export * from './lists/getLists';
 export * from './lists/updateLists';
+export * from './lists/updateJobPosition';

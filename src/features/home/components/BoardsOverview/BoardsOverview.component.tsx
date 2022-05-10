@@ -1,4 +1,12 @@
-import { Card, Container, Grid, Title, ScrollArea } from '@mantine/core';
+import {
+	Card,
+	Container,
+	Grid,
+	Title,
+	ScrollArea,
+	Center,
+	Loader,
+} from '@mantine/core';
 
 import { BoardLink } from '../BoardLink/BoardLink.component';
 import { useStyles } from './BoardsOverview.styles';
@@ -26,7 +34,11 @@ export const BoardsOverview = () => {
 	}
 
 	if (isLoading) {
-		boardsList = <h1>Loading Boards...</h1>;
+		boardsList = (
+			<Center className={classes.loaderWrapper}>
+				<Loader variant='oval' color='red' size={60} />
+			</Center>
+		);
 	}
 
 	return (

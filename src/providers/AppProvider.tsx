@@ -26,7 +26,12 @@ type AppProviderProps = {
 export const AppProvider = ({ children }: AppProviderProps) => {
 	return (
 		<ErrorBoundary FallbackComponent={ErrorFallback}>
-			<MantineProvider theme={themeConfig} styles={libraryStyles}>
+			<MantineProvider
+				theme={themeConfig}
+				styles={libraryStyles}
+				withNormalizeCSS
+				withGlobalStyles
+			>
 				<QueryClientProvider client={queryClient}>
 					<ReactQueryDevtools />
 					<BrowserRouter>

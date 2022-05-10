@@ -1,6 +1,6 @@
 import { createStyles, MantineTheme } from '@mantine/core';
 
-export const useStyles = createStyles((theme: MantineTheme) => {
+export const useStyles = createStyles((theme) => {
 	return {
 		boardWrapper: {
 			display: 'flex',

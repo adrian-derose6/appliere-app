@@ -5,6 +5,10 @@ export const useStyles = createStyles((theme) => {
 		summaryCard: {
 			height: '400px',
 		},
+		loaderWrapper: {
+			height: '100%',
+			width: '100%',
+		},
 		cardHeader: {
 			alignItems: 'center',
 			display: 'flex',

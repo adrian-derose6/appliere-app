@@ -1,12 +1,16 @@
 import React, { useState, useEffect } from 'react';
+import { Loader, Center } from '@mantine/core';
 import { useParams } from 'react-router-dom';
 import { DragDropContext, Droppable, DropResult } from 'react-beautiful-dnd';
 
 import { JobsList } from '../JobsList/JobsList.component';
 import { AddButton } from '../Elements/AddButton';
 
-import { useGetLists, useUpdateLists } from '@/features/board/api';
-import usePrevious from '@/hooks/usePrevious';
+import {
+	useGetLists,
+	useUpdateLists,
+	useUpdateJobPosition,
+} from '@/features/board/api';
 import { useStyles } from './Board.styles';
 
 const reorder = (list: any, startIndex: number, endIndex: number) => {
@@ -36,13 +40,17 @@ export const Board = () => {
 			select: (data) => data.lists,
 		},
 	});
-
-	const updateMutation = useUpdateLists();
+	const updateListsMutation = useUpdateLists();
+	const updateJobPositionMutation = useUpdateJobPosition();
 	const { classes } = useStyles();
 	console.log('Lists State: ', lists);
 
 	if (isLoading) {
-		return <h1>Loading Lists...</h1>;
+		return (
+			<Center className={classes.boardWrapper}>
+				<Loader variant='oval' color='red' size={60} />
+			</Center>
+		);
 	}
 
 	if (isError) {
@@ -71,10 +79,68 @@ export const Board = () => {
 		// Reorder Lists
 		if (type === 'list') {
 			const newLists = reorder(lists, source.index, destination.index);
-			updateMutation.mutate({
+			updateListsMutation.mutate({
 				boardId: params.boardId as string,
 				data: { lists: newLists },
 			});
+			return;
+		}
+
+		// Move job card within list
+		if (source.droppableId === destination.droppableId) {
+			let updatingLists = [...lists];
+			let updatingList = updatingLists.find(
+				(list: any) => list.id === destination.droppableId
+			);
+			const reorderedJobList = reorder(
+				updatingList.jobs,
+				source.index,
+				destination.index
+			);
+			const indexOfList = updatingLists.findIndex(
+				(list: any) => list.id === destination.droppableId
+			);
+			updatingLists[indexOfList].jobs = reorderedJobList;
+			const updatingJob = reorderedJobList[destination.index] as any;
+
+			updateJobPositionMutation.mutate({
+				boardId: params.boardId as string,
+				lists: updatingLists,
+				jobId: updatingJob?.id as string,
+				data: { pos: destination.index },
+			});
+			return;
+		}
+
+		// Move job to new list
+		if (source.droppableId !== destination.droppableId) {
+			let updatingLists = [...lists];
+			let sourceListIndex = updatingLists.findIndex(
+				(list: any) => list.id === source.droppableId
+			);
+			let destListIndex = updatingLists.findIndex(
+				(list: any) => list.id === destination.droppableId
+			);
+			let updatingJob = updatingLists[sourceListIndex].jobs[source.index];
+
+			updatingLists[sourceListIndex].jobs.splice(source.index, 1);
+			updatingLists[destListIndex].jobs.splice(
+				destination.index,
+				0,
+				updatingJob
+			);
+			console.log(updatingLists);
+
+			updateJobPositionMutation.mutate({
+				boardId: params.boardId as string,
+				lists: updatingLists,
+				jobId: updatingJob?.id as string,
+				data: {
+					pos: destination.index,
+					listId: updatingLists[destListIndex].id,
+				},
+			});
+			return;
 		}
 	};
 
