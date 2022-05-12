@@ -20,6 +20,6 @@ const useStyles = createStyles((theme) => ({
 		minWidth: '100%',
 		height: '100vh',
 		boxSizing: 'border-box',
-		paddingTop: 50,
+		paddingTop: 70,
 	},
 }));

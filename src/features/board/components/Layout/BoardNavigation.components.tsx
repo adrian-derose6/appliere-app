@@ -7,6 +7,7 @@ import {
 	SegmentedControl,
 	Center,
 	Box,
+	Select,
 } from '@mantine/core';
 import { MdOutlineDashboardCustomize } from 'react-icons/md';
 import { FaListUl } from 'react-icons/fa';
@@ -20,6 +21,7 @@ import { ShareButton } from '@/components/Buttons';
 import { CreateMenu } from '../Elements/CreateMenu';
 import { useGetBoards } from '@/features/board';
 import { useStyles } from './BoardNavigation.styles';
+import { BoardIcon } from '@/assets/svg/BoardIcon';
 
 export type LinkType = {
 	label: string;
@@ -100,7 +102,7 @@ const modalLinks: LinkType[] = [
 ];
 
 export const BoardNavigation = () => {
-	const { data } = useGetBoards();
+	const { data, isLoading, isSuccess } = useGetBoards();
 	const [activeValue, setActiveValue] = useState<string>('board');
 	const navigate = useNavigate();
 	const params = useParams();
@@ -109,6 +111,21 @@ export const BoardNavigation = () => {
 
 	const board = data?.boards.find((board) => board.id === params.boardId);
 	const boardName = board?.name;
+
+	let selectData;
+
+	if (isLoading) {
+		selectData = [];
+	}
+
+	if (isSuccess) {
+		selectData = data?.boards.map((board) => {
+			return {
+				label: board.name,
+				value: board.id,
+			};
+		});
+	}
 
 	useEffect(() => {
 		const lastUrlSegment = pathname.split('/').pop();
@@ -120,9 +137,13 @@ export const BoardNavigation = () => {
 		navigate(value);
 	};
 
+	const handleBoardSelectChange = (value: string) => {
+		navigate(`/track/boards/${value}/board`);
+	};
+
 	return (
 		<Header
-			height={50}
+			height={70}
 			fixed
 			position={{ top: 0, right: 0 }}
 			zIndex={100}
@@ -137,7 +158,15 @@ export const BoardNavigation = () => {
 				className={classes.headerLayout}
 			>
 				<Group noWrap>
-					<Button variant='subtle'>{boardName}</Button>
+					<Group noWrap position='left'>
+						<BoardIcon />
+						<Select
+							data={selectData as []}
+							variant='unstyled'
+							defaultValue={params.boardId as string}
+							onChange={handleBoardSelectChange}
+						/>
+					</Group>
 					<SegmentedControl
 						data={controlLinks}
 						value={activeValue}

@@ -9,7 +9,7 @@ export const useStyles = createStyles((theme: MantineTheme) => {
 			flexDirection: 'row',
 			alignItems: 'center',
 			justifyContent: 'center',
-			padding: '0 10px',
+			padding: '0 10px 0 20px',
 			zIndex: 100,
 		},
 		headerLayout: {

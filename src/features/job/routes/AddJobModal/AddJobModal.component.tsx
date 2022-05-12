@@ -12,6 +12,7 @@ import {
 } from '@mantine/core';
 import { HiOutlineOfficeBuilding } from 'react-icons/hi';
 import { MdWorkOutline, MdOutlineDashboardCustomize } from 'react-icons/md';
+import { ImStack } from 'react-icons/im';
 
 import { BrandButton } from '@/components/Buttons';
 import { useForm } from '@mantine/form';
@@ -111,14 +112,17 @@ export const AddJobModal = (props: Props) => {
 							searchable
 							placeholder='Board'
 							description='Required'
+							allowDeselect
 							icon={<MdOutlineDashboardCustomize />}
 							data={[]}
+							{...form.getInputProps('boardId', {})}
 							classNames={{ input: classes.input }}
 						/>
 						<Select
 							required
 							placeholder='List'
 							description='Required'
+							icon={<ImStack />}
 							data={['Wishlist']}
 							{...form.getInputProps('listId')}
 							classNames={{ input: classes.input }}
