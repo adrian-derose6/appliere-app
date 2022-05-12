@@ -6,7 +6,7 @@ import { Title, ScrollArea, Group } from '@mantine/core';
 import { useHover } from '@mantine/hooks';
 import { Draggable, Droppable } from 'react-beautiful-dnd';
 
-import { JobCard } from '../JobCard/JobCard';
+import { JobCard } from '../JobCard/JobCard.component';
 import { AddButton } from '../Elements/AddButton';
 import { ColumnMenu } from '../ListActions/ColumnMenu';
 import { Collection, Job } from '../../types';
@@ -109,7 +109,3 @@ export const JobsList = (props: JobsListProps) => {
 		</Draggable>
 	);
 };
-
-function listPropsAreEqual(prevProps: JobsListProps, nextProps: JobsListProps) {
-	return prevProps.index === nextProps.index;
-}
