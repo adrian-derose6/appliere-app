@@ -1,23 +1,69 @@
-import { useContext } from 'react';
-import { Container } from '@mantine/core';
+import React, { useState, useEffect } from 'react';
+import { Loader, Center } from '@mantine/core';
+import { useParams } from 'react-router-dom';
 import { DragDropContext, Droppable, DropResult } from 'react-beautiful-dnd';
 
-import { BoardColumn } from '../JobsList/BoardColumn';
+import { JobsList } from '../JobsList/JobsList.component';
 import { AddButton } from '../Elements/AddButton';
 
 import {
-	BoardContext,
-	BoardContextObj,
-} from '../../stores/contexts/board-context';
+	useGetLists,
+	useUpdateLists,
+	useUpdateJobPosition,
+} from '@/features/board/api';
 import { useStyles } from './Board.styles';
 
+const reorder = (list: any, startIndex: number, endIndex: number) => {
+	const result = Array.from(list);
+	const [removed] = result.splice(startIndex, 1);
+	result.splice(endIndex, 0, removed);
+
+	return result;
+};
+
+const InnerList = React.memo(({ lists }: { lists: any }) => {
+	return lists.map((list: any, index: number) => {
+		return <JobsList key={list.id} index={index} list={list} />;
+	});
+});
+
 export const Board = () => {
-	const { state, dispatch } = useContext(BoardContext) as BoardContextObj;
-	//const { jobs, collections, collectionOrder } = state;
+	const params = useParams();
+	const {
+		data: lists,
+		isLoading,
+		isSuccess,
+		isError,
+	} = useGetLists({
+		boardId: params.boardId as string,
+		config: {
+			select: (data) => data.lists,
+		},
+	});
+	const updateListsMutation = useUpdateLists();
+	const updateJobPositionMutation = useUpdateJobPosition();
 	const { classes } = useStyles();
+	console.log('Lists State: ', lists);
+
+	if (isLoading) {
+		return (
+			<Center className={classes.boardWrapper}>
+				<Loader variant='oval' color='red' size={60} />
+			</Center>
+		);
+	}
+
+	if (isError) {
+		return <h1>Error: Could not fetch lists</h1>;
+	}
 
 	const onDragEnd = (result: DropResult) => {
 		const { destination, source, draggableId, type } = result;
+
+		console.log('Source: ', source);
+		console.log('Destination: ', destination);
+		console.log('Draggable ID: ', draggableId);
+		console.log('Type: ', type);
 
 		if (!destination) {
 			return;
@@ -30,97 +76,88 @@ export const Board = () => {
 			return;
 		}
 
-		if (type === 'collection') {
-			const newCollectionOrder = Array.from(state.collectionOrder);
-
-			newCollectionOrder.splice(source.index, 1);
-			newCollectionOrder.splice(destination.index, 0, draggableId);
-
-			dispatch({
-				type: 'MOVE_COLLECTION',
-				payload: newCollectionOrder,
+		// Reorder Lists
+		if (type === 'list') {
+			const newLists = reorder(lists, source.index, destination.index);
+			updateListsMutation.mutate({
+				boardId: params.boardId as string,
+				data: { lists: newLists },
 			});
 			return;
 		}
 
-		const startCol = state.collections[source.droppableId];
-		const finishCol = state.collections[destination.droppableId];
+		// Move job card within list
+		if (source.droppableId === destination.droppableId) {
+			let updatingLists = [...lists];
+			let updatingList = updatingLists.find(
+				(list: any) => list.id === destination.droppableId
+			);
+			const reorderedJobList = reorder(
+				updatingList.jobs,
+				source.index,
+				destination.index
+			);
+			const indexOfList = updatingLists.findIndex(
+				(list: any) => list.id === destination.droppableId
+			);
+			updatingLists[indexOfList].jobs = reorderedJobList;
+			const updatingJob = reorderedJobList[destination.index] as any;
 
-		if (startCol === finishCol) {
-			let newJobIds = [...startCol.jobIds];
-
-			newJobIds.splice(source.index, 1);
-			newJobIds.splice(destination.index, 0, draggableId);
-
-			const newCollection = {
-				...startCol,
-				jobIds: newJobIds,
-			};
-
-			dispatch({ type: 'MOVE_ITEM_WITHIN', payload: { newCollection } });
+			updateJobPositionMutation.mutate({
+				boardId: params.boardId as string,
+				lists: updatingLists,
+				jobId: updatingJob?.id as string,
+				data: { pos: destination.index },
+			});
+			return;
 		}
 
-		// Moving from one list to another
-		if (startCol !== finishCol) {
-			let startJobIds = [...startCol.jobIds];
-			let finishJobIds = [...finishCol.jobIds];
+		// Move job to new list
+		if (source.droppableId !== destination.droppableId) {
+			let updatingLists = [...lists];
+			let sourceListIndex = updatingLists.findIndex(
+				(list: any) => list.id === source.droppableId
+			);
+			let destListIndex = updatingLists.findIndex(
+				(list: any) => list.id === destination.droppableId
+			);
+			let updatingJob = updatingLists[sourceListIndex].jobs[source.index];
 
-			startJobIds.splice(source.index, 1);
-			finishJobIds.splice(destination.index, 0, draggableId);
+			updatingLists[sourceListIndex].jobs.splice(source.index, 1);
+			updatingLists[destListIndex].jobs.splice(
+				destination.index,
+				0,
+				updatingJob
+			);
+			console.log(updatingLists);
 
-			const newStartCol = {
-				...startCol,
-				jobIds: startJobIds,
-			};
-
-			const newFinishCol = {
-				...finishCol,
-				jobIds: finishJobIds,
-			};
-
-			dispatch({
-				type: 'MOVE_ITEM_BETWEEN',
-				payload: {
-					newStartCol,
-					newFinishCol,
+			updateJobPositionMutation.mutate({
+				boardId: params.boardId as string,
+				lists: updatingLists,
+				jobId: updatingJob?.id as string,
+				data: {
+					pos: destination.index,
+					listId: updatingLists[destListIndex].id,
 				},
 			});
+			return;
 		}
 	};
 
 	return (
 		<DragDropContext onDragEnd={onDragEnd}>
-			<Droppable
-				droppableId='all-collections'
-				direction='horizontal'
-				type='collection'
-			>
-				{(provided) => (
+			<Droppable droppableId='all-lists' direction='horizontal' type='list'>
+				{(provided, snapshot) => (
 					<div
 						className={classes.boardWrapper}
 						{...provided.droppableProps}
 						ref={provided.innerRef}
 					>
-						{state.collectionOrder.map(
-							(collectionId: string, index: number) => {
-								const collection = state.collections[collectionId];
-								const jobs = collection.jobIds.map(
-									(jobId: string) => state.jobs[jobId]
-								);
-
-								return (
-									<BoardColumn
-										key={collection.id}
-										index={index}
-										collection={collection}
-										jobs={jobs}
-									/>
-								);
-							}
-						)}
+						<InnerList lists={lists} />
+						{provided.placeholder}
 						<AddButton
 							label='Add List'
-							style={{ fontSize: '16px', marginTop: 25, marginLeft: 10 }}
+							className={classes.addButton}
 							iconSize='13px'
 						/>
 					</div>

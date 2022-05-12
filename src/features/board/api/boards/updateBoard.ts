@@ -59,7 +59,7 @@ export const useUpdateBoard = (
 		},
 		onSuccess: (data) => {
 			queryClient.invalidateQueries([rootKey]);
-			queryClient.invalidateQueries([rootKey, data.updatedBoard._id]);
+			queryClient.invalidateQueries([rootKey, data.updatedBoard.id]);
 		},
 		...config,
 		mutationFn: updateBoard,

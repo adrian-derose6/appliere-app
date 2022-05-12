@@ -19,7 +19,7 @@ export const useStyles = createStyles(
 				boxSizing: 'border-box',
 				margin: '8px 0',
 				padding: 0,
-				minWidth: '300px',
+				width: '300px',
 				height: '100%',
 				display: 'flex',
 				flexDirection: 'column',

@@ -1,11 +1,11 @@
-import { MantineTheme, MantineProvider } from '@mantine/core';
+import { MantineTheme, MantineThemeOverride } from '@mantine/core';
 
-export const themeConfig = {
+export const themeConfig: MantineThemeOverride = {
 	headings: {
 		fontFamily: 'Segoe UI, sans-serif',
 		fontWeight: 500,
-		color: '#1e1f21',
 	},
+	primaryColor: 'red',
 	other: {
 		brandFontFamily: 'Comfortaa, cursive',
 		textFontFamily: 'Fredoka, sans-serif' /*'Quicksand, sans-serif'*/,

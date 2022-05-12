@@ -3,12 +3,13 @@ import { useQuery } from 'react-query';
 import { authFetch } from '@/lib/axios';
 import { ExtractFnReturnType, QueryConfig } from '@/lib/react-query';
 
-export const getLists = ({ boardId }: { boardId: string }): Promise<any> => {
-	return authFetch.get(`/boards`, {
-		params: {
-			boardId,
-		},
-	});
+export const getLists = async ({
+	boardId,
+}: {
+	boardId: string;
+}): Promise<any> => {
+	const res = await authFetch.get(`/boards/${boardId}/lists`);
+	return res.data;
 };
 
 type QueryFnType = typeof getLists;

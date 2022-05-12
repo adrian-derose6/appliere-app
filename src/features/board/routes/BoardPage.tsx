@@ -6,19 +6,16 @@ import { BoardProvider } from '../stores/contexts/board-context';
 
 export const BoardPage = () => {
 	const params = useParams();
-	const { boardId } = params;
 
 	return (
-		<BoardProvider>
-			<ScrollArea
-				styles={{
-					viewport: {
-						height: '100%',
-					},
-				}}
-			>
-				<Board />
-			</ScrollArea>
-		</BoardProvider>
+		<ScrollArea
+			styles={{
+				viewport: {
+					height: '100%',
+				},
+			}}
+		>
+			<Board />
+		</ScrollArea>
 	);
 };

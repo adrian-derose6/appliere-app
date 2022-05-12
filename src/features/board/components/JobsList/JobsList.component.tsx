@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { Link, useLocation, useParams } from 'react-router-dom';
 import { isEmpty } from 'lodash';
 
@@ -13,19 +13,16 @@ import { Collection, Job } from '../../types';
 import { PlusIcon } from '../Elements/PlusIcon';
 import { useStyles } from './BoardColumn.styles';
 
-interface BoardColumnProps {
+interface JobsListProps {
 	index: number;
-	collection: Collection;
-	jobs: Job[];
+	list: any;
+	jobs?: any;
 }
-
-export const BoardColumn = (props: BoardColumnProps) => {
+export const JobsList = (props: JobsListProps) => {
 	const [isDragging, setIsDragging] = useState<boolean>(false);
 	const [isDraggingOver, setIsDraggingOver] = useState<boolean>(false);
 	const isListEmpty = isEmpty(props.jobs);
-
 	const location = useLocation();
-
 	const { hovered, ref } = useHover();
 	const { classes } = useStyles({
 		isDraggingOver,
@@ -35,7 +32,7 @@ export const BoardColumn = (props: BoardColumnProps) => {
 	});
 
 	return (
-		<Draggable draggableId={props.collection.id} index={props.index}>
+		<Draggable draggableId={props.list.id} index={props.index}>
 			{(provided, snapshot) => {
 				if (isDragging !== snapshot.isDragging) {
 					setIsDragging(snapshot.isDragging);
@@ -52,15 +49,13 @@ export const BoardColumn = (props: BoardColumnProps) => {
 							{...provided.dragHandleProps}
 							className={classes.columnHeader}
 						>
-							<Title className={classes.columnTitle}>
-								{props.collection.title}
-							</Title>
+							<Title className={classes.columnTitle}>{props.list.name}</Title>
 							<Group>
 								<Link
 									to={`/add-job`}
 									state={{
 										backgroundLocation: location,
-										list: props.collection.id,
+										list: props.list.id,
 									}}
 								>
 									<PlusIcon size='13px' />
@@ -68,11 +63,7 @@ export const BoardColumn = (props: BoardColumnProps) => {
 								<ColumnMenu />
 							</Group>
 						</Group>
-						<Droppable
-							droppableId={props.collection.id}
-							type='job'
-							//type={props.column.id === 'column-3' ? 'done' : 'active'}
-						>
+						<Droppable droppableId={props.list.id} type='job'>
 							{(provided, snapshot) => {
 								if (isDraggingOver !== snapshot.isDraggingOver) {
 									setIsDraggingOver(snapshot.isDraggingOver);
@@ -85,15 +76,21 @@ export const BoardColumn = (props: BoardColumnProps) => {
 										{...provided.droppableProps}
 										scrollbarSize={10}
 									>
-										{props.jobs.map((job: Job, index: number) => (
-											<JobCard key={job.id} job={job} index={index} />
+										{props.list.jobs.map((job: any, index: number) => (
+											<JobCard
+												key={job.id}
+												jobId={job.id}
+												title={job.title}
+												employer={job.employer}
+												index={index}
+											/>
 										))}
 										{provided.placeholder}
 										<Link
 											to={`/add-job`}
 											state={{
 												backgroundLocation: location,
-												list: props.collection.id,
+												list: props.list.id,
 											}}
 										>
 											<AddButton
@@ -112,3 +109,7 @@ export const BoardColumn = (props: BoardColumnProps) => {
 		</Draggable>
 	);
 };
+
+function listPropsAreEqual(prevProps: JobsListProps, nextProps: JobsListProps) {
+	return prevProps.index === nextProps.index;
+}

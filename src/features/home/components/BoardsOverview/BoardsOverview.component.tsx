@@ -1,6 +1,14 @@
-import { Card, Container, Grid, Title, ScrollArea } from '@mantine/core';
+import {
+	Card,
+	Container,
+	Grid,
+	Title,
+	ScrollArea,
+	Center,
+	Loader,
+} from '@mantine/core';
 
-import { BoardLink } from '../Elements/BoardLink/BoardLink.component';
+import { BoardLink } from '../BoardLink/BoardLink.component';
 import { useStyles } from './BoardsOverview.styles';
 import { useGetBoards } from '@/features/board';
 
@@ -13,9 +21,9 @@ export const BoardsOverview = () => {
 	if (isSuccess) {
 		boardsList = data?.boards.map((board: any) => {
 			return (
-				<Grid.Col key={board._id} md={12} lg={6} className={classes.gridColumn}>
+				<Grid.Col key={board.id} md={12} lg={6} className={classes.gridColumn}>
 					<BoardLink
-						id={board._id}
+						id={board.id}
 						name={board.name}
 						iconColor={board.icon.color}
 						due={0}
@@ -26,7 +34,11 @@ export const BoardsOverview = () => {
 	}
 
 	if (isLoading) {
-		boardsList = <h1>Loading Boards...</h1>;
+		boardsList = (
+			<Center className={classes.loaderWrapper}>
+				<Loader variant='oval' color='red' size={60} />
+			</Center>
+		);
 	}
 
 	return (
