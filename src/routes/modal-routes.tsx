@@ -1,6 +1,6 @@
 import { RouteObject } from 'react-router-dom';
 
-import { AddJobModal } from '@/features/board/routes/AddJobModal/AddJobModal.components';
+import { AddJobModal } from '@/features/job';
 
 export const modalRoutes: RouteObject[] = [
 	{

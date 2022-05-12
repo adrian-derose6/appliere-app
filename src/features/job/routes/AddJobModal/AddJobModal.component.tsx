@@ -10,9 +10,15 @@ import {
 	Select,
 	SimpleGrid,
 } from '@mantine/core';
+import { HiOutlineOfficeBuilding } from 'react-icons/hi';
+import { MdWorkOutline, MdOutlineDashboardCustomize } from 'react-icons/md';
+
 import { BrandButton } from '@/components/Buttons';
 import { useForm } from '@mantine/form';
 import { useStyles } from './AddJobModal.styles';
+
+const OPEN_TIMEOUT = 50;
+const CLOSE_TIMEOUT = 200;
 
 type Props = {};
 
@@ -22,26 +28,44 @@ export const AddJobModal = (props: Props) => {
 	const locationState = location.state;
 	const navigate = useNavigate();
 	const match = useMatch('/add-job/*');
-
 	const { classes } = useStyles();
 
 	useEffect(() => {
 		if (match?.pathname) {
-			const openTimeout = setTimeout(() => setOpened(true), 50);
+			setTimeout(() => setOpened(true), OPEN_TIMEOUT);
 		}
 	}, [match]);
 
-	const handleModalClose = () => {
-		setOpened(false);
-		const closeTimeout = setTimeout(() => navigate(-1), 200);
-	};
+	const boardSelectData = [
+		{
+			name: 'Web Development',
+			value: '626d9e183870543003900a8a',
+		},
+		{
+			name: 'Tech Jobs',
+			value: '626d9e183870543003900a8b',
+		},
+	];
 
 	const form = useForm({
 		initialValues: {
-			company: '',
+			employer: '',
 			title: '',
+			boardId: '',
+			listId: '',
 		},
 	});
+
+	type FormValues = typeof form.values;
+
+	const handleModalClose = () => {
+		setOpened(false);
+		setTimeout(() => navigate(-1), CLOSE_TIMEOUT);
+	};
+
+	const handleSubmit = (values: FormValues) => {
+		console.log(values);
+	};
 
 	return (
 		<Modal
@@ -61,21 +85,23 @@ export const AddJobModal = (props: Props) => {
 				overlay: classes.modalOverlay,
 			}}
 		>
-			<form onSubmit={form.onSubmit((values) => console.log(values))}>
-				<Container fluid pt={20} pr={20} pl={20} pb={40}>
+			<form onSubmit={form.onSubmit(handleSubmit)}>
+				<Container fluid pt={20} pr={20} pl={20} pb={20}>
 					<Autocomplete
 						required
-						label='Company'
 						placeholder='Company'
+						description='Required'
 						data={[]}
-						{...form.getInputProps('company')}
+						icon={<HiOutlineOfficeBuilding />}
+						{...form.getInputProps('employer')}
 						classNames={{ input: classes.input }}
 					/>
 					<TextInput
 						required
-						label='Job Title'
 						placeholder='Job Title'
+						description='Required'
 						mt='md'
+						icon={<MdWorkOutline />}
 						{...form.getInputProps('title')}
 						classNames={{ input: classes.input }}
 					/>
@@ -83,20 +109,29 @@ export const AddJobModal = (props: Props) => {
 						<Select
 							required
 							searchable
-							label='Board'
-							data={['Front-End Jobs']}
+							placeholder='Board'
+							description='Required'
+							icon={<MdOutlineDashboardCustomize />}
+							data={[]}
 							classNames={{ input: classes.input }}
 						/>
 						<Select
 							required
-							label='List'
+							placeholder='List'
+							description='Required'
 							data={['Wishlist']}
+							{...form.getInputProps('listId')}
 							classNames={{ input: classes.input }}
 						/>
 					</SimpleGrid>
 				</Container>
 				<Group position='right' p='xs' className={classes.modalFooter}>
-					<Button variant='default' size='xs' className={classes.modalButton}>
+					<Button
+						variant='default'
+						size='xs'
+						className={classes.modalButton}
+						onClick={handleModalClose}
+					>
 						Discard
 					</Button>
 					<BrandButton type='submit' size='xs' className={classes.modalButton}>
