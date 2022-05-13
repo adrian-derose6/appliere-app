@@ -83,34 +83,35 @@ const controlLinks = [
 	},
 ];
 
-const modalLinks: LinkType[] = [
-	{
-		label: 'Jobs',
-		path: '/add-job',
-		icon: <CgToolbox />,
-	},
-	{
-		label: 'Activity',
-		path: '/add-activity',
-		icon: <VscCalendar />,
-	},
-	{
-		label: 'Contact',
-		path: '/add-contact',
-		icon: <IoPeopleOutline />,
-	},
-];
-
 export const BoardNavigation = () => {
-	const { data, isLoading, isSuccess, isError } = useGetBoards();
+	const { data: boardsData, isLoading, isSuccess, isError } = useGetBoards();
 	const [activeValue, setActiveValue] = useState<string>('board');
 	const navigate = useNavigate();
 	const params = useParams();
 	const { pathname } = useLocation();
 	const { classes } = useStyles();
 
-	const board = data?.boards.find((board) => board.id === params.boardId);
+	const board = boardsData?.boards.find((board) => board.id === params.boardId);
 	const iconColor = board?.icon.color;
+	const defaultListId = board?.lists[0].id;
+
+	const modalLinks: LinkType[] = [
+		{
+			label: 'Job',
+			path: `/add-job/${params.boardId}/${defaultListId}`,
+			icon: <CgToolbox />,
+		},
+		{
+			label: 'Activity',
+			path: '/add-activity',
+			icon: <VscCalendar />,
+		},
+		{
+			label: 'Contact',
+			path: '/add-contact',
+			icon: <IoPeopleOutline />,
+		},
+	];
 
 	let boardSelectData;
 
@@ -119,7 +120,7 @@ export const BoardNavigation = () => {
 	}
 
 	if (isSuccess) {
-		boardSelectData = data?.boards.map((board) => {
+		boardSelectData = boardsData?.boards.map((board) => {
 			return {
 				label: board.name,
 				value: board.id,

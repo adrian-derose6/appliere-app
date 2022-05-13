@@ -1,10 +1,5 @@
 import { useEffect, useState } from 'react';
-import {
-	useNavigate,
-	useLocation,
-	useMatch,
-	useParams,
-} from 'react-router-dom';
+import { useNavigate, useMatch, useParams } from 'react-router-dom';
 import {
 	Modal,
 	TextInput,
@@ -14,6 +9,7 @@ import {
 	Container,
 	Select,
 	SimpleGrid,
+	LoadingOverlay,
 } from '@mantine/core';
 import { HiOutlineOfficeBuilding } from 'react-icons/hi';
 import { MdWorkOutline, MdOutlineDashboardCustomize } from 'react-icons/md';
@@ -22,6 +18,7 @@ import { useForm } from '@mantine/form';
 
 import { BrandButton } from '@/components/Buttons';
 import { useGetBoards } from '@/features/board';
+import { useCreateJob } from '@/features/job/api';
 import { useStyles } from './AddJobModal.styles';
 
 const OPEN_TIMEOUT = 50;
@@ -32,7 +29,7 @@ type Props = {};
 export const AddJobModal = (props: Props) => {
 	const [opened, setOpened] = useState(false);
 	const { data: boardsData, isLoading, isSuccess, isError } = useGetBoards();
-	const location = useLocation();
+	const createJobMutation = useCreateJob();
 	const params = useParams();
 	const navigate = useNavigate();
 	const match = useMatch('/add-job/*');
@@ -52,8 +49,6 @@ export const AddJobModal = (props: Props) => {
 
 	let boardSelectData;
 	let listSelectData;
-
-	console.log('Board select: ', boardsData);
 
 	if (isLoading || isError) {
 		boardSelectData = [];
@@ -75,9 +70,6 @@ export const AddJobModal = (props: Props) => {
 		});
 	}
 
-	console.log(boardSelectData);
-	console.log(listSelectData);
-
 	const form = useForm({
 		initialValues: {
 			employer: '',
@@ -95,7 +87,14 @@ export const AddJobModal = (props: Props) => {
 	};
 
 	const handleSubmit = (values: FormValues) => {
-		console.log(values);
+		createJobMutation.mutate({
+			data: {
+				title: values.title,
+				employer: values.employer,
+				boardId: values.boardId,
+				listId: values.listId,
+			},
+		});
 	};
 
 	return (
@@ -116,6 +115,11 @@ export const AddJobModal = (props: Props) => {
 				overlay: classes.modalOverlay,
 			}}
 		>
+			<LoadingOverlay
+				visible={createJobMutation.isLoading}
+				overlayOpacity={0.3}
+				overlayColor='#c5c5c5'
+			/>
 			<form onSubmit={form.onSubmit(handleSubmit)}>
 				<Container fluid pt={20} pr={20} pl={20} pb={20}>
 					<Autocomplete
@@ -142,6 +146,9 @@ export const AddJobModal = (props: Props) => {
 							searchable
 							placeholder='Board'
 							description='Required'
+							transition='pop'
+							transitionDuration={120}
+							transitionTimingFunction='ease'
 							icon={<MdOutlineDashboardCustomize />}
 							data={boardSelectData as []}
 							{...form.getInputProps('boardId')}
@@ -151,6 +158,9 @@ export const AddJobModal = (props: Props) => {
 							required
 							placeholder='List'
 							description='Required'
+							transition='pop'
+							transitionDuration={120}
+							transitionTimingFunction='ease'
 							icon={<ImStack />}
 							data={listSelectData as []}
 							{...form.getInputProps('listId')}

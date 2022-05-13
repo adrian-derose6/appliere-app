@@ -5,26 +5,9 @@ import { BsPlusLg } from 'react-icons/bs';
 import { BrandButton } from '@/components/Buttons';
 import { LinkType } from '../Layout/BoardNavigation.components';
 
-const useStyles = createStyles((theme) => {
-	return {
-		body: {
-			backgroundColor: theme.other.brandPrimaryColor,
-		},
-		itemHovered: {
-			backgroundColor: '#db7079',
-		},
-		itemIcon: {
-			color: 'white',
-		},
-		itemLabel: {
-			color: 'white',
-		},
-	};
-});
-
 type CreateMenuProps = { links: LinkType[] };
 
-export const CreateMenu = ({ links }: CreateMenuProps) => {
+export function CreateMenu({ links }: CreateMenuProps) {
 	const location = useLocation();
 	const { classes } = useStyles();
 
@@ -59,4 +42,21 @@ export const CreateMenu = ({ links }: CreateMenuProps) => {
 			))}
 		</Menu>
 	);
-};
+}
+
+const useStyles = createStyles((theme) => {
+	return {
+		body: {
+			backgroundColor: theme.other.brandPrimaryColor,
+		},
+		itemHovered: {
+			backgroundColor: '#db7079',
+		},
+		itemIcon: {
+			color: 'white',
+		},
+		itemLabel: {
+			color: 'white',
+		},
+	};
+});
