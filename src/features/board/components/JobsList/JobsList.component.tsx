@@ -11,7 +11,7 @@ import { AddButton } from '../Elements/AddButton';
 import { ColumnMenu } from '../ListActions/ColumnMenu';
 import { Collection, Job } from '../../types';
 import { PlusIcon } from '../Elements/PlusIcon';
-import { useStyles } from './BoardColumn.styles';
+import { useStyles } from './JobsList.styles';
 
 interface JobsListProps {
 	index: number;
@@ -23,6 +23,7 @@ export const JobsList = (props: JobsListProps) => {
 	const [isDraggingOver, setIsDraggingOver] = useState<boolean>(false);
 	const isListEmpty = isEmpty(props.jobs);
 	const location = useLocation();
+	const params = useParams();
 	const { hovered, ref } = useHover();
 	const { classes } = useStyles({
 		isDraggingOver,
@@ -30,6 +31,8 @@ export const JobsList = (props: JobsListProps) => {
 		isDragging,
 		isEmpty: isListEmpty,
 	});
+
+	const addJobPath = `/add-job/${params.boardId}/${props.list.id}`;
 
 	return (
 		<Draggable draggableId={props.list.id} index={props.index}>
@@ -52,7 +55,7 @@ export const JobsList = (props: JobsListProps) => {
 							<Title className={classes.columnTitle}>{props.list.name}</Title>
 							<Group>
 								<Link
-									to={`/add-job`}
+									to={addJobPath}
 									state={{
 										backgroundLocation: location,
 										list: props.list.id,
@@ -87,7 +90,7 @@ export const JobsList = (props: JobsListProps) => {
 										))}
 										{provided.placeholder}
 										<Link
-											to={`/add-job`}
+											to={addJobPath}
 											state={{
 												backgroundLocation: location,
 												list: props.list.id,

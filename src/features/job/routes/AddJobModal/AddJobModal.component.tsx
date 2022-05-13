@@ -1,5 +1,10 @@
 import { useEffect, useState } from 'react';
-import { useNavigate, useLocation, useMatch } from 'react-router-dom';
+import {
+	useNavigate,
+	useLocation,
+	useMatch,
+	useParams,
+} from 'react-router-dom';
 import {
 	Modal,
 	TextInput,
@@ -13,9 +18,10 @@ import {
 import { HiOutlineOfficeBuilding } from 'react-icons/hi';
 import { MdWorkOutline, MdOutlineDashboardCustomize } from 'react-icons/md';
 import { ImStack } from 'react-icons/im';
+import { useForm } from '@mantine/form';
 
 import { BrandButton } from '@/components/Buttons';
-import { useForm } from '@mantine/form';
+import { useGetBoards } from '@/features/board';
 import { useStyles } from './AddJobModal.styles';
 
 const OPEN_TIMEOUT = 50;
@@ -25,8 +31,9 @@ type Props = {};
 
 export const AddJobModal = (props: Props) => {
 	const [opened, setOpened] = useState(false);
+	const { data: boardsData, isLoading, isSuccess, isError } = useGetBoards();
 	const location = useLocation();
-	const locationState = location.state;
+	const params = useParams();
 	const navigate = useNavigate();
 	const match = useMatch('/add-job/*');
 	const { classes } = useStyles();
@@ -37,23 +44,46 @@ export const AddJobModal = (props: Props) => {
 		}
 	}, [match]);
 
-	const boardSelectData = [
-		{
-			name: 'Web Development',
-			value: '626d9e183870543003900a8a',
-		},
-		{
-			name: 'Tech Jobs',
-			value: '626d9e183870543003900a8b',
-		},
-	];
+	const currentBoard = boardsData?.boards.find(
+		(board) => board.id === params.boardId
+	);
+	const boardLists = currentBoard?.lists;
+	const currentList = boardLists?.find((list) => list.id === params.listId);
+
+	let boardSelectData;
+	let listSelectData;
+
+	console.log('Board select: ', boardsData);
+
+	if (isLoading || isError) {
+		boardSelectData = [];
+		listSelectData = [];
+	}
+
+	if (isSuccess) {
+		boardSelectData = boardsData?.boards.map((board) => {
+			return {
+				label: board.name,
+				value: board.id,
+			};
+		});
+		listSelectData = boardLists?.map((list) => {
+			return {
+				label: list.name,
+				value: list.id,
+			};
+		});
+	}
+
+	console.log(boardSelectData);
+	console.log(listSelectData);
 
 	const form = useForm({
 		initialValues: {
 			employer: '',
 			title: '',
-			boardId: '',
-			listId: '',
+			boardId: params.boardId as string,
+			listId: currentList?.id as string,
 		},
 	});
 
@@ -112,10 +142,9 @@ export const AddJobModal = (props: Props) => {
 							searchable
 							placeholder='Board'
 							description='Required'
-							allowDeselect
 							icon={<MdOutlineDashboardCustomize />}
-							data={[]}
-							{...form.getInputProps('boardId', {})}
+							data={boardSelectData as []}
+							{...form.getInputProps('boardId')}
 							classNames={{ input: classes.input }}
 						/>
 						<Select
@@ -123,7 +152,7 @@ export const AddJobModal = (props: Props) => {
 							placeholder='List'
 							description='Required'
 							icon={<ImStack />}
-							data={['Wishlist']}
+							data={listSelectData as []}
 							{...form.getInputProps('listId')}
 							classNames={{ input: classes.input }}
 						/>

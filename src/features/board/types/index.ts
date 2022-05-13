@@ -21,13 +21,13 @@ export interface BoardState {
 }
 
 export type JobType = {
-	company: string;
-	position: string;
+	employer: string;
+	title: string;
 };
 
 export type List = {
 	id: string;
-	title: string;
+	name: string;
 	jobs: JobType[];
 };
 

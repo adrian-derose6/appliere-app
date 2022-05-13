@@ -4,7 +4,7 @@ import { AddJobModal } from '@/features/job';
 
 export const modalRoutes: RouteObject[] = [
 	{
-		path: '/add-job',
+		path: '/add-job/:boardId/:listId',
 		element: <AddJobModal />,
 	},
 	{

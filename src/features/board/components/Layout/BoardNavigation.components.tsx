@@ -102,7 +102,7 @@ const modalLinks: LinkType[] = [
 ];
 
 export const BoardNavigation = () => {
-	const { data, isLoading, isSuccess } = useGetBoards();
+	const { data, isLoading, isSuccess, isError } = useGetBoards();
 	const [activeValue, setActiveValue] = useState<string>('board');
 	const navigate = useNavigate();
 	const params = useParams();
@@ -110,16 +110,16 @@ export const BoardNavigation = () => {
 	const { classes } = useStyles();
 
 	const board = data?.boards.find((board) => board.id === params.boardId);
-	const boardName = board?.name;
+	const iconColor = board?.icon.color;
 
-	let selectData;
+	let boardSelectData;
 
-	if (isLoading) {
-		selectData = [];
+	if (isLoading || isError) {
+		boardSelectData = [];
 	}
 
 	if (isSuccess) {
-		selectData = data?.boards.map((board) => {
+		boardSelectData = data?.boards.map((board) => {
 			return {
 				label: board.name,
 				value: board.id,
@@ -159,9 +159,9 @@ export const BoardNavigation = () => {
 			>
 				<Group noWrap>
 					<Group noWrap position='left'>
-						<BoardIcon />
+						<BoardIcon color={iconColor} />
 						<Select
-							data={selectData as []}
+							data={boardSelectData as []}
 							variant='unstyled'
 							defaultValue={params.boardId as string}
 							onChange={handleBoardSelectChange}
