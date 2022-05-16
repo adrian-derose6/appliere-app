@@ -26,7 +26,6 @@ type UseCreateJobOptions = {
 export const useCreateJob = ({ config }: UseCreateJobOptions = {}) => {
 	return useMutation({
 		onSettled: (data, err, variables) => {
-			console.log('settled');
 			queryClient.invalidateQueries(['board', variables.data.boardId, 'lists']);
 		},
 		...config,

@@ -1,10 +1,5 @@
 import { useEffect, useState } from 'react';
-import {
-	useNavigate,
-	useMatch,
-	useParams,
-	useLocation,
-} from 'react-router-dom';
+import { useNavigate, useMatch, useParams } from 'react-router-dom';
 import {
 	Modal,
 	TextInput,
@@ -29,67 +24,48 @@ import { ImStack } from 'react-icons/im';
 import { useForm } from '@mantine/form';
 
 import { BrandButton } from '@/components/Buttons';
-import { useGetBoards } from '@/features/board';
+import { useGetLists } from '@/features/board';
 import { useCreateJob } from '@/features/job/api';
-import { useStyles } from './AddJobModal.styles';
+import { useStyles } from './JobModal.styles';
 
 const OPEN_TIMEOUT = 50;
 const CLOSE_TIMEOUT = 200;
 
 type Props = {};
 
-export const AddJobModal = (props: Props) => {
+export const JobModal = (props: Props) => {
 	const [opened, setOpened] = useState(false);
-	const { data: boardsData, isLoading, isSuccess, isError } = useGetBoards();
-	const {
-		mutate: createJobMutate,
-		isSuccess: createJobSuccess,
-		isLoading: createJobLoading,
-		isError: createJobError,
-		data: jobData,
-	} = useCreateJob();
 	const params = useParams();
+	const {
+		data: listsData,
+		isLoading,
+		isSuccess,
+		isError,
+	} = useGetLists({ boardId: params.boardId as string });
+	const createJobMutation = useCreateJob();
+
 	const navigate = useNavigate();
-	const location = useLocation();
-	const locationState = location.state as { backgroundLocation?: Location };
-	const match = useMatch('/add-job/*');
+	const match = useMatch('/job/*');
 	const { classes } = useStyles();
 
 	useEffect(() => {
 		if (match?.pathname) {
 			setTimeout(() => setOpened(true), OPEN_TIMEOUT);
 		}
-		if (createJobSuccess) {
-			navigate(`/boards/${params.boardId}/job/${jobData?.id}/job-info`);
-		}
-
-		return () => {
-			locationState.backgroundLocation = undefined;
-		};
 	}, [match]);
 
-	const currentBoard = boardsData?.boards.find(
-		(board) => board.id === params.boardId
+	const currentList = listsData?.lists.find(
+		(list: any) => list.id === params.listId
 	);
-	const boardLists = currentBoard?.lists;
-	const currentList = boardLists?.find((list) => list.id === params.listId);
 
-	let boardSelectData;
 	let listSelectData;
 
 	if (isLoading || isError) {
-		boardSelectData = [];
 		listSelectData = [];
 	}
 
 	if (isSuccess) {
-		boardSelectData = boardsData?.boards.map((board) => {
-			return {
-				label: board.name,
-				value: board.id,
-			};
-		});
-		listSelectData = boardLists?.map((list) => {
+		listSelectData = listsData.lists?.map((list: any) => {
 			return {
 				label: list.name,
 				value: list.id,
@@ -101,8 +77,10 @@ export const AddJobModal = (props: Props) => {
 		initialValues: {
 			employer: '',
 			title: '',
-			boardId: params.boardId as string,
-			listId: currentList?.id as string,
+			salary: '',
+			location: '',
+			color: '',
+			description: '',
 		},
 	});
 
@@ -114,26 +92,13 @@ export const AddJobModal = (props: Props) => {
 	};
 
 	const handleSubmit = (values: FormValues) => {
-		createJobMutate({
-			data: {
-				title: values.title,
-				employer: values.employer,
-				boardId: values.boardId,
-				listId: values.listId,
-			},
-		});
+		console.log(values);
 	};
 
 	return (
 		<Modal
-			size='sm'
+			size='xl'
 			padding={0}
-			title={
-				<Group spacing={5}>
-					<CgAdd />
-					<Text>Add Job</Text>
-				</Group>
-			}
 			centered
 			closeOnClickOutside
 			opened={opened}
@@ -148,7 +113,7 @@ export const AddJobModal = (props: Props) => {
 			}}
 		>
 			<LoadingOverlay
-				visible={createJobLoading}
+				visible={createJobMutation.isLoading}
 				overlayOpacity={0.3}
 				overlayColor='#c5c5c5'
 			/>
@@ -172,33 +137,6 @@ export const AddJobModal = (props: Props) => {
 						{...form.getInputProps('title')}
 						classNames={{ input: classes.input }}
 					/>
-					<SimpleGrid mt='md' cols={2}>
-						<Select
-							required
-							searchable
-							placeholder='Board'
-							description='Required'
-							transition='pop'
-							transitionDuration={120}
-							transitionTimingFunction='ease'
-							icon={<MdOutlineDashboardCustomize />}
-							data={boardSelectData as []}
-							{...form.getInputProps('boardId')}
-							classNames={{ input: classes.input }}
-						/>
-						<Select
-							required
-							placeholder='List'
-							description='Required'
-							transition='pop'
-							transitionDuration={120}
-							transitionTimingFunction='ease'
-							icon={<ImStack />}
-							data={listSelectData as []}
-							{...form.getInputProps('listId')}
-							classNames={{ input: classes.input }}
-						/>
-					</SimpleGrid>
 				</Container>
 				<Group position='right' p='xs' className={classes.modalFooter}>
 					<Button
@@ -210,7 +148,7 @@ export const AddJobModal = (props: Props) => {
 						Discard
 					</Button>
 					<BrandButton type='submit' size='xs' className={classes.modalButton}>
-						Save Job
+						Save
 					</BrandButton>
 				</Group>
 			</form>

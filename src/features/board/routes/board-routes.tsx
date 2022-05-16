@@ -7,6 +7,7 @@ import { ContactsPage } from '@/features/contacts';
 import { MetricsPage } from '@/features/metrics';
 import { BoardMapPage } from '@/features/board-map';
 import { activitiesRoutes } from '@/features/activities';
+import { jobRoutes } from '@/features/job';
 
 export const boardRoutes: RouteObject[] = [
 	{

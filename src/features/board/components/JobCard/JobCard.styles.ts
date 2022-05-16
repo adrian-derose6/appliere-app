@@ -16,6 +16,10 @@ export const useStyles = createStyles((theme) => {
 			display: 'flex',
 			flexDirection: 'column',
 			justifyContent: 'space-between',
+
+			'&:hover': {
+				border: '1px solid rgba(25, 4, 69, 0.4)',
+			},
 		},
 		info: {
 			width: '100%',

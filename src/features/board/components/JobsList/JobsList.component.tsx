@@ -79,21 +79,23 @@ export const JobsList = (props: JobsListProps) => {
 										{...provided.droppableProps}
 										scrollbarSize={10}
 									>
-										{props.list.jobs.map((job: any, index: number) => (
-											<JobCard
-												key={job.id}
-												jobId={job.id}
-												title={job.title}
-												employer={job.employer}
-												index={index}
-											/>
-										))}
+										{props.list.jobs.map((job: any, index: number) => {
+											return (
+												<JobCard
+													key={job.id}
+													jobId={job.id}
+													boardId={job.boardId}
+													title={job.title}
+													employer={job.employer}
+													index={index}
+												/>
+											);
+										})}
 										{provided.placeholder}
 										<Link
 											to={addJobPath}
 											state={{
 												backgroundLocation: location,
-												list: props.list.id,
 											}}
 										>
 											<AddButton
