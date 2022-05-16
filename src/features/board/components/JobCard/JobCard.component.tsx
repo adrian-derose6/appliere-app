@@ -1,4 +1,4 @@
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { Container, Avatar, Group, Text } from '@mantine/core';
 import { Draggable } from 'react-beautiful-dnd';
 import { FiPlusCircle } from 'react-icons/fi';
@@ -35,6 +35,7 @@ export const JobCard = ({
 	companyColor,
 }: JobCardProps) => {
 	const navigate = useNavigate();
+	const location = useLocation();
 	const { classes } = useStyles();
 
 	const handleCardClick = (e: SyntheticEvent) => {
