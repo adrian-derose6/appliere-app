@@ -18,6 +18,7 @@ interface JobsListProps {
 	list: any;
 	jobs?: any;
 }
+
 export const JobsList = (props: JobsListProps) => {
 	const [isDragging, setIsDragging] = useState<boolean>(false);
 	const [isDraggingOver, setIsDraggingOver] = useState<boolean>(false);

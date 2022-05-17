@@ -1,6 +1,18 @@
 import { useEffect, useState } from 'react';
-import { useNavigate, useMatch, useParams, Outlet } from 'react-router-dom';
-import { Modal, LoadingOverlay, Tabs } from '@mantine/core';
+import { useNavigate, useMatch, useParams } from 'react-router-dom';
+import {
+	Modal,
+	LoadingOverlay,
+	Tabs,
+	Container,
+	Avatar,
+	Title,
+	Text,
+	Center,
+	Group,
+	Button,
+	Grid,
+} from '@mantine/core';
 import { ImInfo } from 'react-icons/im';
 import { FaListUl } from 'react-icons/fa';
 import { VscNotebook } from 'react-icons/vsc';
@@ -9,6 +21,7 @@ import { HiOutlineOfficeBuilding } from 'react-icons/hi';
 
 import { useStyles } from './JobModal.styles';
 import { JobInfo } from '../../components/JobInfo/JobInfo.component';
+import { BrandButton } from '@/components/Buttons';
 
 const OPEN_TIMEOUT = 50;
 const CLOSE_TIMEOUT = 200;
@@ -78,7 +91,6 @@ export const JobModal = (props: Props) => {
 			withCloseButton={false}
 			classNames={{
 				modal: classes.modal,
-				header: classes.modalHeader,
 				title: classes.modalTitle,
 				close: classes.modalClose,
 				overlay: classes.modalOverlay,
@@ -89,7 +101,27 @@ export const JobModal = (props: Props) => {
 				overlayOpacity={0.3}
 				overlayColor='#c5c5c5'
 			/>
-			<Tabs grow position='center' onTabChange={handleTabChange}>
+			<Group noWrap position='right' className={classes.buttonHeader}>
+				<Group noWrap spacing='xs'>
+					<BrandButton size='xs'>Move</BrandButton>
+					<Button size='xs' variant='default' onClick={handleModalClose}>
+						Close
+					</Button>
+				</Group>
+			</Group>
+			<Group noWrap className={classes.jobHeader}>
+				<Avatar size={42} />
+				<div>
+					<Title>Facebook</Title>
+					<Text>Software Developer</Text>
+				</div>
+			</Group>
+			<Tabs
+				grow
+				position='center'
+				onTabChange={handleTabChange}
+				classNames={{ tabsListWrapper: classes.tabsListWrapper }}
+			>
 				{tabsList.map((tab, index) => {
 					return (
 						<Tabs.Tab

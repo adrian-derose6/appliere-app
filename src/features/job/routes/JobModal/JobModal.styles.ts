@@ -4,18 +4,15 @@ export const useStyles = createStyles((theme) => {
 	return {
 		modal: {
 			overflow: 'hidden',
+			minHeight: '150%',
+			maxWidth: '95%',
 		},
-		modalHeader: {
-			height: 40,
-			width: '100%',
-			display: 'flex',
-			alignItems: 'center',
-			justifyContent: 'center',
-			//borderBottom: '1px solid rgba(25, 4, 69, 0.1)',
-			margin: 0,
-			backgroundColor: theme.other.brandPrimaryColor,
-			position: 'relative',
-			boxShadow: '0px 1px 4px 0px rgba(179,174,174,0.75)',
+		jobHeader: {
+			padding: '5px 45px 60px',
+		},
+		buttonHeader: {
+			height: '60px',
+			padding: '0 10px',
 		},
 		modalTitle: {
 			color: 'white',
@@ -41,6 +38,9 @@ export const useStyles = createStyles((theme) => {
 			'&:focus': {
 				//border: `1px solid ${theme.other.brandPrimaryColor}`,
 			},
+		},
+		tabsListWrapper: {
+			padding: '0px 20px',
 		},
 		submitButton: {},
 		modalButton: {
