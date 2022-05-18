@@ -120,7 +120,9 @@ export const JobModal = (props: Props) => {
 				grow
 				position='center'
 				onTabChange={handleTabChange}
-				classNames={{ tabsListWrapper: classes.tabsListWrapper }}
+				classNames={{
+					tabsListWrapper: classes.tabsListWrapper,
+				}}
 			>
 				{tabsList.map((tab, index) => {
 					return (

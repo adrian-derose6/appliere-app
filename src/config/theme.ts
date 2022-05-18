@@ -54,4 +54,11 @@ export const libraryStyles = {
 			},
 		},
 	}),
+	Tabs: (theme: MantineTheme) => ({
+		tabControl: {
+			fontFamily: theme.other.secondaryFontFamily,
+			fontWeight: 500,
+			color: theme.colors.gray[6],
+		},
+	}),
 };

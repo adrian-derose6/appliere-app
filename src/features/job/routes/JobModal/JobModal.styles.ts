@@ -4,7 +4,7 @@ export const useStyles = createStyles((theme) => {
 	return {
 		modal: {
 			overflow: 'hidden',
-			minHeight: '150%',
+			minHeight: '100%',
 			maxWidth: '95%',
 		},
 		jobHeader: {
@@ -40,7 +40,7 @@ export const useStyles = createStyles((theme) => {
 			},
 		},
 		tabsListWrapper: {
-			padding: '0px 20px',
+			padding: '0px 30px',
 		},
 		submitButton: {},
 		modalButton: {

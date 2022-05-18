@@ -11,5 +11,13 @@ export const useStyles = createStyles((theme) => {
 				//border: `1px solid ${theme.other.brandPrimaryColor}`,
 			},
 		},
+		descriptionRoot: {
+			minHeight: '155px',
+		},
+		descriptionLabel: {
+			fontSize: '14px',
+			fontWeight: 500,
+			marginBottom: '4px',
+		},
 	};
 });
