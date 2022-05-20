@@ -32,7 +32,7 @@ const tabsList = [
 		label: 'Job Info',
 		tabKey: 'job-info',
 		icon: <ImInfo />,
-		component: <JobInfo />,
+		Component: JobInfo,
 	},
 	{
 		label: 'Activities',
@@ -62,6 +62,9 @@ export const JobModal = (props: Props) => {
 	const [opened, setOpened] = useState<boolean>(false);
 	const [activeTab, setActiveTab] = useState<number>(0);
 	const params = useParams();
+	const { data, isLoading, isError } = useGetJob({
+		jobId: params.jobId as string,
+	});
 	const navigate = useNavigate();
 	const match = useMatch('/job/*');
 	const { classes } = useStyles();
@@ -98,7 +101,7 @@ export const JobModal = (props: Props) => {
 			}}
 		>
 			<LoadingOverlay
-				visible={false}
+				visible={isLoading}
 				overlayOpacity={0.3}
 				overlayColor='#c5c5c5'
 			/>
@@ -113,8 +116,8 @@ export const JobModal = (props: Props) => {
 			<Group noWrap className={classes.jobHeader}>
 				<Avatar size={42} />
 				<div>
-					<Title>Facebook</Title>
-					<Text>Software Developer</Text>
+					<Title>{data?.job?.employer}</Title>
+					<Text>{data?.job?.title}</Text>
 				</div>
 			</Group>
 			<Tabs
@@ -126,6 +129,8 @@ export const JobModal = (props: Props) => {
 				}}
 			>
 				{tabsList.map((tab, index) => {
+					const { Component } = tab;
+
 					return (
 						<Tabs.Tab
 							key={index}
@@ -133,7 +138,7 @@ export const JobModal = (props: Props) => {
 							icon={tab.icon}
 							tabKey={tab.tabKey}
 						>
-							{tab.component}
+							{Component && <Component job={data?.job} />}
 						</Tabs.Tab>
 					);
 				})}
