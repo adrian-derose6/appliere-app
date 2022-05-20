@@ -22,6 +22,7 @@ import { HiOutlineOfficeBuilding } from 'react-icons/hi';
 import { useStyles } from './JobModal.styles';
 import { JobInfo } from '../../components/JobInfo/JobInfo.component';
 import { BrandButton } from '@/components/Buttons';
+import { useGetJob } from '@/features/job';
 
 const OPEN_TIMEOUT = 50;
 const CLOSE_TIMEOUT = 200;
@@ -58,8 +59,8 @@ const tabsList = [
 type Props = {};
 
 export const JobModal = (props: Props) => {
-	const [opened, setOpened] = useState(false);
-	const [activeTab, setActiveTab] = useState(0);
+	const [opened, setOpened] = useState<boolean>(false);
+	const [activeTab, setActiveTab] = useState<number>(0);
 	const params = useParams();
 	const navigate = useNavigate();
 	const match = useMatch('/job/*');
