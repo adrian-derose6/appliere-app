@@ -2,6 +2,7 @@ import {
 	Container,
 	Autocomplete,
 	TextInput,
+	NumberInput,
 	SimpleGrid,
 	Text,
 	Grid,
@@ -17,6 +18,7 @@ import { IoLocationOutline } from 'react-icons/io5';
 
 import { useStyles } from './JobInfo.styles';
 import { Job } from '../../types';
+import { SyntheticEvent } from 'react';
 
 interface JobInfoProps {
 	job?: Job;
@@ -39,6 +41,12 @@ export const JobInfo = ({ job }: JobInfoProps) => {
 
 	type FormValues = typeof form.values;
 
+	const handleUpdateInput = (e: SyntheticEvent) => {
+		e.stopPropagation();
+		const name = e.currentTarget.getAttribute('data-name') as string;
+		console.log(form.values[name as keyof FormValues]);
+	};
+
 	return (
 		<Container fluid pt={20} pr={20} pl={20} pb={20}>
 			<form>
@@ -47,9 +55,10 @@ export const JobInfo = ({ job }: JobInfoProps) => {
 						<Autocomplete
 							placeholder='Company'
 							label='Company'
+							data-name='employer'
 							data={[]}
 							icon={<HiOutlineOfficeBuilding />}
-							classNames={{ input: classes.input }}
+							onBlur={handleUpdateInput}
 							{...form.getInputProps('employer')}
 						/>
 					</Grid.Col>
@@ -57,8 +66,9 @@ export const JobInfo = ({ job }: JobInfoProps) => {
 						<TextInput
 							placeholder='Job Title'
 							label='Job Title'
+							data-name='title'
 							icon={<MdWorkOutline />}
-							classNames={{ input: classes.input }}
+							onBlur={handleUpdateInput}
 							{...form.getInputProps('title')}
 						/>
 					</Grid.Col>
@@ -66,17 +76,19 @@ export const JobInfo = ({ job }: JobInfoProps) => {
 						<TextInput
 							placeholder='http://...'
 							label='Post URL'
+							data-name='postURL'
 							icon={<AiOutlineLink />}
-							classNames={{ input: classes.input }}
+							onBlur={handleUpdateInput}
 							{...form.getInputProps('postURL')}
 						/>
 					</Grid.Col>
 					<Grid.Col span={4}>
-						<TextInput
-							placeholder='Salary'
-							label='Salary'
+						<NumberInput
+							placeholder='Yearly Salary'
+							label='Yearly Salary'
+							data-name='salary'
 							icon={<FaRegMoneyBillAlt />}
-							classNames={{ input: classes.input }}
+							onBlur={handleUpdateInput}
 							{...form.getInputProps('salary')}
 						/>
 					</Grid.Col>
@@ -84,9 +96,10 @@ export const JobInfo = ({ job }: JobInfoProps) => {
 						<Autocomplete
 							placeholder='Location'
 							label='Location'
+							data-name='location'
 							data={[]}
 							icon={<IoLocationOutline />}
-							classNames={{ input: classes.input }}
+							onBlur={handleUpdateInput}
 							{...form.getInputProps('location')}
 						/>
 					</Grid.Col>
@@ -94,9 +107,10 @@ export const JobInfo = ({ job }: JobInfoProps) => {
 						<ColorInput
 							placeholder='Pick color'
 							label='Color'
+							data-name='color'
 							disallowInput
 							withPicker={false}
-							classNames={{ input: classes.input }}
+							onBlur={handleUpdateInput}
 							{...form.getInputProps('color')}
 						/>
 					</Grid.Col>
@@ -109,6 +123,8 @@ export const JobInfo = ({ job }: JobInfoProps) => {
 								['orderedList', 'unorderedList', 'h1', 'h2', 'h3'],
 								['alignLeft', 'alignCenter', 'alignRight'],
 							]}
+							data-name='htmlDescription'
+							onBlur={handleUpdateInput}
 							classNames={{ root: classes.descriptionRoot }}
 						/>
 					</Grid.Col>

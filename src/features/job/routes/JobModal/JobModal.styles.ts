@@ -40,7 +40,7 @@ export const useStyles = createStyles((theme) => {
 			},
 		},
 		tabsListWrapper: {
-			padding: '0px 30px',
+			padding: '0px 25px',
 		},
 		submitButton: {},
 		modalButton: {

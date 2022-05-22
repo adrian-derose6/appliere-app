@@ -62,7 +62,7 @@ export const JobModal = (props: Props) => {
 	const [opened, setOpened] = useState<boolean>(false);
 	const [activeTab, setActiveTab] = useState<number>(0);
 	const params = useParams();
-	const { data, isLoading, isError } = useGetJob({
+	const { data, isLoading, isSuccess, isError } = useGetJob({
 		jobId: params.jobId as string,
 	});
 	const navigate = useNavigate();
@@ -138,7 +138,7 @@ export const JobModal = (props: Props) => {
 							icon={tab.icon}
 							tabKey={tab.tabKey}
 						>
-							{Component && <Component job={data?.job} />}
+							{isSuccess && Component && <Component job={data?.job} />}
 						</Tabs.Tab>
 					);
 				})}
