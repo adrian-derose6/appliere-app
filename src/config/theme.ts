@@ -61,4 +61,14 @@ export const libraryStyles = {
 			color: theme.colors.gray[6],
 		},
 	}),
+	ColorInput: (theme: MantineTheme) => ({
+		input: {
+			border: 0,
+			color: 'rgba(0, 0, 0, 0);',
+
+			'&::placeholder': {
+				color: 'rgba(0, 0, 0, 0);',
+			},
+		},
+	}),
 };

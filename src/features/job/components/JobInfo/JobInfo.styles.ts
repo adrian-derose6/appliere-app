@@ -19,5 +19,9 @@ export const useStyles = createStyles((theme) => {
 			fontWeight: 500,
 			marginBottom: '4px',
 		},
+		colorInput: {
+			width: '100%',
+			color: 'white',
+		},
 	};
 });

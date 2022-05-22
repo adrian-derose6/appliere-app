@@ -1,3 +1,4 @@
+import { SyntheticEvent } from 'react';
 import {
 	Container,
 	Autocomplete,
@@ -18,7 +19,7 @@ import { IoLocationOutline } from 'react-icons/io5';
 
 import { useStyles } from './JobInfo.styles';
 import { Job } from '../../types';
-import { SyntheticEvent } from 'react';
+import JOB_COLORS from '../../utils/job-colors';
 
 interface JobInfoProps {
 	job?: Job;
@@ -110,7 +111,13 @@ export const JobInfo = ({ job }: JobInfoProps) => {
 							data-name='color'
 							disallowInput
 							withPicker={false}
+							swatches={JOB_COLORS}
+							swatchesPerRow={4}
+							withPreview={false}
 							onBlur={handleUpdateInput}
+							styles={{
+								input: { backgroundColor: job?.color || JOB_COLORS[1] },
+							}}
 							{...form.getInputProps('color')}
 						/>
 					</Grid.Col>

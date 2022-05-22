@@ -6,6 +6,7 @@ export interface Job extends BaseEntity {
 	salary?: number;
 	htmlDescription?: string;
 	url?: string;
+	color?: string;
 	boardId: string;
 	listId: string;
 	pos: number;
