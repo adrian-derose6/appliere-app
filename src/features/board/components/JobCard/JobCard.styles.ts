@@ -1,3 +1,4 @@
+import { pointerWithin } from '@dnd-kit/core';
 import { createStyles } from '@mantine/core';
 
 export const useStyles = createStyles((theme) => {
@@ -16,9 +17,37 @@ export const useStyles = createStyles((theme) => {
 			display: 'flex',
 			flexDirection: 'column',
 			justifyContent: 'space-between',
+			position: 'relative',
+			zIndex: 100,
+			transition: 'all 0.2s ease',
 
 			'&:hover': {
 				border: '1px solid rgba(25, 4, 69, 0.4)',
+			},
+		},
+		hoverWrapper: {
+			height: '100%',
+			width: '100%',
+			position: 'absolute',
+			zIndex: 200,
+			opacity: 0,
+			cursor: 'pointer',
+			transition: 'all 0.2s ease',
+
+			'&:hover': {
+				opacity: 1,
+			},
+		},
+		trashIconRoot: {
+			position: 'absolute',
+			right: 10,
+			top: 10,
+			color: 'white',
+			border: '1px solid rgba(25, 4, 69, 0.4)',
+			zIndex: 250,
+
+			'&:hover': {
+				backgroundColor: 'transparent',
 			},
 		},
 		info: {

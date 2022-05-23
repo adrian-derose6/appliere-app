@@ -1,9 +1,19 @@
-import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { Container, Avatar, Group, Text } from '@mantine/core';
+import { SyntheticEvent, useState } from 'react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import {
+	Container,
+	Avatar,
+	Group,
+	Text,
+	ActionIcon,
+	Modal,
+} from '@mantine/core';
 import { Draggable } from 'react-beautiful-dnd';
 import { FiPlusCircle } from 'react-icons/fi';
+import { BsTrash } from 'react-icons/bs';
 import { IconContext } from 'react-icons';
 
+import { DeleteJobModal } from '../Modal/DeleteJobModal.component';
 import { useStyles } from './JobCard.styles';
 
 interface JobCardProps {
@@ -33,8 +43,21 @@ export const JobCard = ({
 	avatar,
 	color,
 }: JobCardProps) => {
+	const [modalOpened, setModalOpened] = useState<boolean>(false);
+	const navigate = useNavigate();
 	const location = useLocation();
 	const { classes } = useStyles();
+
+	const handleDeleteIconClick = (e: SyntheticEvent) => {
+		e.stopPropagation();
+		e.preventDefault();
+		setModalOpened(true);
+	};
+
+	const handleCardClick = (e: SyntheticEvent) => {
+		e.stopPropagation();
+		navigate(`/job/${jobId}`, { state: { backgroundLocation: location } });
+	};
 
 	return (
 		<Draggable draggableId={jobId} index={index}>
@@ -49,19 +72,32 @@ export const JobCard = ({
 						backgroundColor: color || 'rgba(76, 106, 164, 0.85)',
 					})}
 				>
-					<Link to={`/job/${jobId}`} state={{ backgroundLocation: location }}>
-						<Group className={classes.info}>
-							<Avatar radius='xl' size={30} src={avatar || ''}></Avatar>
-							<div>
-								<Text className={classes.title}>{title}</Text>
-								<Text className={classes.company}>{employer}</Text>
-							</div>
-						</Group>
-						<Group position='right' className={classes.misc} spacing='xs'>
-							<Text className={classes.timeAgo}>10m</Text>
-							<PlusIcon />
-						</Group>
-					</Link>
+					<div className={classes.hoverWrapper} onClick={handleCardClick}>
+						<ActionIcon
+							variant='outline'
+							size='md'
+							radius='md'
+							onClick={handleDeleteIconClick}
+							classNames={{ root: classes.trashIconRoot }}
+						>
+							<BsTrash />
+						</ActionIcon>
+					</div>
+					<DeleteJobModal
+						opened={modalOpened}
+						onClose={() => setModalOpened(false)}
+					/>
+					<Group className={classes.info}>
+						<Avatar radius='xl' size={30} src={avatar || ''}></Avatar>
+						<div>
+							<Text className={classes.title}>{title}</Text>
+							<Text className={classes.company}>{employer}</Text>
+						</div>
+					</Group>
+					<Group position='right' className={classes.misc} spacing='xs'>
+						<Text className={classes.timeAgo}>10m</Text>
+						<PlusIcon />
+					</Group>
 				</Container>
 			)}
 		</Draggable>
