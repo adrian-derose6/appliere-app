@@ -156,6 +156,7 @@ export const AddJobModal = (props: Props) => {
 				<Container fluid pt={20} pr={20} pl={20} pb={20}>
 					<Autocomplete
 						required
+						label='Company'
 						placeholder='Company'
 						description='Required'
 						data={[]}
@@ -165,6 +166,7 @@ export const AddJobModal = (props: Props) => {
 					/>
 					<TextInput
 						required
+						label='Job Title'
 						placeholder='Job Title'
 						description='Required'
 						mt='md'
@@ -176,6 +178,7 @@ export const AddJobModal = (props: Props) => {
 						<Select
 							required
 							searchable
+							label='Board'
 							placeholder='Board'
 							description='Required'
 							transition='pop'
@@ -188,6 +191,7 @@ export const AddJobModal = (props: Props) => {
 						/>
 						<Select
 							required
+							label='List'
 							placeholder='List'
 							description='Required'
 							transition='pop'

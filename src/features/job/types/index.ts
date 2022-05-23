@@ -4,11 +4,22 @@ export interface Job extends BaseEntity {
 	title: string;
 	employer: string;
 	salary?: number;
+	location?: string;
 	htmlDescription?: string;
-	url?: string;
+	postURL?: string;
 	color?: string;
 	boardId: string;
 	listId: string;
 	pos: number;
 	createdBy: string;
+}
+
+export interface JobUpdateData {
+	title?: string;
+	employer?: string;
+	salary?: number;
+	location?: string;
+	htmlDescription?: string;
+	postURL?: string;
+	color?: string;
 }

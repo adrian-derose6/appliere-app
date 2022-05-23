@@ -1,10 +1,9 @@
-import { SyntheticEvent } from 'react';
+import { SyntheticEvent, useEffect } from 'react';
 import {
 	Container,
 	Autocomplete,
 	TextInput,
 	NumberInput,
-	SimpleGrid,
 	Text,
 	Grid,
 	ColorInput,
@@ -20,32 +19,44 @@ import { IoLocationOutline } from 'react-icons/io5';
 import { useStyles } from './JobInfo.styles';
 import { Job } from '../../types';
 import JOB_COLORS from '../../utils/job-colors';
+import { useUpdateJob } from '../../api/updateJob';
 
 interface JobInfoProps {
 	job?: Job;
 }
 
 export const JobInfo = ({ job }: JobInfoProps) => {
+	const updateJobMutation = useUpdateJob();
 	const { classes } = useStyles();
+
+	const jobId = job?.id as string;
 
 	const form = useForm({
 		initialValues: {
 			employer: job?.employer || '',
 			title: job?.title || '',
-			htmlDescription: '',
-			postURL: '',
+			htmlDescription: job?.htmlDescription || '',
+			postURL: job?.postURL || '',
 			salary: job?.salary || '',
-			location: '',
-			color: '',
+			location: job?.location || '',
+			color: job?.color || '',
 		},
 	});
 
 	type FormValues = typeof form.values;
 
+	useEffect(() => {
+		if (job?.color !== form.values.color) {
+			updateJobMutation.mutate({ jobId, data: { color: form.values.color } });
+		}
+	}, [job?.color, form.values]);
+
 	const handleUpdateInput = (e: SyntheticEvent) => {
-		e.stopPropagation();
 		const name = e.currentTarget.getAttribute('data-name') as string;
-		console.log(form.values[name as keyof FormValues]);
+		const value = form.values[name as keyof FormValues];
+
+		if (job && value === job[name as keyof Job]) return;
+		updateJobMutation.mutate({ jobId, data: { [name]: value } });
 	};
 
 	return (
@@ -114,9 +125,11 @@ export const JobInfo = ({ job }: JobInfoProps) => {
 							swatches={JOB_COLORS}
 							swatchesPerRow={4}
 							withPreview={false}
-							onBlur={handleUpdateInput}
+							transition='pop'
+							transitionDuration={120}
+							transitionTimingFunction='ease'
 							styles={{
-								input: { backgroundColor: job?.color || JOB_COLORS[1] },
+								input: { backgroundColor: form.values.color || JOB_COLORS[1] },
 							}}
 							{...form.getInputProps('color')}
 						/>
