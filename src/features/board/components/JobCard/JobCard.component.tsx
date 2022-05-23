@@ -59,6 +59,10 @@ export const JobCard = ({
 		navigate(`/job/${jobId}`, { state: { backgroundLocation: location } });
 	};
 
+	const handleDeleteJob = (e: SyntheticEvent) => {
+		e.stopPropagation();
+	};
+
 	return (
 		<Draggable draggableId={jobId} index={index}>
 			{(provided, snapshot) => (
@@ -85,7 +89,9 @@ export const JobCard = ({
 					</div>
 					<DeleteJobModal
 						opened={modalOpened}
+						loading={false}
 						onClose={() => setModalOpened(false)}
+						onClickDelete={handleDeleteJob}
 					/>
 					<Group className={classes.info}>
 						<Avatar radius='xl' size={30} src={avatar || ''}></Avatar>
