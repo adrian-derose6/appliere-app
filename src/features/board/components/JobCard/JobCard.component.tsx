@@ -5,7 +5,6 @@ import { FiPlusCircle } from 'react-icons/fi';
 import { IconContext } from 'react-icons';
 
 import { useStyles } from './JobCard.styles';
-import { SyntheticEvent } from 'react';
 
 interface JobCardProps {
 	jobId: string;
@@ -13,7 +12,7 @@ interface JobCardProps {
 	employer: string;
 	boardId: string;
 	avatar?: string;
-	companyColor?: string;
+	color?: string;
 	index: number;
 }
 
@@ -32,15 +31,10 @@ export const JobCard = ({
 	title,
 	employer,
 	avatar,
-	companyColor,
+	color,
 }: JobCardProps) => {
-	const navigate = useNavigate();
 	const location = useLocation();
 	const { classes } = useStyles();
-
-	const handleCardClick = (e: SyntheticEvent) => {
-		e.stopPropagation();
-	};
 
 	return (
 		<Draggable draggableId={jobId} index={index}>
@@ -52,13 +46,10 @@ export const JobCard = ({
 					className={classes.card}
 					px={0}
 					sx={() => ({
-						backgroundColor: companyColor || 'rgba(76, 106, 164, 0.85)',
+						backgroundColor: color || 'rgba(76, 106, 164, 0.85)',
 					})}
 				>
-					<Link
-						to={`/job/${jobId}/job-info`}
-						state={{ backgroundLocation: location }}
-					>
+					<Link to={`/job/${jobId}`} state={{ backgroundLocation: location }}>
 						<Group className={classes.info}>
 							<Avatar radius='xl' size={30} src={avatar || ''}></Avatar>
 							<div>

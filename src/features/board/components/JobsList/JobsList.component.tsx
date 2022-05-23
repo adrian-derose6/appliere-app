@@ -88,6 +88,7 @@ export const JobsList = (props: JobsListProps) => {
 													boardId={job.boardId}
 													title={job.title}
 													employer={job.employer}
+													color={job.color}
 													index={index}
 												/>
 											);

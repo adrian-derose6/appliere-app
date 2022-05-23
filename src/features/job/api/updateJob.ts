@@ -25,8 +25,10 @@ type UseUpdateJobOptions = {
 export const useUpdateJob = ({ config }: UseUpdateJobOptions = {}) => {
 	return useMutation({
 		onSettled: (data, err, variables) => {
+			const { title, employer, color } = variables.data;
+
 			queryClient.invalidateQueries(['job', variables.jobId]);
-			if (variables.data.title || variables.data.employer) {
+			if (title || employer || color) {
 				queryClient.invalidateQueries(['board', data?.boardId, 'lists']);
 			}
 		},

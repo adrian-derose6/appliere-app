@@ -41,13 +41,7 @@ type Props = {};
 export const AddJobModal = (props: Props) => {
 	const [opened, setOpened] = useState(false);
 	const { data: boardsData, isLoading, isSuccess, isError } = useGetBoards();
-	const {
-		mutate: createJobMutate,
-		isSuccess: createJobSuccess,
-		isLoading: createJobLoading,
-		isError: createJobError,
-		data: jobData,
-	} = useCreateJob();
+	const createJobMutation = useCreateJob();
 	const params = useParams();
 	const navigate = useNavigate();
 	const location = useLocation();
@@ -59,14 +53,14 @@ export const AddJobModal = (props: Props) => {
 		if (match?.pathname) {
 			setTimeout(() => setOpened(true), OPEN_TIMEOUT);
 		}
-		if (createJobSuccess) {
-			navigate(`/boards/${params.boardId}/job/${jobData?.id}/job-info`);
+		if (createJobMutation.isSuccess) {
+			navigate(`/job/${createJobMutation.data?.id}`);
 		}
 
 		return () => {
 			locationState.backgroundLocation = undefined;
 		};
-	}, [match]);
+	}, [match, createJobMutation.isSuccess]);
 
 	const currentBoard = boardsData?.boards.find(
 		(board) => board.id === params.boardId
@@ -114,7 +108,7 @@ export const AddJobModal = (props: Props) => {
 	};
 
 	const handleSubmit = (values: FormValues) => {
-		createJobMutate({
+		createJobMutation.mutate({
 			data: {
 				title: values.title,
 				employer: values.employer,
@@ -148,7 +142,7 @@ export const AddJobModal = (props: Props) => {
 			}}
 		>
 			<LoadingOverlay
-				visible={createJobLoading}
+				visible={createJobMutation.isLoading}
 				overlayOpacity={0.3}
 				overlayColor='#c5c5c5'
 			/>

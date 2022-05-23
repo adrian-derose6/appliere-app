@@ -1,7 +1,7 @@
 import { RouteObject } from 'react-router-dom';
 
 import { AddJobModal } from '@/features/job';
-import { jobRoutes } from '@/features/job';
+import { JobModal } from '@/features/job';
 
 export const modalRoutes: RouteObject[] = [
 	{
@@ -9,8 +9,8 @@ export const modalRoutes: RouteObject[] = [
 		element: <AddJobModal />,
 	},
 	{
-		path: '/job',
-		children: jobRoutes,
+		path: '/job/:jobId',
+		element: <JobModal />,
 	},
 	{
 		path: '/add-activity',
