@@ -1,11 +1,16 @@
 import { RouteObject } from 'react-router-dom';
 
-import { AddJobModal } from '@/features/board/routes/AddJobModal/AddJobModal.components';
+import { AddJobModal } from '@/features/job';
+import { JobModal } from '@/features/job';
 
 export const modalRoutes: RouteObject[] = [
 	{
-		path: '/add-job',
+		path: '/add-job/:boardId/:listId',
 		element: <AddJobModal />,
+	},
+	{
+		path: '/job/:jobId',
+		element: <JobModal />,
 	},
 	{
 		path: '/add-activity',

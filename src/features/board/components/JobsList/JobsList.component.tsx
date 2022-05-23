@@ -11,18 +11,20 @@ import { AddButton } from '../Elements/AddButton';
 import { ColumnMenu } from '../ListActions/ColumnMenu';
 import { Collection, Job } from '../../types';
 import { PlusIcon } from '../Elements/PlusIcon';
-import { useStyles } from './BoardColumn.styles';
+import { useStyles } from './JobsList.styles';
 
 interface JobsListProps {
 	index: number;
 	list: any;
 	jobs?: any;
 }
+
 export const JobsList = (props: JobsListProps) => {
 	const [isDragging, setIsDragging] = useState<boolean>(false);
 	const [isDraggingOver, setIsDraggingOver] = useState<boolean>(false);
 	const isListEmpty = isEmpty(props.jobs);
 	const location = useLocation();
+	const params = useParams();
 	const { hovered, ref } = useHover();
 	const { classes } = useStyles({
 		isDraggingOver,
@@ -30,6 +32,8 @@ export const JobsList = (props: JobsListProps) => {
 		isDragging,
 		isEmpty: isListEmpty,
 	});
+
+	const addJobPath = `/add-job/${params.boardId}/${props.list.id}`;
 
 	return (
 		<Draggable draggableId={props.list.id} index={props.index}>
@@ -52,7 +56,7 @@ export const JobsList = (props: JobsListProps) => {
 							<Title className={classes.columnTitle}>{props.list.name}</Title>
 							<Group>
 								<Link
-									to={`/add-job`}
+									to={addJobPath}
 									state={{
 										backgroundLocation: location,
 										list: props.list.id,
@@ -76,21 +80,24 @@ export const JobsList = (props: JobsListProps) => {
 										{...provided.droppableProps}
 										scrollbarSize={10}
 									>
-										{props.list.jobs.map((job: any, index: number) => (
-											<JobCard
-												key={job.id}
-												jobId={job.id}
-												title={job.title}
-												employer={job.employer}
-												index={index}
-											/>
-										))}
+										{props.list.jobs.map((job: any, index: number) => {
+											return (
+												<JobCard
+													key={job.id}
+													jobId={job.id}
+													boardId={job.boardId}
+													title={job.title}
+													employer={job.employer}
+													color={job.color}
+													index={index}
+												/>
+											);
+										})}
 										{provided.placeholder}
 										<Link
-											to={`/add-job`}
+											to={addJobPath}
 											state={{
 												backgroundLocation: location,
-												list: props.list.id,
 											}}
 										>
 											<AddButton

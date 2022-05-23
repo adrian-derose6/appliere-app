@@ -7,6 +7,7 @@ import {
 	SegmentedControl,
 	Center,
 	Box,
+	Select,
 } from '@mantine/core';
 import { MdOutlineDashboardCustomize } from 'react-icons/md';
 import { FaListUl } from 'react-icons/fa';
@@ -20,6 +21,7 @@ import { ShareButton } from '@/components/Buttons';
 import { CreateMenu } from '../Elements/CreateMenu';
 import { useGetBoards } from '@/features/board';
 import { useStyles } from './BoardNavigation.styles';
+import { BoardIcon } from '@/assets/svg/BoardIcon';
 
 export type LinkType = {
 	label: string;
@@ -81,34 +83,50 @@ const controlLinks = [
 	},
 ];
 
-const modalLinks: LinkType[] = [
-	{
-		label: 'Jobs',
-		path: '/add-job',
-		icon: <CgToolbox />,
-	},
-	{
-		label: 'Activity',
-		path: '/add-activity',
-		icon: <VscCalendar />,
-	},
-	{
-		label: 'Contact',
-		path: '/add-contact',
-		icon: <IoPeopleOutline />,
-	},
-];
-
 export const BoardNavigation = () => {
-	const { data } = useGetBoards();
+	const { data: boardsData, isLoading, isSuccess, isError } = useGetBoards();
 	const [activeValue, setActiveValue] = useState<string>('board');
 	const navigate = useNavigate();
 	const params = useParams();
 	const { pathname } = useLocation();
 	const { classes } = useStyles();
 
-	const board = data?.boards.find((board) => board.id === params.boardId);
-	const boardName = board?.name;
+	const board = boardsData?.boards.find((board) => board.id === params.boardId);
+	const iconColor = board?.icon.color;
+	const defaultListId = board?.lists[0].id;
+
+	const modalLinks: LinkType[] = [
+		{
+			label: 'Job',
+			path: `/add-job/${params.boardId}/${defaultListId}`,
+			icon: <CgToolbox />,
+		},
+		{
+			label: 'Activity',
+			path: '/add-activity',
+			icon: <VscCalendar />,
+		},
+		{
+			label: 'Contact',
+			path: '/add-contact',
+			icon: <IoPeopleOutline />,
+		},
+	];
+
+	let boardSelectData;
+
+	if (isLoading || isError) {
+		boardSelectData = [];
+	}
+
+	if (isSuccess) {
+		boardSelectData = boardsData?.boards.map((board) => {
+			return {
+				label: board.name,
+				value: board.id,
+			};
+		});
+	}
 
 	useEffect(() => {
 		const lastUrlSegment = pathname.split('/').pop();
@@ -120,9 +138,13 @@ export const BoardNavigation = () => {
 		navigate(value);
 	};
 
+	const handleBoardSelectChange = (value: string) => {
+		navigate(`/track/boards/${value}/board`);
+	};
+
 	return (
 		<Header
-			height={50}
+			height={70}
 			fixed
 			position={{ top: 0, right: 0 }}
 			zIndex={100}
@@ -137,7 +159,15 @@ export const BoardNavigation = () => {
 				className={classes.headerLayout}
 			>
 				<Group noWrap>
-					<Button variant='subtle'>{boardName}</Button>
+					<Group noWrap position='left'>
+						<BoardIcon color={iconColor} />
+						<Select
+							data={boardSelectData as []}
+							variant='unstyled'
+							defaultValue={params.boardId as string}
+							onChange={handleBoardSelectChange}
+						/>
+					</Group>
 					<SegmentedControl
 						data={controlLinks}
 						value={activeValue}

@@ -33,28 +33,41 @@ export const libraryStyles = {
 	TextInput: (theme: MantineTheme) => ({
 		input: {
 			boxShadow: 'rgb(25 4 69 / 5%) 0px 2px 7px',
-			border: '1px solid rgba(169, 169, 169, 0.6)',
+			border: '1px solid rgba(169, 169, 169, 0.8)',
 			transition: 'all .2s ease',
 		},
-		label: {
-			color: '#6d6e6f',
-		},
+		label: {},
 	}),
 	PasswordInput: (theme: MantineTheme) => ({
 		input: {
-			boxShadow: 'rgb(25 4 69 / 5%) 0px 2px 7px',
+			boxShadow: 'rgb(25 4 69 / 20%) 0px 2px 7px',
 			border: '1px solid rgba(169, 169, 169, 0.6)',
 			transition: 'all .2s ease',
 		},
-		label: {
-			color: '#6d6e6f',
-		},
+		label: {},
 	}),
 	Checkbox: (theme: MantineTheme) => ({
 		input: {
 			'&:checked': {
 				backgroundColor: theme.other.brandPrimaryColor,
 				borderColor: theme.other.brandPrimaryColor,
+			},
+		},
+	}),
+	Tabs: (theme: MantineTheme) => ({
+		tabControl: {
+			fontFamily: theme.other.secondaryFontFamily,
+			fontWeight: 500,
+			color: theme.colors.gray[6],
+		},
+	}),
+	ColorInput: (theme: MantineTheme) => ({
+		input: {
+			border: 0,
+			color: 'rgba(0, 0, 0, 0);',
+
+			'&::placeholder': {
+				color: 'rgba(0, 0, 0, 0);',
 			},
 		},
 	}),

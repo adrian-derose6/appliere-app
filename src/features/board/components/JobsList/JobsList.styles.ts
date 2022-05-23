@@ -1,7 +1,7 @@
 import { isEmpty } from 'lodash';
 import { createStyles } from '@mantine/core';
 
-type StylesProps = {
+type JobsListStylesParams = {
 	isDragging: boolean;
 	isDraggingOver?: boolean;
 	isHoveringOver: boolean;
@@ -11,7 +11,12 @@ type StylesProps = {
 export const useStyles = createStyles(
 	(
 		theme,
-		{ isDragging, isDraggingOver, isHoveringOver, isEmpty }: StylesProps
+		{
+			isDragging,
+			isDraggingOver,
+			isHoveringOver,
+			isEmpty,
+		}: JobsListStylesParams
 	) => {
 		return {
 			columnWrapper: {
@@ -46,7 +51,7 @@ export const useStyles = createStyles(
 				whiteSpace: 'nowrap',
 			},
 			columnList: {
-				flexGrow: '1',
+				flexGrow: 1,
 				height: '100%',
 				minWidth: '100%',
 				padding: '0 10px',

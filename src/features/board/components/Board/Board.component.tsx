@@ -5,7 +5,6 @@ import { DragDropContext, Droppable, DropResult } from 'react-beautiful-dnd';
 
 import { JobsList } from '../JobsList/JobsList.component';
 import { AddButton } from '../Elements/AddButton';
-
 import {
 	useGetLists,
 	useUpdateLists,
@@ -13,7 +12,7 @@ import {
 } from '@/features/board/api';
 import { useStyles } from './Board.styles';
 
-const reorder = (list: any, startIndex: number, endIndex: number) => {
+const reorder = (list: any[], startIndex: number, endIndex: number) => {
 	const result = Array.from(list);
 	const [removed] = result.splice(startIndex, 1);
 	result.splice(endIndex, 0, removed);
@@ -129,7 +128,6 @@ export const Board = () => {
 				0,
 				updatingJob
 			);
-			console.log(updatingLists);
 
 			updateJobPositionMutation.mutate({
 				boardId: params.boardId as string,
