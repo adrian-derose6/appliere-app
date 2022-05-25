@@ -14,6 +14,7 @@ import { BsTrash } from 'react-icons/bs';
 import { IconContext } from 'react-icons';
 
 import { DeleteJobModal } from '../Modal/DeleteJobModal.component';
+import { useDeleteJob } from '@/features/job';
 import { useStyles } from './JobCard.styles';
 
 interface JobCardProps {
@@ -44,6 +45,7 @@ export const JobCard = ({
 	color,
 }: JobCardProps) => {
 	const [modalOpened, setModalOpened] = useState<boolean>(false);
+	const deleteJobMutation = useDeleteJob();
 	const navigate = useNavigate();
 	const location = useLocation();
 	const { classes } = useStyles();
@@ -60,7 +62,11 @@ export const JobCard = ({
 	};
 
 	const handleDeleteJob = (e: SyntheticEvent) => {
-		e.stopPropagation();
+		deleteJobMutation.mutate({
+			jobId,
+			boardId,
+		});
+		setModalOpened(false);
 	};
 
 	return (
