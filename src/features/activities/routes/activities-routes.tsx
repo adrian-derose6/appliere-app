@@ -1,11 +1,12 @@
 import { RouteObject } from 'react-router-dom';
 
 import { ActivitiesPage } from './ActivitiesPage';
+import { ActivitiesLayout } from '../components/Layout/ActivitiesLayout';
 
 export const activitiesRoutes: RouteObject[] = [
 	{
 		path: 'activities',
-		element: <ActivitiesPage />,
+		element: <ActivitiesLayout />,
 		children: [
 			{
 				path: 'all',

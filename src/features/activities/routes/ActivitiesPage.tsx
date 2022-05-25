@@ -1,6 +1,6 @@
 import { Outlet } from 'react-router-dom';
 
-import { ActivitiesNavigation } from '../components/Layout/ActivitiesNavigation';
+import { ActivitiesNavigation } from '../components/Layout/ActivitiesNavigation.component';
 
 export const ActivitiesPage = () => {
 	return (
