@@ -4,14 +4,11 @@ import {
 	Modal,
 	LoadingOverlay,
 	Tabs,
-	Container,
 	Avatar,
 	Title,
 	Text,
-	Center,
 	Group,
 	Button,
-	Grid,
 } from '@mantine/core';
 import { ImInfo } from 'react-icons/im';
 import { FaListUl } from 'react-icons/fa';
@@ -23,6 +20,8 @@ import { useStyles } from './JobModal.styles';
 import { JobInfo } from '../../components/JobInfo/JobInfo.component';
 import { BrandButton } from '@/components/Buttons';
 import { useGetJob } from '@/features/job';
+import { formatJobType } from '../../utils/job-types';
+import { JobType } from '../../types';
 
 const OPEN_TIMEOUT = 50;
 const CLOSE_TIMEOUT = 200;
@@ -61,6 +60,7 @@ type Props = {};
 export const JobModal = (props: Props) => {
 	const [opened, setOpened] = useState<boolean>(false);
 	const [activeTab, setActiveTab] = useState<number>(0);
+	const [jobType, setJobType] = useState<string>('');
 	const params = useParams();
 	const { data, isLoading, isSuccess, isError } = useGetJob({
 		jobId: params.jobId as string,
@@ -73,7 +73,11 @@ export const JobModal = (props: Props) => {
 		if (match?.pathname) {
 			setTimeout(() => setOpened(true), OPEN_TIMEOUT);
 		}
-	}, [match]);
+		if (data?.job?.jobType) {
+			const formattedJobType = formatJobType(data.job.jobType);
+			setJobType(formattedJobType);
+		}
+	}, [match, data?.job?.jobType]);
 
 	const handleModalClose = () => {
 		setOpened(false);
@@ -116,8 +120,11 @@ export const JobModal = (props: Props) => {
 			<Group noWrap className={classes.jobHeader}>
 				<Avatar size={42} />
 				<div>
-					<Title>{data?.job?.employer}</Title>
-					<Text>{data?.job?.title}</Text>
+					<Title className={classes.jobHeaderText}>{data?.job?.employer}</Title>
+					<Text className={classes.jobHeaderSubtext}>
+						{data?.job?.title}
+						{jobType && ` | ${jobType}`}
+					</Text>
 				</div>
 			</Group>
 			<Tabs
@@ -127,6 +134,7 @@ export const JobModal = (props: Props) => {
 				classNames={{
 					tabsListWrapper: classes.tabsListWrapper,
 				}}
+				active={activeTab}
 			>
 				{tabsList.map((tab, index) => {
 					const { Component } = tab;

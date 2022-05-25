@@ -1,5 +1,7 @@
 import { BaseEntity } from '@/types';
 
+export type JobType = 'FULL_TIME' | 'PART_TIME' | 'CONTRACTOR' | 'INTERNSHIP';
+
 export interface Job extends BaseEntity {
 	title: string;
 	employer: string;
@@ -7,6 +9,7 @@ export interface Job extends BaseEntity {
 	location?: string;
 	htmlDescription?: string;
 	postURL?: string;
+	jobType?: JobType;
 	color?: string;
 	boardId: string;
 	listId: string;
@@ -19,6 +22,7 @@ export interface JobUpdateData {
 	employer?: string;
 	salary?: number;
 	location?: string;
+	jobType?: JobType;
 	htmlDescription?: string;
 	postURL?: string;
 	color?: string;

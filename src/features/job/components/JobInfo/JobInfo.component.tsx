@@ -7,6 +7,7 @@ import {
 	Text,
 	Grid,
 	ColorInput,
+	Select,
 } from '@mantine/core';
 import { RichTextEditor } from '@mantine/rte';
 import { useForm } from '@mantine/form';
@@ -19,6 +20,7 @@ import { IoLocationOutline } from 'react-icons/io5';
 import { useStyles } from './JobInfo.styles';
 import { Job } from '../../types';
 import JOB_COLORS from '../../utils/job-colors';
+import JOB_TYPES from '../../utils/job-types';
 import { useUpdateJob } from '../../api/updateJob';
 
 interface JobInfoProps {
@@ -39,6 +41,7 @@ export const JobInfo = ({ job }: JobInfoProps) => {
 			postURL: job?.postURL || '',
 			salary: job?.salary || '',
 			location: job?.location || '',
+			jobType: job?.jobType || 'FULL_TIME',
 			color: job?.color || '',
 		},
 	});
@@ -48,6 +51,12 @@ export const JobInfo = ({ job }: JobInfoProps) => {
 	useEffect(() => {
 		if (job?.color !== form.values.color) {
 			updateJobMutation.mutate({ jobId, data: { color: form.values.color } });
+		}
+		if (job?.jobType !== form.values.jobType) {
+			updateJobMutation.mutate({
+				jobId,
+				data: { jobType: form.values.jobType },
+			});
 		}
 	}, [job?.color, form.values]);
 
@@ -104,7 +113,7 @@ export const JobInfo = ({ job }: JobInfoProps) => {
 							{...form.getInputProps('salary')}
 						/>
 					</Grid.Col>
-					<Grid.Col span={8}>
+					<Grid.Col span={6}>
 						<Autocomplete
 							placeholder='Location'
 							label='Location'
@@ -115,7 +124,7 @@ export const JobInfo = ({ job }: JobInfoProps) => {
 							{...form.getInputProps('location')}
 						/>
 					</Grid.Col>
-					<Grid.Col span={4}>
+					<Grid.Col span={3}>
 						<ColorInput
 							placeholder='Pick color'
 							label='Color'
@@ -132,6 +141,18 @@ export const JobInfo = ({ job }: JobInfoProps) => {
 								input: { backgroundColor: form.values.color || JOB_COLORS[1] },
 							}}
 							{...form.getInputProps('color')}
+						/>
+					</Grid.Col>
+					<Grid.Col span={3}>
+						<Select
+							label='Job Type'
+							placeholder='Job Type'
+							data-name='jobType'
+							transition='pop'
+							transitionDuration={120}
+							transitionTimingFunction='ease'
+							data={JOB_TYPES}
+							{...form.getInputProps('jobType')}
 						/>
 					</Grid.Col>
 					<Grid.Col span={12}>

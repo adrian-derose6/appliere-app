@@ -10,6 +10,13 @@ export const useStyles = createStyles((theme) => {
 		jobHeader: {
 			padding: '5px 45px 60px',
 		},
+		jobHeaderText: {
+			color: theme.other.brandDarkColor,
+		},
+		jobHeaderSubtext: {
+			fontSize: '20px',
+			color: theme.colors.gray[6],
+		},
 		buttonHeader: {
 			height: '60px',
 			padding: '0 10px',
