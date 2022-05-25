@@ -1,4 +1,5 @@
 import { MantineTheme, MantineThemeOverride } from '@mantine/core';
+import { RichTextEditor } from '@mantine/rte';
 
 export const themeConfig: MantineThemeOverride = {
 	headings: {
@@ -33,16 +34,60 @@ export const libraryStyles = {
 	TextInput: (theme: MantineTheme) => ({
 		input: {
 			boxShadow: 'rgb(25 4 69 / 5%) 0px 2px 7px',
-			border: '1px solid rgba(169, 169, 169, 0.8)',
+			border: '1px solid rgba(25, 4, 69, 0.1)',
 			transition: 'all .2s ease',
+			minHeight: '40px',
+		},
+		required: {
+			opacity: 0,
 		},
 		label: {},
 	}),
 	PasswordInput: (theme: MantineTheme) => ({
 		input: {
-			boxShadow: 'rgb(25 4 69 / 20%) 0px 2px 7px',
-			border: '1px solid rgba(169, 169, 169, 0.6)',
+			boxShadow: 'rgb(25 4 69 / 5%) 0px 2px 7px',
+			border: '1px solid rgba(25, 4, 69, 0.1)',
 			transition: 'all .2s ease',
+			minHeight: '40px',
+		},
+		required: {
+			opacity: 0,
+		},
+		label: {},
+	}),
+	Select: (theme: MantineTheme) => ({
+		input: {
+			boxShadow: 'rgb(25 4 69 / 5%) 0px 2px 7px',
+			border: '1px solid rgba(25, 4, 69, 0.1)',
+			transition: 'all .2s ease',
+			minHeight: '40px',
+		},
+		required: {
+			opacity: 0,
+		},
+		label: {},
+	}),
+	Autocomplete: (theme: MantineTheme) => ({
+		input: {
+			boxShadow: 'rgb(25 4 69 / 5%) 0px 2px 7px',
+			border: '1px solid rgba(25, 4, 69, 0.1)',
+			transition: 'all .2s ease',
+			minHeight: '40px',
+		},
+		required: {
+			opacity: 0,
+		},
+		label: {},
+	}),
+	NumberInput: (theme: MantineTheme) => ({
+		input: {
+			boxShadow: 'rgb(25 4 69 / 5%) 0px 2px 7px',
+			border: '1px solid rgba(25, 4, 69, 0.1)',
+			transition: 'all .2s ease',
+			minHeight: '40px',
+		},
+		required: {
+			opacity: 0,
 		},
 		label: {},
 	}),
@@ -64,11 +109,20 @@ export const libraryStyles = {
 	ColorInput: (theme: MantineTheme) => ({
 		input: {
 			border: 0,
-			color: 'rgba(0, 0, 0, 0);',
+			color: 'rgba(0, 0, 0, 0)',
+			minHeight: '40px',
 
 			'&::placeholder': {
-				color: 'rgba(0, 0, 0, 0);',
+				color: 'rgba(0, 0, 0, 0)',
 			},
+		},
+	}),
+	RichTextEditor: (theme: MantineTheme) => ({
+		root: {
+			boxShadow: 'rgb(25 4 69 / 5%) 0px 2px 7px',
+			border: '1px solid rgba(25, 4, 69, 0.1)',
+			transition: 'all .2s ease',
+			minHeight: '40px',
 		},
 	}),
 };

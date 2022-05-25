@@ -1,5 +1,17 @@
 import { BaseEntity } from '@/types';
 
+export enum JobType {
+	FULL_TIME = 'FULL_TIME',
+	PART_TIME = 'PART_TIME',
+	CONTRACTOR = 'CONTRACTOR',
+	INTERNSHIP = 'INTERNSHIP',
+}
+
+export enum Setting {
+	OFFICE = 'OFFICE',
+	REMOTE = 'REMOTE',
+}
+
 export interface Job extends BaseEntity {
 	title: string;
 	employer: string;
@@ -7,6 +19,8 @@ export interface Job extends BaseEntity {
 	location?: string;
 	htmlDescription?: string;
 	postURL?: string;
+	jobType?: JobType;
+	setting?: Setting;
 	color?: string;
 	boardId: string;
 	listId: string;
@@ -19,6 +33,8 @@ export interface JobUpdateData {
 	employer?: string;
 	salary?: number;
 	location?: string;
+	setting?: Setting;
+	jobType?: JobType;
 	htmlDescription?: string;
 	postURL?: string;
 	color?: string;
