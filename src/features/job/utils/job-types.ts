@@ -3,19 +3,19 @@ import { JobType } from '../types';
 const JOB_TYPES = [
 	{
 		label: 'Full-time',
-		value: 'FULL_TIME',
+		value: JobType.FULL_TIME,
 	},
 	{
 		label: 'Part-time',
-		value: 'PART_TIME',
+		value: JobType.PART_TIME,
 	},
 	{
 		label: 'Contractor',
-		value: 'CONTRACTOR',
+		value: JobType.CONTRACTOR,
 	},
 	{
 		label: 'Internship',
-		value: 'INTERNSHIP',
+		value: JobType.CONTRACTOR,
 	},
 ];
 

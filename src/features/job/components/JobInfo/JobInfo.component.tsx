@@ -7,6 +7,7 @@ import {
 	Text,
 	Grid,
 	ColorInput,
+	Checkbox,
 	Select,
 } from '@mantine/core';
 import { RichTextEditor } from '@mantine/rte';
@@ -16,11 +17,13 @@ import { MdWorkOutline } from 'react-icons/md';
 import { AiOutlineLink } from 'react-icons/ai';
 import { FaRegMoneyBillAlt } from 'react-icons/fa';
 import { IoLocationOutline } from 'react-icons/io5';
+import { GiOfficeChair } from 'react-icons/gi';
 
 import { useStyles } from './JobInfo.styles';
-import { Job } from '../../types';
+import { Job, Setting, JobType } from '../../types';
 import JOB_COLORS from '../../utils/job-colors';
 import JOB_TYPES from '../../utils/job-types';
+import JOB_SETTINGS from '../../utils/job-settings';
 import { useUpdateJob } from '../../api/updateJob';
 
 interface JobInfoProps {
@@ -41,7 +44,8 @@ export const JobInfo = ({ job }: JobInfoProps) => {
 			postURL: job?.postURL || '',
 			salary: job?.salary || '',
 			location: job?.location || '',
-			jobType: job?.jobType || 'FULL_TIME',
+			setting: job?.setting || Setting.OFFICE,
+			jobType: job?.jobType || JobType.FULL_TIME,
 			color: job?.color || '',
 		},
 	});
@@ -56,6 +60,12 @@ export const JobInfo = ({ job }: JobInfoProps) => {
 			updateJobMutation.mutate({
 				jobId,
 				data: { jobType: form.values.jobType },
+			});
+		}
+		if (job?.setting !== form.values.setting) {
+			updateJobMutation.mutate({
+				jobId,
+				data: { setting: form.values.setting },
 			});
 		}
 	}, [job?.color, form.values]);
@@ -93,7 +103,7 @@ export const JobInfo = ({ job }: JobInfoProps) => {
 							{...form.getInputProps('title')}
 						/>
 					</Grid.Col>
-					<Grid.Col span={8}>
+					<Grid.Col span={6}>
 						<TextInput
 							placeholder='http://...'
 							label='Post URL'
@@ -103,7 +113,7 @@ export const JobInfo = ({ job }: JobInfoProps) => {
 							{...form.getInputProps('postURL')}
 						/>
 					</Grid.Col>
-					<Grid.Col span={4}>
+					<Grid.Col span={3}>
 						<NumberInput
 							placeholder='Yearly Salary'
 							label='Yearly Salary'
@@ -111,6 +121,19 @@ export const JobInfo = ({ job }: JobInfoProps) => {
 							icon={<FaRegMoneyBillAlt />}
 							onBlur={handleUpdateInput}
 							{...form.getInputProps('salary')}
+						/>
+					</Grid.Col>
+					<Grid.Col span={3}>
+						<Select
+							label='Setting'
+							placeholder='Setting'
+							data-name='setting'
+							transition='pop'
+							transitionDuration={120}
+							transitionTimingFunction='ease'
+							data={JOB_SETTINGS}
+							icon={<GiOfficeChair />}
+							{...form.getInputProps('setting')}
 						/>
 					</Grid.Col>
 					<Grid.Col span={6}>
@@ -122,6 +145,18 @@ export const JobInfo = ({ job }: JobInfoProps) => {
 							icon={<IoLocationOutline />}
 							onBlur={handleUpdateInput}
 							{...form.getInputProps('location')}
+						/>
+					</Grid.Col>
+					<Grid.Col span={3}>
+						<Select
+							label='Job Type'
+							placeholder='Job Type'
+							data-name='jobType'
+							transition='pop'
+							transitionDuration={120}
+							transitionTimingFunction='ease'
+							data={JOB_TYPES}
+							{...form.getInputProps('jobType')}
 						/>
 					</Grid.Col>
 					<Grid.Col span={3}>
@@ -141,18 +176,6 @@ export const JobInfo = ({ job }: JobInfoProps) => {
 								input: { backgroundColor: form.values.color || JOB_COLORS[1] },
 							}}
 							{...form.getInputProps('color')}
-						/>
-					</Grid.Col>
-					<Grid.Col span={3}>
-						<Select
-							label='Job Type'
-							placeholder='Job Type'
-							data-name='jobType'
-							transition='pop'
-							transitionDuration={120}
-							transitionTimingFunction='ease'
-							data={JOB_TYPES}
-							{...form.getInputProps('jobType')}
 						/>
 					</Grid.Col>
 					<Grid.Col span={12}>
