@@ -1,4 +1,4 @@
-import { RouteObject } from 'react-router-dom';
+import { RouteObject, Navigate } from 'react-router-dom';
 
 import { ActivitiesPage } from './ActivitiesPage';
 import { ActivitiesLayout } from '../components/Layout/ActivitiesLayout';
@@ -10,7 +10,6 @@ export const activitiesRoutes: RouteObject[] = [
 		children: [
 			{
 				path: 'all',
-				index: true,
 			},
 			{
 				path: 'due-today',
@@ -35,6 +34,10 @@ export const activitiesRoutes: RouteObject[] = [
 			},
 			{
 				path: 'networking',
+			},
+			{
+				path: '*',
+				element: <Navigate to='all' />,
 			},
 		],
 	},

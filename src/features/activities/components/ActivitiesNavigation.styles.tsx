@@ -31,7 +31,9 @@ export const useStyles = createStyles((theme: MantineTheme) => {
 		tabInner: {
 			justifyContent: 'flex-end',
 		},
-		tabsBody: {},
+		tabsBody: {
+			width: '100%',
+		},
 		dividerTab: {
 			cursor: 'default !important',
 			margin: 0,
