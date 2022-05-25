@@ -156,7 +156,6 @@ export const AddJobModal = (props: Props) => {
 						data={[]}
 						icon={<HiOutlineOfficeBuilding />}
 						{...form.getInputProps('employer')}
-						classNames={{ input: classes.input }}
 					/>
 					<TextInput
 						required
@@ -166,7 +165,6 @@ export const AddJobModal = (props: Props) => {
 						mt='md'
 						icon={<MdWorkOutline />}
 						{...form.getInputProps('title')}
-						classNames={{ input: classes.input }}
 					/>
 					<SimpleGrid mt='md' cols={2}>
 						<Select
@@ -181,7 +179,6 @@ export const AddJobModal = (props: Props) => {
 							icon={<MdOutlineDashboardCustomize />}
 							data={boardSelectData as []}
 							{...form.getInputProps('boardId')}
-							classNames={{ input: classes.input }}
 						/>
 						<Select
 							required
@@ -194,7 +191,6 @@ export const AddJobModal = (props: Props) => {
 							icon={<ImStack />}
 							data={listSelectData as []}
 							{...form.getInputProps('listId')}
-							classNames={{ input: classes.input }}
 						/>
 					</SimpleGrid>
 				</Container>

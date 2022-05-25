@@ -16,6 +16,11 @@ export const useStyles = createStyles((theme: MantineTheme) => {
 			width: '100%',
 			height: '100%',
 		},
+		selectBoardInput: {
+			boxShadow: 'none',
+			border: 'none',
+			transition: 'all .2s ease',
+		},
 		tabsRoot: {
 			maxHeight: '100%',
 			borderBottom: 'none !important',

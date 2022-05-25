@@ -166,6 +166,10 @@ export const BoardNavigation = () => {
 							variant='unstyled'
 							defaultValue={params.boardId as string}
 							onChange={handleBoardSelectChange}
+							transition='pop'
+							transitionDuration={120}
+							transitionTimingFunction='ease'
+							classNames={{ input: classes.selectBoardInput }}
 						/>
 					</Group>
 					<SegmentedControl
