@@ -18,6 +18,7 @@ import { AiOutlineLink } from 'react-icons/ai';
 import { FaRegMoneyBillAlt } from 'react-icons/fa';
 import { IoLocationOutline } from 'react-icons/io5';
 import { GiOfficeChair } from 'react-icons/gi';
+import { TiBusinessCard } from 'react-icons/ti';
 
 import { useStyles } from './JobInfo.styles';
 import { Job, Setting, JobType } from '../../types';
@@ -156,6 +157,7 @@ export const JobInfo = ({ job }: JobInfoProps) => {
 							transitionDuration={120}
 							transitionTimingFunction='ease'
 							data={JOB_TYPES}
+							icon={<TiBusinessCard />}
 							{...form.getInputProps('jobType')}
 						/>
 					</Grid.Col>
