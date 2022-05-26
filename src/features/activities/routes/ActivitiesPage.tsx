@@ -1,14 +1,40 @@
-import { ScrollArea, Group, Text } from '@mantine/core';
+import { Container, Group, Text } from '@mantine/core';
 import { createStyles } from '@mantine/core';
 import { BsPlusLg } from 'react-icons/bs';
 
+import { ActivitiesList } from '../components/ActivitiesList';
 import { BrandButton } from '@/components/Buttons';
+
+const LIST = [
+	{
+		activityId: '1',
+		title: 'Activity 1',
+		note: 'This is the note',
+		completed: false,
+		job: {
+			employer: 'Facebook',
+			title: 'Software Engineer',
+		},
+		employer: 'Facebook',
+	},
+	{
+		activityId: '2',
+		title: 'Activity 2',
+		note: 'This is the note',
+		completed: false,
+		job: {
+			employer: 'Amazon',
+			title: 'Software Developer',
+		},
+		employer: 'Amazon',
+	},
+];
 
 export function ActivitiesPage({ name }: { name: string }) {
 	const { classes } = useStyles();
 
 	return (
-		<ScrollArea className={classes.pageWrapper}>
+		<Container fluid className={classes.pageWrapper}>
 			<Group noWrap position='apart' className={classes.header}>
 				<Text className={classes.headingMain}>
 					Activities{' '}
@@ -21,12 +47,14 @@ export function ActivitiesPage({ name }: { name: string }) {
 					</BrandButton>
 				</Group>
 			</Group>
-		</ScrollArea>
+			<ActivitiesList list={LIST} />
+		</Container>
 	);
 }
 
 const useStyles = createStyles((theme) => ({
 	pageWrapper: {
+		margin: 0,
 		width: 'calc(100% - 110px)',
 		height: 'calc(100% - 70px)',
 		boxSizing: 'border-box',
