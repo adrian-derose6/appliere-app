@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { NavLink, Outlet, useNavigate } from 'react-router-dom';
 import { Navbar, Stack, Tabs, Divider } from '@mantine/core';
 
-import { useStyles } from '../ActivitiesNavigation.styles';
+import { useStyles } from './ActivitiesNavigation.styles';
 
 type TabLink = {
 	label: string;
@@ -74,9 +74,7 @@ export const ActivitiesNavigation = () => {
 
 	const handleTabChange = (tabIndex: number, tabKey?: string) => {
 		console.log(tabIndex, tabKey);
-		const nextTab = allLinks.find(
-			(link, index) => link.index === tabIndex
-		) as TabLink;
+		const nextTab = allLinks.find((link) => link.index === tabIndex) as TabLink;
 		setActiveTab(nextTab);
 		navigate(`${nextTab.path}`);
 	};

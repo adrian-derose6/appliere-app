@@ -4,22 +4,13 @@ interface styleProps {}
 
 export const useStyles = createStyles((theme: MantineTheme) => {
 	return {
-		// Navbar Styles
-		navbar: {
-			backgroundColor: 'white',
-			color: 'black',
-			width: '200px',
-			height: '100vh !important',
-			zIndex: 100,
-		},
-
 		//Tabs
 		tabsRoot: {
 			minHeight: '100vh',
 		},
 		tabsListWrapper: {
 			width: '110px',
-			paddingTop: '20px',
+			paddingTop: '45px',
 			borderRight: 'none !important',
 		},
 		tabsList: {
@@ -32,7 +23,9 @@ export const useStyles = createStyles((theme: MantineTheme) => {
 			justifyContent: 'flex-end',
 		},
 		tabsBody: {
-			width: '100%',
+			minWidth: '100%',
+			height: '100vh',
+			boxSizing: 'border-box',
 		},
 		dividerTab: {
 			cursor: 'default !important',
