@@ -7,13 +7,28 @@ interface ActivitiesListProps {
 	list: any;
 }
 
+type InputSubmit = {
+	name: string;
+	value: boolean | string;
+	activityId: string;
+};
+
 export const ActivitiesList = ({ list }: ActivitiesListProps) => {
 	const { classes } = useStyles();
 
 	return (
 		<ScrollArea className={classes.listContainer}>
 			{list.map((item: any) => {
-				return <ActivityItem item={item} />;
+				return (
+					<ActivityItem
+						key={item.id}
+						id={item.id}
+						title={item.title}
+						note={item.note}
+						completed={item.completed}
+						job={item.job}
+					/>
+				);
 			})}
 		</ScrollArea>
 	);

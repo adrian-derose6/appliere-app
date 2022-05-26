@@ -7,7 +7,7 @@ import { BrandButton } from '@/components/Buttons';
 
 const LIST = [
 	{
-		activityId: '1',
+		id: '1',
 		title: 'Activity 1',
 		note: 'This is the note',
 		completed: false,
@@ -18,7 +18,7 @@ const LIST = [
 		employer: 'Facebook',
 	},
 	{
-		activityId: '2',
+		id: '2',
 		title: 'Activity 2',
 		note: 'This is the note',
 		completed: false,
