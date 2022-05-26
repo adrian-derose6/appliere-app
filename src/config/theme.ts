@@ -13,6 +13,7 @@ export const themeConfig: MantineThemeOverride = {
 		secondaryFontFamily: 'Roboto, sans-serif',
 		brandPrimaryColor: '#D3555E',
 		brandDarkColor: '#1e1f21',
+		mainBackgroundColor: '#f9f8f8',
 
 		letterSpacing: '1px',
 		/* Layout */
