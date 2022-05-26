@@ -8,6 +8,7 @@ import {
 	Grid,
 	Text,
 	Avatar,
+	Badge,
 } from '@mantine/core';
 import { useClickOutside } from '@mantine/hooks';
 import { useForm } from '@mantine/form';
@@ -95,9 +96,38 @@ export const ActivityItem = (props: ActivityItemProps) => {
 						<Text className={classes.jobTitle}>{props.job.title}</Text>
 					</Group>
 				</Grid.Col>
-				<Grid.Col span={4} className={classes.col}>
-					<Group className={classes.colGroup} align='center' noWrap>
-						<Text className={classes.fieldText}>{props.job.title}</Text>
+				<Grid.Col span={2} className={classes.col}>
+					<Group
+						className={classes.colGroup}
+						align='center'
+						position='left'
+						noWrap
+					>
+						<Badge
+							variant='filled'
+							radius='sm'
+							color='green'
+							classNames={{ inner: classes.badgeInner }}
+						>
+							Phone Interview
+						</Badge>
+					</Group>
+				</Grid.Col>
+				<Grid.Col span={2} className={classes.col}>
+					<Group
+						className={classes.colGroup}
+						align='center'
+						position='right'
+						noWrap
+					>
+						<Badge
+							variant='light'
+							radius='sm'
+							color='blue'
+							classNames={{ inner: classes.badgeInner }}
+						>
+							Today
+						</Badge>
 					</Group>
 				</Grid.Col>
 			</Grid>

@@ -58,7 +58,7 @@ const useStyles = createStyles((theme) => ({
 		width: 'calc(100% - 110px)',
 		height: 'calc(100% - 70px)',
 		boxSizing: 'border-box',
-		padding: '25px',
+		padding: '0 25px',
 	},
 	header: {
 		height: '70px',

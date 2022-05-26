@@ -8,7 +8,13 @@ export const useStyles = createStyles(
 				minHeight: '42px',
 				width: '100%',
 				minWidth: '40px',
+				border: opened
+					? '1px solid rgba(25, 4, 69, 0.07)'
+					: '1px solid rgba(25, 4, 69, 0)',
 				borderRadius: '8px',
+				boxShadow: opened
+					? 'rgb(25 4 69 / 5%) 0px -14px 12px -12px, rgb(25 4 69 / 5%) 0px 14px 12px -12px'
+					: 'none',
 				boxSizing: 'border-box',
 				transition: 'all 0.4s ease-out 0s',
 				cursor: 'pointer',
@@ -18,7 +24,7 @@ export const useStyles = createStyles(
 				padding: '0 10px',
 
 				'&:hover': {
-					backgroundColor: theme.colors.gray[2],
+					backgroundColor: opened ? 'transparent' : theme.colors.gray[2],
 				},
 			},
 			grid: {
@@ -65,6 +71,9 @@ export const useStyles = createStyles(
 				color: theme.colors.gray[6],
 				textDecoration: 'underline',
 				textUnderlineOffset: '3px',
+			},
+			badgeInner: {
+				textTransform: 'capitalize',
 			},
 		};
 	}
