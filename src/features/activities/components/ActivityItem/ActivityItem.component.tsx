@@ -1,4 +1,4 @@
-import { useState, SyntheticEvent, useEffect } from 'react';
+import { useState, SyntheticEvent, useEffect, useRef } from 'react';
 import {
 	Collapse,
 	Container,
@@ -9,11 +9,18 @@ import {
 	Text,
 	Avatar,
 	Badge,
+	Textarea,
+	Select,
+	ActionIcon,
 } from '@mantine/core';
 import { useClickOutside } from '@mantine/hooks';
 import { useForm } from '@mantine/form';
+import { VscCalendar } from 'react-icons/vsc';
+import { BsTrash } from 'react-icons/bs';
 
+import { DeleteModal } from '@/components/Modal';
 import { useStyles } from './ActivityItem.styles';
+import { DatePicker } from '@mantine/dates';
 
 const imgURL =
 	'https://huntr-app.s3.amazonaws.com/5ca045fa6de9e0002ee83078_square';
@@ -32,8 +39,10 @@ interface ActivityItemProps {
 
 export const ActivityItem = (props: ActivityItemProps) => {
 	const [opened, setOpened] = useState<boolean>(false);
-	const ref = useClickOutside(() => setOpened(false));
+	const [deleteOpened, setDeleteOpened] = useState<boolean>(false);
 	const { classes } = useStyles({ opened });
+
+	const ref = useClickOutside(() => setOpened(false));
 
 	const form = useForm({
 		initialValues: {
@@ -52,8 +61,17 @@ export const ActivityItem = (props: ActivityItemProps) => {
 		const name = e.currentTarget.getAttribute('data-name') as string;
 		const value = form.values[name as keyof FormValues];
 
-		if (value !== props[name as keyof ActivityItemProps])
-			console.log(name, value);
+		if (value === props[name as keyof ActivityItemProps]) return;
+	};
+
+	const handleDeleteIconClick = (e: SyntheticEvent) => {
+		e.stopPropagation();
+		e.preventDefault();
+		setDeleteOpened(true);
+	};
+
+	const handleDeleteActivity = (e: SyntheticEvent) => {
+		setDeleteOpened(false);
 	};
 
 	return (
@@ -64,6 +82,7 @@ export const ActivityItem = (props: ActivityItemProps) => {
 						<Checkbox
 							size='xs'
 							{...form.getInputProps('completed', { type: 'checkbox' })}
+							classNames={{ input: classes.checkboxInput }}
 						/>
 						<TextInput
 							data-name='title'
@@ -135,9 +154,159 @@ export const ActivityItem = (props: ActivityItemProps) => {
 				in={opened}
 				transitionDuration={120}
 				transitionTimingFunction='ease'
+				className={classes.collapse}
 			>
-				<h1>Opened</h1>
+				<Textarea
+					placeholder='Note'
+					autosize
+					variant='unstyled'
+					classNames={{
+						root: classes.noteInput,
+						unstyledVariant: classes.noteUnstyled,
+					}}
+				/>
+				<Group noWrap spacing={0}>
+					<DatePicker
+						placeholder='Start Date'
+						icon={<VscCalendar />}
+						classNames={{ input: classes.datePickerInput }}
+						styles={{
+							input: { borderTopRightRadius: 0, borderBottomRightRadius: 0 },
+						}}
+						withinPortal={false}
+					/>
+					<DatePicker
+						placeholder='End Date'
+						classNames={{ input: classes.datePickerInput }}
+						styles={{
+							input: {
+								borderTopLeftRadius: 0,
+								borderBottomLeftRadius: 0,
+							},
+						}}
+						withinPortal={false}
+					/>
+					<Select
+						ml={10}
+						mr={10}
+						withinPortal={false}
+						placeholder='Category'
+						data={[
+							{
+								label: 'Email',
+								value: 'EMAIL',
+							},
+							{
+								label: 'Meeting',
+								value: 'MEETING',
+							},
+							{
+								label: 'Phone Call',
+								value: 'PHONE_CALL',
+							},
+							{
+								label: 'Reach Out',
+								value: 'REACH_OUT',
+							},
+							{
+								label: 'Get Reference',
+								value: 'GET_REFERENCE',
+							},
+							{
+								label: 'Prep Cover Letter',
+								value: 'PREP_COVER_LETTER',
+							},
+							{
+								label: 'Apply',
+								value: 'APPLY',
+							},
+							{
+								label: 'Follow Up',
+								value: 'SEND_AVAILABILITY',
+							},
+							{
+								label: 'Phone Screen',
+								value: 'PHONE_SCREEN',
+							},
+							{
+								label: 'Phone Interview',
+								value: 'PHONE_INTERVIEW',
+							},
+							{
+								label: 'Assignment',
+								value: 'ASSIGNMENT',
+							},
+							{
+								label: 'On Site Interview',
+								value: 'ON_SITE_INTERVIEW',
+							},
+							{
+								label: 'Rejected',
+								value: 'REJECTED',
+							},
+							{
+								label: 'Offer Received',
+								value: 'OFFER_RECEIVED',
+							},
+							{
+								label: 'Prep Resume',
+								value: 'PREP_RESUME',
+							},
+							{
+								label: 'Decline Offer',
+								value: 'DECLINE_OFFER',
+							},
+							{
+								label: 'Accept Offer',
+								value: 'ACCEPT_OFFER',
+							},
+							{
+								label: 'Apply',
+								value: 'APPLY',
+							},
+							{
+								label: 'Other',
+								value: 'OTHER',
+							},
+							{
+								label: 'Prep for Interview',
+								value: 'PREP_FOR_INTERVIEW',
+							},
+							{
+								label: 'Send Thank You',
+								value: 'SEND_THANK_YOU',
+							},
+							{
+								label: 'Networking Event',
+								value: 'NETWORKING_EVENT',
+							},
+							{
+								label: 'Application Withdrawn',
+								value: 'APPLICATION_WITHDRAWN',
+							},
+						]}
+						classNames={{ input: classes.selectInput }}
+					/>
+					<ActionIcon>
+						<ActionIcon
+							variant='outline'
+							size='md'
+							radius='sm'
+							onClick={handleDeleteIconClick}
+							classNames={{ root: classes.trashIconRoot }}
+						>
+							<BsTrash />
+						</ActionIcon>
+					</ActionIcon>
+				</Group>
 			</Collapse>
+			<DeleteModal
+				itemType='activity'
+				onClickDelete={handleDeleteActivity}
+				opened={deleteOpened}
+				loading={false}
+				onClose={() => setDeleteOpened(false)}
+			/>
 		</Container>
 	);
 };

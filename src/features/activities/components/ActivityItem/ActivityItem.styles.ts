@@ -40,6 +40,10 @@ export const useStyles = createStyles(
 				width: '100%',
 				backgroundColor: theme.colors.white,
 			},
+			checkboxInput: {
+				borderColor: theme.colors.gray[4],
+				borderWidth: '2px',
+			},
 			titleInputRoot: {
 				display: 'inline-block',
 				width: '100%',
@@ -52,6 +56,7 @@ export const useStyles = createStyles(
 				margin: '0px',
 				height: '30px',
 				fontSize: '14px',
+				fontWeight: 500,
 				color: theme.other.brandDarkColor,
 				textAlign: 'left',
 				fontFamily: theme.other.secondaryFontFamily,
@@ -74,6 +79,45 @@ export const useStyles = createStyles(
 			},
 			badgeInner: {
 				textTransform: 'capitalize',
+			},
+			collapse: {
+				padding: '0 0 10px 0',
+			},
+			noteInput: {
+				minHeight: '100px',
+				padding: '0px !important',
+				fontSize: '14px',
+				color: theme.other.brandDarkColor,
+
+				'&::placeholder': {
+					fontSize: '14px',
+				},
+			},
+			noteUnstyled: {
+				paddingTop: 0,
+			},
+			datePickerInput: {
+				height: '30px !important',
+				minHeight: '30px !important',
+				fontSize: '13px',
+			},
+			selectInput: {
+				height: '30px !important',
+				minHeight: '30px !important',
+
+				boxSizing: 'border-box',
+				padding: '0px 10px',
+			},
+
+			trashIconRoot: {
+				boxShadow: 'rgb(25 4 69 / 5%) 0px 2px 7px',
+				border: '1px solid rgba(25, 4, 69, 0.1)',
+				transition: 'all .2s ease',
+				minHeight: '30px',
+
+				'&:hover': {
+					backgroundColor: 'transparent',
+				},
 			},
 		};
 	}

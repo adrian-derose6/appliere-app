@@ -92,6 +92,18 @@ export const libraryStyles = {
 		},
 		label: {},
 	}),
+	DatePicker: (theme: MantineTheme) => ({
+		input: {
+			boxShadow: 'rgb(25 4 69 / 5%) 0px 2px 7px',
+			border: '1px solid rgba(25, 4, 69, 0.1)',
+			transition: 'all .2s ease',
+			minHeight: '40px',
+		},
+		required: {
+			opacity: 0,
+		},
+		label: {},
+	}),
 	Checkbox: (theme: MantineTheme) => ({
 		input: {
 			'&:checked': {

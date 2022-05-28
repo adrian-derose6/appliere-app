@@ -20,9 +20,16 @@ export const useStyles = createStyles((theme) => {
 		modalTitle: {
 			color: 'white',
 			fontFamily: theme.headings.fontFamily,
-			fontSize: '16px',
+			fontSize: '18px',
 			fontWeight: 600,
 			margin: 0,
+		},
+		overlay: {},
+		modalBody: {
+			padding: '20px 25px 30px',
+		},
+		bodyText: {
+			color: theme.colors.gray[7],
 		},
 		modalClose: {
 			visibility: 'hidden',
