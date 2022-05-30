@@ -103,7 +103,7 @@ export const BoardNavigation = () => {
 		},
 		{
 			label: 'Activity',
-			path: '/add-activity',
+			path: `/add-activity/${params.boardId}`,
 			icon: <VscCalendar />,
 		},
 		{
