@@ -121,12 +121,12 @@ export const ActivityItem = (props: ActivityItemProps) => {
 						spacing={7}
 					>
 						<Avatar size='xs' radius='lg' src={imgURL} />
-						<Text className={classes.employer}>{props.job.employer}</Text>
+						<Text className={classes.fieldText1}>{props.job.employer}</Text>
 					</Group>
 				</Grid.Col>
 				<Grid.Col span={5} className={classes.col}>
 					<Group className={classes.colGroup} align='center' noWrap>
-						<Text className={classes.fieldText1}>{props.job.title}</Text>
+						<Text className={classes.fieldText2}>{props.job.title}</Text>
 					</Group>
 				</Grid.Col>
 				<Grid.Col span={2} className={classes.col} onClick={handleNavigate}>

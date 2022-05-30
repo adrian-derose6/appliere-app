@@ -1,3 +1,4 @@
+import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import { Container, Group, Text } from '@mantine/core';
 import { createStyles } from '@mantine/core';
 import { BsPlusLg } from 'react-icons/bs';
@@ -31,7 +32,16 @@ const LIST = [
 ];
 
 export function ActivitiesPage({ name }: { name: string }) {
+	const { boardId } = useParams();
+	const location = useLocation();
+	const navigate = useNavigate();
 	const { classes } = useStyles();
+
+	const handleOpenModal = () => {
+		navigate(`/add-activity/${boardId}`, {
+			state: { backgroundLocation: location },
+		});
+	};
 
 	return (
 		<Container fluid className={classes.pageWrapper}>
@@ -42,7 +52,11 @@ export function ActivitiesPage({ name }: { name: string }) {
 				</Text>
 				<Group noWrap position='right'>
 					<Text>15 activities</Text>
-					<BrandButton size='xs' leftIcon={<BsPlusLg />}>
+					<BrandButton
+						size='xs'
+						leftIcon={<BsPlusLg />}
+						onClick={handleOpenModal}
+					>
 						Activity
 					</BrandButton>
 				</Group>

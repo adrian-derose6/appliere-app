@@ -9,29 +9,25 @@ import {
 	Modal,
 	TextInput,
 	Text,
-	Autocomplete,
+	Textarea,
+	Chips,
+	Chip,
+	Checkbox,
 	Button,
 	Group,
-	Container,
 	Select,
+	ScrollArea,
 	Grid,
 	SimpleGrid,
 	LoadingOverlay,
+	Divider,
 } from '@mantine/core';
-import { HiOutlineOfficeBuilding } from 'react-icons/hi';
-import {
-	MdWorkOutline,
-	MdOutlineDashboardCustomize,
-	MdOutlineAddCircleOutline,
-} from 'react-icons/md';
-import { GrAddCircle } from 'react-icons/gr';
+import { DatePicker } from '@mantine/dates';
 import { CgAdd } from 'react-icons/cg';
-import { ImStack } from 'react-icons/im';
 import { useForm } from '@mantine/form';
 
+import { CATEGORY_SELECTION } from '@/features/activities/constants/category-selection';
 import { BrandButton } from '@/components/Buttons';
-import { useGetBoards } from '@/features/board';
-import { useCreateJob } from '@/features/job/api';
 import { useStyles } from './AddActivityModal.styles';
 
 const OPEN_TIMEOUT = 50;
@@ -41,8 +37,6 @@ type Props = {};
 
 export const AddActivityModal = (props: Props) => {
 	const [opened, setOpened] = useState(false);
-	const { data: boardsData, isLoading, isSuccess, isError } = useGetBoards();
-	const createJobMutation = useCreateJob();
 	const params = useParams();
 	const navigate = useNavigate();
 	const location = useLocation();
@@ -63,7 +57,7 @@ export const AddActivityModal = (props: Props) => {
 	const form = useForm({
 		initialValues: {
 			title: '',
-			activityCategory: '',
+			activityCategory: 'APPLY',
 			boardId: params.boardId as string,
 			jobId: '',
 			startDate: '',
@@ -72,6 +66,15 @@ export const AddActivityModal = (props: Props) => {
 	});
 
 	type FormValues = typeof form.values;
+
+	useEffect(() => {
+		const { activityCategory, title } = form.values;
+		const newTitle = CATEGORY_SELECTION.find(
+			(item) => item.value === activityCategory
+		)?.label;
+
+		form.setFieldValue('title', newTitle as string);
+	}, [form.values.activityCategory]);
 
 	const handleModalClose = () => {
 		setOpened(false);
@@ -104,34 +107,62 @@ export const AddActivityModal = (props: Props) => {
 			}}
 		>
 			<LoadingOverlay
-				visible={createJobMutation.isLoading}
+				visible={false}
 				overlayOpacity={0.3}
 				overlayColor='#c5c5c5'
 			/>
 			<form onSubmit={form.onSubmit(handleSubmit)}>
-				<Grid>
-					<Grid.Col span={9}>
-						<Container
-							fluid
-							pt={10}
-							pr={20}
-							pl={20}
-							pb={10}
-							className={classes.mainSection}
-						>
-							<TextInput
-								required
-								label='Title'
-								placeholder='i.e. Apply'
-								description='Required'
-								mt='md'
-								{...form.getInputProps('title')}
-							/>
-							<SimpleGrid mt='md' cols={2}></SimpleGrid>
-						</Container>
+				<Grid gutter={0}>
+					<Grid.Col span={8} p={20} className={classes.mainSection}>
+						<TextInput
+							required
+							label='Title'
+							placeholder='i.e. Apply'
+							classNames={{ label: classes.inputLabel }}
+							mb={20}
+							{...form.getInputProps('title')}
+						/>
+
+						<Text className={classes.inputLabel}>Category</Text>
+						<ScrollArea scrollbarSize={8} style={{ height: 130 }} mb={20}>
+							<Chips
+								multiple={false}
+								size='xs'
+								mt={10}
+								variant='filled'
+								{...form.getInputProps('activityCategory')}
+							>
+								{CATEGORY_SELECTION.map((category, index) => {
+									return <Chip value={category.value}>{category.label}</Chip>;
+								})}
+							</Chips>
+						</ScrollArea>
+						<SimpleGrid cols={2} mb={20}>
+							<DatePicker label='Start Date' placeholder='+ set start date' />
+							<DatePicker label='End Date' placeholder='+ set end date' />
+						</SimpleGrid>
+						<Textarea
+							label='Note'
+							placeholder='i.e: A note about the activity'
+							mb={20}
+						/>
+						<Checkbox
+							label='Mark as Completed'
+							classNames={{ label: classes.checkboxLabel }}
+						/>
 					</Grid.Col>
-					<Grid.Col span={3}>
-						<Container></Container>
+					<Grid.Col span={4} px={10} py={20}>
+						<Text className={classes.linkedTo}>Linked to</Text>
+						<Divider mt={5} mb={10} />
+						<Select
+							label='Job'
+							placeholder='+ Link job'
+							data={[]}
+							transition='pop'
+							transitionDuration={120}
+							transitionTimingFunction='ease'
+							className={classes.jobSelectInput}
+						/>
 					</Grid.Col>
 				</Grid>
 
@@ -145,7 +176,7 @@ export const AddActivityModal = (props: Props) => {
 						Discard
 					</Button>
 					<BrandButton type='submit' size='xs' className={classes.modalButton}>
-						Save Job
+						Save Activity
 					</BrandButton>
 				</Group>
 			</form>

@@ -67,7 +67,7 @@ export const useStyles = createStyles(
 				fontSize: '13px',
 				color: theme.colors.gray[6],
 			},
-			employer: {
+			fieldText2: {
 				fontSize: '13px',
 				color: theme.colors.gray[6],
 				textDecoration: 'underline',
