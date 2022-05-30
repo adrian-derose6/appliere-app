@@ -63,15 +63,11 @@ export const useStyles = createStyles(
 				width: '100%',
 				cursor: opened ? 'caret' : 'pointer',
 			},
-			fieldText: {
+			fieldText1: {
 				fontSize: '13px',
 				color: theme.colors.gray[6],
 			},
 			employer: {
-				fontSize: '13px',
-				color: theme.colors.gray[6],
-			},
-			jobTitle: {
 				fontSize: '13px',
 				color: theme.colors.gray[6],
 				textDecoration: 'underline',
@@ -104,7 +100,6 @@ export const useStyles = createStyles(
 			selectInput: {
 				height: '30px !important',
 				minHeight: '30px !important',
-
 				boxSizing: 'border-box',
 				padding: '0px 10px',
 			},

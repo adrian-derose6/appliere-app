@@ -1,4 +1,5 @@
-import { useState, SyntheticEvent, useEffect, useRef } from 'react';
+import { useState, SyntheticEvent } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
 	Collapse,
 	Container,
@@ -16,11 +17,13 @@ import {
 import { useClickOutside } from '@mantine/hooks';
 import { useForm } from '@mantine/form';
 import { VscCalendar } from 'react-icons/vsc';
-import { BsTrash } from 'react-icons/bs';
+import { BsTrash, BsTag } from 'react-icons/bs';
 
 import { DeleteModal } from '@/components/Modal';
 import { useStyles } from './ActivityItem.styles';
 import { DatePicker } from '@mantine/dates';
+import { CATEGORY_SELECTION } from '../../constants/category-selection';
+import { useAuth } from '@/stores/auth/AuthProvider';
 
 const imgURL =
 	'https://huntr-app.s3.amazonaws.com/5ca045fa6de9e0002ee83078_square';
@@ -33,11 +36,14 @@ interface ActivityItemProps {
 	job: {
 		employer: string;
 		title: string;
+		id?: string;
 	};
 	employer?: string;
 }
 
 export const ActivityItem = (props: ActivityItemProps) => {
+	const { user } = useAuth();
+	const navigate = useNavigate();
 	const [opened, setOpened] = useState<boolean>(false);
 	const [deleteOpened, setDeleteOpened] = useState<boolean>(false);
 	const { classes } = useStyles({ opened });
@@ -72,6 +78,14 @@ export const ActivityItem = (props: ActivityItemProps) => {
 
 	const handleDeleteActivity = (e: SyntheticEvent) => {
 		setDeleteOpened(false);
+	};
+
+	const handleNavigate = () => {
+		if (props.job.id) {
+			navigate(`/job/${props.job.id}`, {
+				state: { backgroundLocation: location },
+			});
+		}
 	};
 
 	return (
@@ -112,10 +126,10 @@ export const ActivityItem = (props: ActivityItemProps) => {
 				</Grid.Col>
 				<Grid.Col span={5} className={classes.col}>
 					<Group className={classes.colGroup} align='center' noWrap>
-						<Text className={classes.jobTitle}>{props.job.title}</Text>
+						<Text className={classes.fieldText1}>{props.job.title}</Text>
 					</Group>
 				</Grid.Col>
-				<Grid.Col span={2} className={classes.col}>
+				<Grid.Col span={2} className={classes.col} onClick={handleNavigate}>
 					<Group
 						className={classes.colGroup}
 						align='center'
@@ -165,129 +179,37 @@ export const ActivityItem = (props: ActivityItemProps) => {
 						unstyledVariant: classes.noteUnstyled,
 					}}
 				/>
-				<Group noWrap spacing={0}>
-					<DatePicker
-						placeholder='Start Date'
-						icon={<VscCalendar />}
-						classNames={{ input: classes.datePickerInput }}
-						styles={{
-							input: { borderTopRightRadius: 0, borderBottomRightRadius: 0 },
-						}}
-						withinPortal={false}
-					/>
-					<DatePicker
-						placeholder='End Date'
-						classNames={{ input: classes.datePickerInput }}
-						styles={{
-							input: {
-								borderTopLeftRadius: 0,
-								borderBottomLeftRadius: 0,
-							},
-						}}
-						withinPortal={false}
-					/>
-					<Select
-						ml={10}
-						mr={10}
-						withinPortal={false}
-						placeholder='Category'
-						data={[
-							{
-								label: 'Email',
-								value: 'EMAIL',
-							},
-							{
-								label: 'Meeting',
-								value: 'MEETING',
-							},
-							{
-								label: 'Phone Call',
-								value: 'PHONE_CALL',
-							},
-							{
-								label: 'Reach Out',
-								value: 'REACH_OUT',
-							},
-							{
-								label: 'Get Reference',
-								value: 'GET_REFERENCE',
-							},
-							{
-								label: 'Prep Cover Letter',
-								value: 'PREP_COVER_LETTER',
-							},
-							{
-								label: 'Apply',
-								value: 'APPLY',
-							},
-							{
-								label: 'Follow Up',
-								value: 'SEND_AVAILABILITY',
-							},
-							{
-								label: 'Phone Screen',
-								value: 'PHONE_SCREEN',
-							},
-							{
-								label: 'Phone Interview',
-								value: 'PHONE_INTERVIEW',
-							},
-							{
-								label: 'Assignment',
-								value: 'ASSIGNMENT',
-							},
-							{
-								label: 'On Site Interview',
-								value: 'ON_SITE_INTERVIEW',
-							},
-							{
-								label: 'Rejected',
-								value: 'REJECTED',
-							},
-							{
-								label: 'Offer Received',
-								value: 'OFFER_RECEIVED',
-							},
-							{
-								label: 'Prep Resume',
-								value: 'PREP_RESUME',
-							},
-							{
-								label: 'Decline Offer',
-								value: 'DECLINE_OFFER',
-							},
-							{
-								label: 'Accept Offer',
-								value: 'ACCEPT_OFFER',
-							},
-							{
-								label: 'Apply',
-								value: 'APPLY',
-							},
-							{
-								label: 'Other',
-								value: 'OTHER',
-							},
-							{
-								label: 'Prep for Interview',
-								value: 'PREP_FOR_INTERVIEW',
-							},
-							{
-								label: 'Send Thank You',
-								value: 'SEND_THANK_YOU',
-							},
-							{
-								label: 'Networking Event',
-								value: 'NETWORKING_EVENT',
-							},
-							{
-								label: 'Application Withdrawn',
-								value: 'APPLICATION_WITHDRAWN',
-							},
-						]}
-						classNames={{ input: classes.selectInput }}
-					/>
-					<ActionIcon>
+				<Group noWrap position='apart'>
+					<Group noWrap spacing={0} position='left'>
+						<DatePicker
+							placeholder='Start Date'
+							icon={<VscCalendar />}
+							classNames={{ input: classes.datePickerInput }}
+							styles={{
+								input: { borderTopRightRadius: 0, borderBottomRightRadius: 0 },
+							}}
+							withinPortal={false}
+						/>
+						<DatePicker
+							placeholder='End Date'
+							classNames={{ input: classes.datePickerInput }}
+							styles={{
+								input: {
+									borderTopLeftRadius: 0,
+									borderBottomLeftRadius: 0,
+								},
+							}}
+							withinPortal={false}
+						/>
+						<Select
+							ml={10}
+							mr={10}
+							withinPortal={false}
+							icon={<BsTag />}
+							placeholder='Category'
+							data={CATEGORY_SELECTION}
+							classNames={{ input: classes.selectInput }}
+						/>
 						<ActionIcon
 							variant='outline'
 							size='md'
@@ -297,7 +219,10 @@ export const ActivityItem = (props: ActivityItemProps) => {
 						>
 							<BsTrash />
 						</ActionIcon>
-					</ActionIcon>
+					</Group>
+					<Text className={classes.fieldText1}>
+						created by {user?.firstName} {user?.lastName}
+					</Text>
 				</Group>
 			</Collapse>
 			<DeleteModal
@@ -306,6 +231,7 @@ export const ActivityItem = (props: ActivityItemProps) => {
 				opened={deleteOpened}
 				loading={false}
 				onClose={() => setDeleteOpened(false)}
+				withinPortal={false}
 			/>
 		</Container>
 	);

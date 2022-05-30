@@ -1,10 +1,10 @@
 import { SyntheticEvent } from 'react';
-import { Modal, Text, Center, Group, Button } from '@mantine/core';
+import { Modal, Text, Center, Group, Button, ModalProps } from '@mantine/core';
 
 import { BrandButton } from '@/components/Buttons';
 import { useStyles } from './DeleteModal.styles';
 
-interface DeleteJobProps {
+interface DeleteJobProps extends ModalProps {
 	itemType: string;
 	opened: boolean;
 	loading: boolean;
@@ -17,6 +17,7 @@ export const DeleteModal = ({
 	opened,
 	onClose,
 	onClickDelete,
+	...modalProps
 }: DeleteJobProps) => {
 	const { classes } = useStyles();
 
@@ -32,6 +33,7 @@ export const DeleteModal = ({
 			overlayColor='gray'
 			overlayOpacity={0.55}
 			overlayBlur={2}
+			{...modalProps}
 			classNames={{
 				modal: classes.modal,
 				header: classes.modalHeader,
