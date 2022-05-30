@@ -20,6 +20,7 @@ import { VscCalendar } from 'react-icons/vsc';
 import { BsTrash, BsTag } from 'react-icons/bs';
 
 import { DeleteModal } from '@/components/Modal';
+import { ActivityBadge } from '../Elements';
 import { useStyles } from './ActivityItem.styles';
 import { DatePicker } from '@mantine/dates';
 import { CATEGORY_SELECTION } from '../../constants/category-selection';
@@ -39,6 +40,7 @@ interface ActivityItemProps {
 		id?: string;
 	};
 	employer?: string;
+	activityCategory: any;
 }
 
 export const ActivityItem = (props: ActivityItemProps) => {
@@ -136,14 +138,12 @@ export const ActivityItem = (props: ActivityItemProps) => {
 						position='left'
 						noWrap
 					>
-						<Badge
-							variant='filled'
-							radius='sm'
-							color='green'
-							classNames={{ inner: classes.badgeInner }}
-						>
-							Phone Interview
-						</Badge>
+						{props.activityCategory && (
+							<ActivityBadge
+								label={props.activityCategory.label}
+								value={props.activityCategory.value}
+							/>
+						)}
 					</Group>
 				</Grid.Col>
 				<Grid.Col span={2} className={classes.col}>

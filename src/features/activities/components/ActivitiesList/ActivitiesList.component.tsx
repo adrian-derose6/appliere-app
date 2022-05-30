@@ -5,15 +5,15 @@ import { useStyles } from './ActivitiesList.styles';
 
 interface ActivitiesListProps {
 	list: any;
-	loading: boolean;
+	isLoading: boolean;
 }
 
-export const ActivitiesList = ({ list, loading }: ActivitiesListProps) => {
+export const ActivitiesList = ({ list, isLoading }: ActivitiesListProps) => {
 	const { classes } = useStyles();
 
 	return (
 		<ScrollArea className={classes.listContainer}>
-			<LoadingOverlay visible={loading} />
+			<LoadingOverlay visible={isLoading} />
 			{list.map((item: any) => {
 				return (
 					<ActivityItem
@@ -23,6 +23,7 @@ export const ActivitiesList = ({ list, loading }: ActivitiesListProps) => {
 						note={item.note}
 						completed={item.completed}
 						job={item.job}
+						activityCategory={item.activityCategory}
 					/>
 				);
 			})}

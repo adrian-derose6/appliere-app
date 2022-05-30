@@ -1,36 +1,11 @@
 import { useNavigate, useParams, useLocation } from 'react-router-dom';
-import { Container, Group, Text } from '@mantine/core';
+import { Container, Group, Text, LoadingOverlay } from '@mantine/core';
 import { createStyles } from '@mantine/core';
 import { BsPlusLg } from 'react-icons/bs';
 
 import { ActivitiesList } from '../components/ActivitiesList';
 import { BrandButton } from '@/components/Buttons';
 import { useGetActivities } from '../api';
-
-const LIST = [
-	{
-		id: '1',
-		title: 'Activity 1',
-		note: 'This is the note',
-		completed: false,
-		job: {
-			employer: 'Facebook',
-			title: 'Software Engineer',
-		},
-		employer: 'Facebook',
-	},
-	{
-		id: '2',
-		title: 'Activity 2',
-		note: 'This is the note',
-		completed: false,
-		job: {
-			employer: 'Amazon',
-			title: 'Software Developer',
-		},
-		employer: 'Amazon',
-	},
-];
 
 export function ActivitiesPage({ name }: { name: string }) {
 	const params = useParams();
@@ -47,6 +22,8 @@ export function ActivitiesPage({ name }: { name: string }) {
 			state: { backgroundLocation: location },
 		});
 	};
+
+	console.log(data);
 
 	return (
 		<Container fluid className={classes.pageWrapper}>
@@ -66,7 +43,8 @@ export function ActivitiesPage({ name }: { name: string }) {
 					</BrandButton>
 				</Group>
 			</Group>
-			<ActivitiesList list={LIST} loading={isLoading} />
+
+			<ActivitiesList list={data?.activities || []} isLoading={isLoading} />
 		</Container>
 	);
 }

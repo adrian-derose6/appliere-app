@@ -1,5 +1,4 @@
 import { authFetch } from '@/lib/axios';
-import { BoardsResponse } from '@/features/board/types';
 import { QueryConfig, ExtractFnReturnType } from '@/lib/react-query';
 import { useQuery } from 'react-query';
 
