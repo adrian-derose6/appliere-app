@@ -1,23 +1,19 @@
-import { ScrollArea } from '@mantine/core';
+import { ScrollArea, LoadingOverlay } from '@mantine/core';
 
 import { ActivityItem } from '../ActivityItem';
 import { useStyles } from './ActivitiesList.styles';
 
 interface ActivitiesListProps {
 	list: any;
+	loading: boolean;
 }
 
-type InputSubmit = {
-	name: string;
-	value: boolean | string;
-	activityId: string;
-};
-
-export const ActivitiesList = ({ list }: ActivitiesListProps) => {
+export const ActivitiesList = ({ list, loading }: ActivitiesListProps) => {
 	const { classes } = useStyles();
 
 	return (
 		<ScrollArea className={classes.listContainer}>
+			<LoadingOverlay visible={loading} />
 			{list.map((item: any) => {
 				return (
 					<ActivityItem

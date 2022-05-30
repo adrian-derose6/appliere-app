@@ -38,7 +38,7 @@ export const useStyles = createStyles((theme) => {
 			boxSizing: 'border-box',
 		},
 		rightSection: {
-			border: '1px solid red',
+			backgroundColor: theme.other.mainBackgroundColor,
 		},
 		modalButton: {
 			border: '1px solid rgba(25, 4, 69, 0.2)',
@@ -65,6 +65,8 @@ export const useStyles = createStyles((theme) => {
 			fontWeight: 500,
 			color: theme.colors.gray[6],
 		},
-		jobSelectInput: {},
+		jobSelectInput: {
+			minHeight: '20px !important',
+		},
 	};
 });

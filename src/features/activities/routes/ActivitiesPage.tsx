@@ -5,6 +5,7 @@ import { BsPlusLg } from 'react-icons/bs';
 
 import { ActivitiesList } from '../components/ActivitiesList';
 import { BrandButton } from '@/components/Buttons';
+import { useGetActivities } from '../api';
 
 const LIST = [
 	{
@@ -32,9 +33,13 @@ const LIST = [
 ];
 
 export function ActivitiesPage({ name }: { name: string }) {
-	const { boardId } = useParams();
+	const params = useParams();
+	const boardId = params.boardId as string;
 	const location = useLocation();
 	const navigate = useNavigate();
+	const { data, isLoading, isError, isSuccess } = useGetActivities({
+		boardId,
+	});
 	const { classes } = useStyles();
 
 	const handleOpenModal = () => {
@@ -51,7 +56,7 @@ export function ActivitiesPage({ name }: { name: string }) {
 					<span className={classes.headingSub}>{`> ${name || ''}`}</span>
 				</Text>
 				<Group noWrap position='right'>
-					<Text>15 activities</Text>
+					<Text>{data?.numOfActivities} activities</Text>
 					<BrandButton
 						size='xs'
 						leftIcon={<BsPlusLg />}
@@ -61,7 +66,7 @@ export function ActivitiesPage({ name }: { name: string }) {
 					</BrandButton>
 				</Group>
 			</Group>
-			<ActivitiesList list={LIST} />
+			<ActivitiesList list={LIST} loading={isLoading} />
 		</Container>
 	);
 }

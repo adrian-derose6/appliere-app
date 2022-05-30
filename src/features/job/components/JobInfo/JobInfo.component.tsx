@@ -80,7 +80,14 @@ export const JobInfo = ({ job }: JobInfoProps) => {
 	};
 
 	return (
-		<Container fluid pt={20} pr={20} pl={20} pb={20}>
+		<Container
+			fluid
+			pt={20}
+			pr={20}
+			pl={20}
+			pb={20}
+			className={classes.container}
+		>
 			<form>
 				<Grid px='sm'>
 					<Grid.Col span={6}>

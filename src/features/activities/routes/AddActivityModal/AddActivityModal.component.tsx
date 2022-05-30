@@ -151,7 +151,7 @@ export const AddActivityModal = (props: Props) => {
 							classNames={{ label: classes.checkboxLabel }}
 						/>
 					</Grid.Col>
-					<Grid.Col span={4} px={10} py={20}>
+					<Grid.Col span={4} px={10} py={20} className={classes.rightSection}>
 						<Text className={classes.linkedTo}>Linked to</Text>
 						<Divider mt={5} mb={10} />
 						<Select
@@ -161,7 +161,7 @@ export const AddActivityModal = (props: Props) => {
 							transition='pop'
 							transitionDuration={120}
 							transitionTimingFunction='ease'
-							className={classes.jobSelectInput}
+							classNames={{ input: classes.jobSelectInput }}
 						/>
 					</Grid.Col>
 				</Grid>
