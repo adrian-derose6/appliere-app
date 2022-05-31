@@ -1,5 +1,5 @@
 import { useState, SyntheticEvent } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import {
 	Collapse,
 	Container,
@@ -24,7 +24,8 @@ import { ActivityBadge } from '../Elements';
 import { useStyles } from './ActivityItem.styles';
 import { DatePicker } from '@mantine/dates';
 import { CATEGORY_SELECTION } from '../../constants/category-selection';
-import { useAuth } from '@/stores/auth/AuthProvider';
+import { useDeleteActivity } from '@/features/activities/api';
+import { useAuth } from '@/stores/auth';
 
 const imgURL =
 	'https://huntr-app.s3.amazonaws.com/5ca045fa6de9e0002ee83078_square';
@@ -46,8 +47,11 @@ interface ActivityItemProps {
 export const ActivityItem = (props: ActivityItemProps) => {
 	const { user } = useAuth();
 	const navigate = useNavigate();
+	const params = useParams();
+	const boardId = params.boardId as string;
 	const [opened, setOpened] = useState<boolean>(false);
 	const [deleteOpened, setDeleteOpened] = useState<boolean>(false);
+	const deleteActivityMutation = useDeleteActivity();
 	const { classes } = useStyles({ opened });
 
 	const ref = useClickOutside(() => setOpened(false));
@@ -79,6 +83,10 @@ export const ActivityItem = (props: ActivityItemProps) => {
 	};
 
 	const handleDeleteActivity = (e: SyntheticEvent) => {
+		deleteActivityMutation.mutate({
+			activityId: props.id,
+			boardId,
+		});
 		setDeleteOpened(false);
 	};
 
