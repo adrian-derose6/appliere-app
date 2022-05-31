@@ -26,9 +26,13 @@ import { DatePicker } from '@mantine/dates';
 import { CgAdd } from 'react-icons/cg';
 import { useForm } from '@mantine/form';
 
-import { CATEGORY_SELECTION } from '@/features/activities/constants/category-selection';
+import {
+	CATEGORY_SELECTION,
+	ActivityCategoryItem,
+} from '@/features/activities/constants/category-selection';
 import { BrandButton } from '@/components/Buttons';
 import { JobSelectItem } from '@/features/activities/components/Elements';
+import { useCreateActivity } from '@/features/activities/api';
 import { useGetJobs } from '@/features/job';
 import { useStyles } from './AddActivityModal.styles';
 
@@ -46,6 +50,7 @@ export const AddActivityModal = (props: Props) => {
 	const locationState = location.state as { backgroundLocation?: Location };
 	const match = useMatch('/add-activity/*');
 	const { data, isLoading, isSuccess, isError } = useGetJobs({ boardId });
+	const createActivityMutation = useCreateActivity({});
 	const { classes } = useStyles();
 
 	useEffect(() => {
@@ -92,7 +97,20 @@ export const AddActivityModal = (props: Props) => {
 		const endAt = values.endAt.toUTCString();
 		const activityCategory = CATEGORY_SELECTION.find(
 			(item) => item.value === values.activityCategory
-		);
+		) as ActivityCategoryItem;
+
+		createActivityMutation.mutate({
+			data: {
+				title: values.title,
+				boardId,
+				activityCategory,
+				jobId: values.jobId,
+				startAt,
+				endAt,
+				note: values.note,
+				completed: values.completed,
+			},
+		});
 		console.log(values);
 	};
 
@@ -129,12 +147,12 @@ export const AddActivityModal = (props: Props) => {
 				overlay: classes.modalOverlay,
 			}}
 		>
-			<LoadingOverlay
-				visible={false}
-				overlayOpacity={0.3}
-				overlayColor='#c5c5c5'
-			/>
 			<form onSubmit={form.onSubmit(handleSubmit)}>
+				<LoadingOverlay
+					visible={createActivityMutation.isLoading}
+					overlayOpacity={0.3}
+					overlayColor='#c5c5c5'
+				/>
 				<Grid gutter={0}>
 					<Grid.Col span={8} p={20} className={classes.mainSection}>
 						<TextInput
@@ -205,6 +223,7 @@ export const AddActivityModal = (props: Props) => {
 							transitionDuration={120}
 							transitionTimingFunction='ease'
 							classNames={{ input: classes.jobSelectInput }}
+							{...form.getInputProps('jobId')}
 						/>
 					</Grid.Col>
 				</Grid>

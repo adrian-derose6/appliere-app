@@ -23,8 +23,6 @@ export function ActivitiesPage({ name }: { name: string }) {
 		});
 	};
 
-	console.log(data);
-
 	return (
 		<Container fluid className={classes.pageWrapper}>
 			<Group noWrap position='apart' className={classes.header}>

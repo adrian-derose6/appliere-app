@@ -1,3 +1,5 @@
+import { ValueOf } from 'type-fest';
+
 export enum ActivityCategory {
 	APPLY = 'APPLY',
 	FOLLOW_UP = 'FOLLOW_UP',
@@ -23,6 +25,11 @@ export enum ActivityCategory {
 	OTHER = 'OTHER',
 	APPLICATION_WITHDRAWN = 'APPLICATION_WITHDRAWN',
 }
+
+export type ActivityCategoryItem = {
+	label: string;
+	value: string;
+};
 
 export const CATEGORY_SELECTION = [
 	{

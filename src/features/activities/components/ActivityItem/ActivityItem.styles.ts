@@ -2,7 +2,6 @@ import { createStyles } from '@mantine/core';
 
 export const useStyles = createStyles(
 	(theme, { opened }: { opened: boolean }) => {
-		console.log(opened);
 		return {
 			itemContainer: {
 				minHeight: '42px',

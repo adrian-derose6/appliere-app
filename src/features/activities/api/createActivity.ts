@@ -13,13 +13,16 @@ export type CreateActivityDTO = {
 		boardId: string;
 		jobId: string;
 		startAt: string;
+		endAt: string;
+		note?: string;
+		completed?: boolean;
 	};
 };
 
 export const createActivity = async ({
 	data,
 }: CreateActivityDTO): Promise<any> => {
-	const res = await authFetch.post(`/activities`, { data });
+	const res = await authFetch.post(`/activities`, data);
 	return res.data.activity;
 };
 
@@ -32,7 +35,9 @@ export const useCreateActivity = ({
 }: UseCreateActivityOptions = {}) => {
 	return useMutation({
 		onSettled: async (data, err, variables) => {
-			queryClient.invalidateQueries(['activity', data.activity?.id]);
+			if (data.activity) {
+				queryClient.invalidateQueries(['activities', data.activity.boardId]);
+			}
 		},
 		...config,
 		mutationFn: createActivity,
