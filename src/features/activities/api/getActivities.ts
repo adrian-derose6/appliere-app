@@ -13,12 +13,15 @@ export const getActivities = async ({
 
 type QueryFnType = typeof getActivities;
 
-type UseActivitiesOptions = {
+type UseGetActivitiesOptions = {
 	config?: QueryConfig<QueryFnType>;
 	boardId: string;
 };
 
-export const useGetActivities = ({ boardId, config }: UseActivitiesOptions) => {
+export const useGetActivities = ({
+	boardId,
+	config,
+}: UseGetActivitiesOptions) => {
 	return useQuery<ExtractFnReturnType<QueryFnType>>({
 		...config,
 		queryKey: ['activities', boardId],

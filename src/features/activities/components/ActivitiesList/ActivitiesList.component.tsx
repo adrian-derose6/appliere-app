@@ -24,6 +24,7 @@ export const ActivitiesList = ({ list, isLoading }: ActivitiesListProps) => {
 						completed={item.completed}
 						job={item.job}
 						activityCategory={item.activityCategory}
+						endAt={item.endAt}
 					/>
 				);
 			})}

@@ -22,6 +22,7 @@ export const useDeleteActivity = ({
 	return useMutation({
 		onError: (_, __, context: any) => {},
 		onSuccess: (_, variables) => {
+			console.log(variables);
 			queryClient.invalidateQueries(['activities', variables.boardId]);
 		},
 		...config,

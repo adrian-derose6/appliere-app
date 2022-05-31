@@ -34,7 +34,8 @@ export const useCreateActivity = ({
 	config,
 }: UseCreateActivityOptions = {}) => {
 	return useMutation({
-		onSettled: async (data, err, variables) => {
+		onSuccess: async (data, err, variables) => {
+			console.log('Data: ', data);
 			if (data.activity) {
 				queryClient.invalidateQueries(['activities', data.activity.boardId]);
 			}

@@ -20,7 +20,7 @@ import { VscCalendar } from 'react-icons/vsc';
 import { BsTrash, BsTag } from 'react-icons/bs';
 
 import { DeleteModal } from '@/components/Modal';
-import { ActivityBadge } from '../Elements';
+import { ActivityBadge, ActivityTimeBadge } from '../Elements';
 import { useStyles } from './ActivityItem.styles';
 import { DatePicker } from '@mantine/dates';
 import { CATEGORY_SELECTION } from '../../constants/category-selection';
@@ -42,6 +42,7 @@ interface ActivityItemProps {
 	};
 	employer?: string;
 	activityCategory: any;
+	endAt: string;
 }
 
 export const ActivityItem = (props: ActivityItemProps) => {
@@ -161,14 +162,7 @@ export const ActivityItem = (props: ActivityItemProps) => {
 						position='right'
 						noWrap
 					>
-						<Badge
-							variant='light'
-							radius='sm'
-							color='blue'
-							classNames={{ inner: classes.badgeInner }}
-						>
-							Today
-						</Badge>
+						<ActivityTimeBadge time={props.endAt} />
 					</Group>
 				</Grid.Col>
 			</Grid>
