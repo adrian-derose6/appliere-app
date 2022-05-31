@@ -23,6 +23,7 @@ import {
 	Divider,
 } from '@mantine/core';
 import { DatePicker } from '@mantine/dates';
+import dayjs from 'dayjs';
 import { CgAdd } from 'react-icons/cg';
 import { useForm } from '@mantine/form';
 
@@ -57,11 +58,13 @@ export const AddActivityModal = (props: Props) => {
 	const form = useForm({
 		initialValues: {
 			title: '',
+			note: '',
 			activityCategory: 'APPLY',
 			boardId: params.boardId as string,
 			jobId: '',
-			startDate: '',
-			endDate: '',
+			startAt: new Date(),
+			endAt: new Date(),
+			completed: false,
 		},
 	});
 
@@ -81,7 +84,14 @@ export const AddActivityModal = (props: Props) => {
 		setTimeout(() => navigate(-1), CLOSE_TIMEOUT);
 	};
 
-	const handleSubmit = (values: FormValues) => {};
+	const handleSubmit = (values: FormValues) => {
+		const startAt = values.startAt.toUTCString();
+		const endAt = values.endAt.toUTCString();
+		const activityCategory = CATEGORY_SELECTION.find(
+			(item) => item.value === values.activityCategory
+		);
+		console.log(values);
+	};
 
 	return (
 		<Modal
@@ -138,17 +148,31 @@ export const AddActivityModal = (props: Props) => {
 							</Chips>
 						</ScrollArea>
 						<SimpleGrid cols={2} mb={20}>
-							<DatePicker label='Start Date' placeholder='+ set start date' />
-							<DatePicker label='End Date' placeholder='+ set end date' />
+							<DatePicker
+								label='Start Date'
+								placeholder='+ set start date'
+								clearable={false}
+								required
+								{...form.getInputProps('startAt')}
+							/>
+							<DatePicker
+								label='End Date'
+								placeholder='+ set end date'
+								clearable={false}
+								required
+								{...form.getInputProps('endAt')}
+							/>
 						</SimpleGrid>
 						<Textarea
 							label='Note'
 							placeholder='i.e: A note about the activity'
 							mb={20}
+							{...form.getInputProps('note')}
 						/>
 						<Checkbox
 							label='Mark as Completed'
 							classNames={{ label: classes.checkboxLabel }}
+							{...form.getInputProps('completed', { type: 'checkbox' })}
 						/>
 					</Grid.Col>
 					<Grid.Col span={4} px={10} py={20} className={classes.rightSection}>
@@ -157,6 +181,7 @@ export const AddActivityModal = (props: Props) => {
 						<Select
 							label='Job'
 							placeholder='+ Link job'
+							required
 							data={[]}
 							transition='pop'
 							transitionDuration={120}
