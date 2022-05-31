@@ -23,12 +23,13 @@ import {
 	Divider,
 } from '@mantine/core';
 import { DatePicker } from '@mantine/dates';
-import dayjs from 'dayjs';
 import { CgAdd } from 'react-icons/cg';
 import { useForm } from '@mantine/form';
 
 import { CATEGORY_SELECTION } from '@/features/activities/constants/category-selection';
 import { BrandButton } from '@/components/Buttons';
+import { JobSelectItem } from '@/features/activities/components/Elements';
+import { useGetJobs } from '@/features/job';
 import { useStyles } from './AddActivityModal.styles';
 
 const OPEN_TIMEOUT = 50;
@@ -39,10 +40,12 @@ type Props = {};
 export const AddActivityModal = (props: Props) => {
 	const [opened, setOpened] = useState(false);
 	const params = useParams();
+	const boardId = params.boardId as string;
 	const navigate = useNavigate();
 	const location = useLocation();
 	const locationState = location.state as { backgroundLocation?: Location };
 	const match = useMatch('/add-activity/*');
+	const { data, isLoading, isSuccess, isError } = useGetJobs({ boardId });
 	const { classes } = useStyles();
 
 	useEffect(() => {
@@ -71,7 +74,7 @@ export const AddActivityModal = (props: Props) => {
 	type FormValues = typeof form.values;
 
 	useEffect(() => {
-		const { activityCategory, title } = form.values;
+		const { activityCategory } = form.values;
 		const newTitle = CATEGORY_SELECTION.find(
 			(item) => item.value === activityCategory
 		)?.label;
@@ -92,6 +95,16 @@ export const AddActivityModal = (props: Props) => {
 		);
 		console.log(values);
 	};
+
+	const jobsSelection = data
+		? data.jobs.map((job: any) => {
+				return {
+					label: job.title,
+					employer: job.employer,
+					value: job.id,
+				};
+		  })
+		: [];
 
 	return (
 		<Modal
@@ -143,7 +156,11 @@ export const AddActivityModal = (props: Props) => {
 								{...form.getInputProps('activityCategory')}
 							>
 								{CATEGORY_SELECTION.map((category, index) => {
-									return <Chip value={category.value}>{category.label}</Chip>;
+									return (
+										<Chip key={index} value={category.value}>
+											{category.label}
+										</Chip>
+									);
 								})}
 							</Chips>
 						</ScrollArea>
@@ -182,7 +199,8 @@ export const AddActivityModal = (props: Props) => {
 							label='Job'
 							placeholder='+ Link job'
 							required
-							data={[]}
+							data={jobsSelection}
+							itemComponent={JobSelectItem}
 							transition='pop'
 							transitionDuration={120}
 							transitionTimingFunction='ease'
@@ -190,7 +208,6 @@ export const AddActivityModal = (props: Props) => {
 						/>
 					</Grid.Col>
 				</Grid>
-
 				<Group position='right' p='xs' className={classes.modalFooter}>
 					<Button
 						variant='default'

@@ -19,7 +19,7 @@ type UseGetJobsOptions = {
 	config?: QueryConfig<QueryFnType>;
 };
 
-export const useGetLists = ({ boardId, config }: UseGetJobsOptions) => {
+export const useGetJobs = ({ boardId, config }: UseGetJobsOptions) => {
 	return useQuery<ExtractFnReturnType<QueryFnType>>({
 		queryKey: ['board', boardId, 'jobs'],
 		queryFn: () => getJobs({ boardId }),
