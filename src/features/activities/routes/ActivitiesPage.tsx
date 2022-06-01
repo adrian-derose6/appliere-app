@@ -52,7 +52,13 @@ export function ActivitiesPage({ name, type }: { name: string; type: string }) {
 					</BrandButton>
 				</Group>
 			</Group>
-			{numOfActivities === 0 ? (
+			{numOfActivities > 0 || isLoading ? (
+				<ActivitiesList
+					completed={completed}
+					pending={pending}
+					isLoading={isLoading}
+				/>
+			) : (
 				<Center className={classes.emptyContainer}>
 					<Text className={classes.emptyText}>No activities logged...</Text>
 					<BrandButton
@@ -64,12 +70,6 @@ export function ActivitiesPage({ name, type }: { name: string; type: string }) {
 						Activity
 					</BrandButton>
 				</Center>
-			) : (
-				<ActivitiesList
-					completed={completed}
-					pending={pending}
-					isLoading={isLoading}
-				/>
 			)}
 		</Container>
 	);

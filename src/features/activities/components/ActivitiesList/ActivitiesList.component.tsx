@@ -29,6 +29,7 @@ export const ActivitiesList = ({
 						completed={item.completed}
 						job={item.job}
 						activityCategory={item.activityCategory}
+						startAt={item.startAt}
 						endAt={item.endAt}
 					/>
 				);
@@ -43,6 +44,7 @@ export const ActivitiesList = ({
 						completed={item.completed}
 						job={item.job}
 						activityCategory={item.activityCategory}
+						startAt={item.startAt}
 						endAt={item.endAt}
 					/>
 				);

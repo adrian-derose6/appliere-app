@@ -1,4 +1,4 @@
-import { useState, SyntheticEvent, ChangeEvent } from 'react';
+import { useState, useEffect, SyntheticEvent, ChangeEvent } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import {
 	Collapse,
@@ -23,7 +23,10 @@ import { DeleteModal } from '@/components/Modal';
 import { ActivityBadge, ActivityTimeBadge } from '../Elements';
 import { useStyles } from './ActivityItem.styles';
 import { DatePicker } from '@mantine/dates';
-import { CATEGORY_SELECTION } from '../../constants/category-selection';
+import {
+	ActivityCategoryItem,
+	CATEGORY_SELECTION,
+} from '../../constants/category-selection';
 import {
 	useDeleteActivity,
 	useUpdateActivity,
@@ -45,6 +48,7 @@ interface ActivityItemProps {
 	};
 	employer?: string;
 	activityCategory: any;
+	startAt: string;
 	endAt: string;
 }
 
@@ -55,11 +59,25 @@ export const ActivityItem = (props: ActivityItemProps) => {
 	const boardId = params.boardId as string;
 	const [opened, setOpened] = useState<boolean>(false);
 	const [deleteOpened, setDeleteOpened] = useState<boolean>(false);
+	const [startAt, onChangeStartAt] = useState<Date>(new Date(props.startAt));
+	const [endAt, onChangeEndAt] = useState<Date>(new Date(props.endAt));
 	const deleteActivityMutation = useDeleteActivity();
 	const updateActivityMutation = useUpdateActivity();
 	const { classes } = useStyles({ opened, completed: props.completed });
 
 	const clickOutsideRef = useClickOutside(() => setOpened(false));
+	const categoryColor = CATEGORY_SELECTION.find(
+		(item) => item.value === props.activityCategory.value
+	)?.color;
+
+	useEffect(() => {
+		if (new Date(props.startAt) !== startAt) {
+			handleUpdateDate('startAt', startAt);
+		}
+		if (new Date(props.endAt) !== endAt) {
+			handleUpdateDate('endAt', endAt);
+		}
+	}, [startAt, endAt]);
 
 	const openCollapse = () => {
 		setOpened(true);
@@ -73,6 +91,25 @@ export const ActivityItem = (props: ActivityItemProps) => {
 		updateActivityMutation.mutate({
 			activityId: props.id,
 			data: { [name]: inputValue },
+		});
+	};
+
+	const handleUpdateDate = (name: 'startAt' | 'endAt', value: Date) => {
+		const dateUTC = value.toUTCString();
+		updateActivityMutation.mutate({
+			activityId: props.id,
+			data: { [name]: value },
+		});
+	};
+
+	const handleUpdateCategory = (value: string) => {
+		const activityCategory = CATEGORY_SELECTION.find(
+			(item) => item.value === value
+		) as ActivityCategoryItem;
+
+		updateActivityMutation.mutate({
+			activityId: props.id,
+			data: { activityCategory },
 		});
 	};
 
@@ -191,7 +228,9 @@ export const ActivityItem = (props: ActivityItemProps) => {
 							styles={{
 								input: { borderTopRightRadius: 0, borderBottomRightRadius: 0 },
 							}}
+							defaultValue={new Date(props.startAt)}
 							withinPortal={false}
+							onChange={(value: Date) => onChangeStartAt(value)}
 						/>
 						<DatePicker
 							placeholder='End Date'
@@ -202,7 +241,9 @@ export const ActivityItem = (props: ActivityItemProps) => {
 									borderBottomLeftRadius: 0,
 								},
 							}}
+							defaultValue={new Date(props.endAt)}
 							withinPortal={false}
+							onChange={(value: Date) => onChangeEndAt(value)}
 						/>
 						<Select
 							ml={10}
@@ -211,7 +252,18 @@ export const ActivityItem = (props: ActivityItemProps) => {
 							icon={<BsTag />}
 							placeholder='Category'
 							data={CATEGORY_SELECTION}
-							classNames={{ input: classes.selectInput }}
+							defaultValue={props.activityCategory.value}
+							rightSection={
+								<div
+									className={classes.rightSectionInner}
+									style={{ backgroundColor: categoryColor }}
+								></div>
+							}
+							onChange={handleUpdateCategory}
+							classNames={{
+								input: classes.selectInput,
+								rightSection: classes.selectRightSection,
+							}}
 						/>
 						<ActionIcon
 							variant='outline'

@@ -104,7 +104,15 @@ export const useStyles = createStyles(
 				boxSizing: 'border-box',
 				padding: '0px 10px',
 			},
-
+			selectRightSection: {
+				width: 40,
+				paddingRight: '0px !important',
+			},
+			rightSectionInner: {
+				height: 20,
+				width: 20,
+				borderRadius: '5px',
+			},
 			trashIconRoot: {
 				boxShadow: 'rgb(25 4 69 / 5%) 0px 2px 7px',
 				border: '1px solid rgba(25, 4, 69, 0.1)',

@@ -20,6 +20,10 @@ export const useStyles = createStyles((theme: MantineTheme) => {
 			boxShadow: 'none',
 			border: 'none',
 			transition: 'all .2s ease',
+			fontWeight: 500,
+			fontSize: 16,
+			color: theme.other.brandDarkColor,
+			overflow: 'hidden',
 		},
 		tabsRoot: {
 			maxHeight: '100%',
