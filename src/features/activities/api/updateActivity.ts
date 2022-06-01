@@ -33,7 +33,6 @@ export const useUpdateActivity = ({
 }: UseUpdateActivityOptions = {}) => {
 	return useMutation({
 		onSettled: (data, err, variables) => {
-			console.log(data);
 			queryClient.invalidateQueries(['activities', data.boardId]);
 		},
 		...config,

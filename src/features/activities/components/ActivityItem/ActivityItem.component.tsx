@@ -57,7 +57,7 @@ export const ActivityItem = (props: ActivityItemProps) => {
 	const [deleteOpened, setDeleteOpened] = useState<boolean>(false);
 	const deleteActivityMutation = useDeleteActivity();
 	const updateActivityMutation = useUpdateActivity();
-	const { classes } = useStyles({ opened });
+	const { classes } = useStyles({ opened, completed: props.completed });
 
 	const clickOutsideRef = useClickOutside(() => setOpened(false));
 
@@ -106,6 +106,7 @@ export const ActivityItem = (props: ActivityItemProps) => {
 						<Checkbox
 							size='xs'
 							name='completed'
+							defaultChecked={props.completed}
 							onChange={handleUpdateInput}
 							classNames={{ input: classes.checkboxInput }}
 						/>
@@ -162,7 +163,7 @@ export const ActivityItem = (props: ActivityItemProps) => {
 						position='right'
 						noWrap
 					>
-						<ActivityTimeBadge time={props.endAt} />
+						<ActivityTimeBadge time={props.endAt} completed={props.completed} />
 					</Group>
 				</Grid.Col>
 			</Grid>

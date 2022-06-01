@@ -34,11 +34,8 @@ export const useCreateActivity = ({
 	config,
 }: UseCreateActivityOptions = {}) => {
 	return useMutation({
-		onSuccess: async (data, err, variables) => {
-			console.log('Data: ', data);
-			if (data.activity) {
-				queryClient.invalidateQueries(['activities', data.activity.boardId]);
-			}
+		onSuccess: async (data, variables) => {
+			queryClient.invalidateQueries(['activities', variables.data.boardId]);
 		},
 		...config,
 		mutationFn: createActivity,

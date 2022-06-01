@@ -50,7 +50,7 @@ export const AddActivityModal = (props: Props) => {
 	const locationState = location.state as { backgroundLocation?: Location };
 	const match = useMatch('/add-activity/*');
 	const { data, isLoading, isSuccess, isError } = useGetJobs({ boardId });
-	const createActivityMutation = useCreateActivity({});
+	const createActivityMutation = useCreateActivity();
 	const { classes } = useStyles();
 
 	useEffect(() => {
@@ -61,14 +61,14 @@ export const AddActivityModal = (props: Props) => {
 		return () => {
 			locationState.backgroundLocation = undefined;
 		};
-	}, [match]);
+	}, [match, createActivityMutation.isSuccess]);
 
 	const form = useForm({
 		initialValues: {
 			title: '',
 			note: '',
 			activityCategory: 'APPLY',
-			boardId: params.boardId as string,
+			boardId: boardId,
 			jobId: '',
 			startAt: new Date(),
 			endAt: new Date(),
@@ -111,7 +111,6 @@ export const AddActivityModal = (props: Props) => {
 				completed: values.completed,
 			},
 		});
-		console.log(values);
 	};
 
 	const jobsSelection = data
@@ -147,12 +146,12 @@ export const AddActivityModal = (props: Props) => {
 				overlay: classes.modalOverlay,
 			}}
 		>
+			<LoadingOverlay
+				visible={createActivityMutation.isLoading}
+				overlayOpacity={0.3}
+				overlayColor='#c5c5c5'
+			/>
 			<form onSubmit={form.onSubmit(handleSubmit)}>
-				<LoadingOverlay
-					visible={createActivityMutation.isLoading}
-					overlayOpacity={0.3}
-					overlayColor='#c5c5c5'
-				/>
 				<Grid gutter={0}>
 					<Grid.Col span={8} p={20} className={classes.mainSection}>
 						<TextInput

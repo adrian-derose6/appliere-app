@@ -1,7 +1,7 @@
 import { createStyles } from '@mantine/core';
 
 export const useStyles = createStyles(
-	(theme, { opened }: { opened: boolean }) => {
+	(theme, { opened, completed }: { opened: boolean; completed: boolean }) => {
 		return {
 			itemContainer: {
 				minHeight: '42px',
@@ -57,10 +57,12 @@ export const useStyles = createStyles(
 				fontSize: '14px',
 				fontWeight: 500,
 				color: theme.other.brandDarkColor,
+				opacity: completed ? 0.6 : 1,
 				textAlign: 'left',
 				fontFamily: theme.other.secondaryFontFamily,
 				width: '100%',
 				cursor: opened ? 'caret' : 'pointer',
+				textDecoration: completed ? 'line-through' : 'none',
 			},
 			fieldText1: {
 				fontSize: '13px',
