@@ -1,4 +1,4 @@
-import { useState, SyntheticEvent } from 'react';
+import { useState, SyntheticEvent, ChangeEvent } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import {
 	Collapse,
@@ -24,7 +24,10 @@ import { ActivityBadge, ActivityTimeBadge } from '../Elements';
 import { useStyles } from './ActivityItem.styles';
 import { DatePicker } from '@mantine/dates';
 import { CATEGORY_SELECTION } from '../../constants/category-selection';
-import { useDeleteActivity } from '@/features/activities/api';
+import {
+	useDeleteActivity,
+	useUpdateActivity,
+} from '@/features/activities/api';
 import { useAuth } from '@/stores/auth';
 
 const imgURL =
@@ -53,28 +56,24 @@ export const ActivityItem = (props: ActivityItemProps) => {
 	const [opened, setOpened] = useState<boolean>(false);
 	const [deleteOpened, setDeleteOpened] = useState<boolean>(false);
 	const deleteActivityMutation = useDeleteActivity();
+	const updateActivityMutation = useUpdateActivity();
 	const { classes } = useStyles({ opened });
 
-	const ref = useClickOutside(() => setOpened(false));
-
-	const form = useForm({
-		initialValues: {
-			title: props.title,
-			completed: props.completed,
-		},
-	});
-
-	type FormValues = typeof form.values;
+	const clickOutsideRef = useClickOutside(() => setOpened(false));
 
 	const openCollapse = () => {
 		setOpened(true);
 	};
 
-	const handleInputBlur = (e: SyntheticEvent) => {
-		const name = e.currentTarget.getAttribute('data-name') as string;
-		const value = form.values[name as keyof FormValues];
+	const handleUpdateInput = (e: ChangeEvent<HTMLInputElement>) => {
+		const { name, type, checked, value } = e.currentTarget;
+		const inputValue = type === 'checkbox' ? checked : value;
 
-		if (value === props[name as keyof ActivityItemProps]) return;
+		if (inputValue === props[name as keyof ActivityItemProps]) return;
+		updateActivityMutation.mutate({
+			activityId: props.id,
+			data: { [name]: inputValue },
+		});
 	};
 
 	const handleDeleteIconClick = (e: SyntheticEvent) => {
@@ -100,26 +99,27 @@ export const ActivityItem = (props: ActivityItemProps) => {
 	};
 
 	return (
-		<Container fluid className={classes.itemContainer} ref={ref}>
+		<Container fluid className={classes.itemContainer} ref={clickOutsideRef}>
 			<Grid gutter={0} className={classes.grid} columns={16}>
 				<Grid.Col span={5} className={classes.col}>
 					<Group className={classes.colGroup} align='center' noWrap>
 						<Checkbox
 							size='xs'
-							{...form.getInputProps('completed', { type: 'checkbox' })}
+							name='completed'
+							onChange={handleUpdateInput}
 							classNames={{ input: classes.checkboxInput }}
 						/>
 						<TextInput
-							data-name='title'
+							name='title'
 							placeholder='Title'
 							variant='unstyled'
 							onClick={openCollapse}
-							onBlur={handleInputBlur}
+							onBlur={handleUpdateInput}
+							defaultValue={props.title || ''}
 							classNames={{
 								root: classes.titleInputRoot,
 								input: classes.titleInput,
 							}}
-							{...form.getInputProps('title')}
 						/>
 					</Group>
 				</Grid.Col>
