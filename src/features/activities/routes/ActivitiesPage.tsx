@@ -1,5 +1,5 @@
 import { useNavigate, useParams, useLocation } from 'react-router-dom';
-import { Container, Group, Text, LoadingOverlay } from '@mantine/core';
+import { Container, Group, Text, Center } from '@mantine/core';
 import { createStyles } from '@mantine/core';
 import { BsPlusLg } from 'react-icons/bs';
 
@@ -23,6 +23,9 @@ export function ActivitiesPage({ name, type }: { name: string; type: string }) {
 	});
 	const { classes } = useStyles();
 
+	const numOfActivities = completed.length + pending.length;
+	const activityString = numOfActivities === 1 ? 'activity' : 'activities';
+
 	const handleOpenModal = () => {
 		navigate(`/add-activity/${boardId}`, {
 			state: { backgroundLocation: location },
@@ -37,7 +40,9 @@ export function ActivitiesPage({ name, type }: { name: string; type: string }) {
 					<span className={classes.headingSub}>{`> ${name || ''}`}</span>
 				</Text>
 				<Group noWrap position='right'>
-					<Text>{data?.numOfActivities} activities</Text>
+					<Text>
+						{numOfActivities} {activityString}
+					</Text>
 					<BrandButton
 						size='xs'
 						leftIcon={<BsPlusLg />}
@@ -47,12 +52,25 @@ export function ActivitiesPage({ name, type }: { name: string; type: string }) {
 					</BrandButton>
 				</Group>
 			</Group>
-
-			<ActivitiesList
-				completed={completed}
-				pending={pending}
-				isLoading={isLoading}
-			/>
+			{numOfActivities === 0 ? (
+				<Center className={classes.emptyContainer}>
+					<Text className={classes.emptyText}>No activities logged...</Text>
+					<BrandButton
+						size='xs'
+						mt='md'
+						leftIcon={<BsPlusLg />}
+						onClick={handleOpenModal}
+					>
+						Activity
+					</BrandButton>
+				</Center>
+			) : (
+				<ActivitiesList
+					completed={completed}
+					pending={pending}
+					isLoading={isLoading}
+				/>
+			)}
 		</Container>
 	);
 }
@@ -77,6 +95,14 @@ const useStyles = createStyles((theme) => ({
 	headingSub: {
 		fontSize: '20px',
 		fontWeight: 400,
+		color: theme.colors.gray[6],
+	},
+	emptyContainer: {
+		height: '100%',
+		flexDirection: 'column',
+	},
+	emptyText: {
+		fontSize: '20px',
 		color: theme.colors.gray[6],
 	},
 }));
