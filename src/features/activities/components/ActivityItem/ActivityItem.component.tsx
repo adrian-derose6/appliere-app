@@ -1,4 +1,10 @@
-import { useState, useEffect, SyntheticEvent, ChangeEvent } from 'react';
+import {
+	useState,
+	useEffect,
+	SyntheticEvent,
+	ChangeEvent,
+	FocusEvent,
+} from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import {
 	Collapse,
@@ -84,7 +90,7 @@ export const ActivityItem = (props: ActivityItemProps) => {
 	};
 
 	const handleUpdateInput = (e: ChangeEvent<HTMLInputElement>) => {
-		const { name, type, checked, value } = e.currentTarget;
+		const { name, type, value, checked } = e.currentTarget;
 		const inputValue = type === 'checkbox' ? checked : value;
 
 		if (inputValue === props[name as keyof ActivityItemProps]) return;
@@ -94,11 +100,21 @@ export const ActivityItem = (props: ActivityItemProps) => {
 		});
 	};
 
+	const handleUpdateNote = (e: FocusEvent<HTMLTextAreaElement>) => {
+		const { name, value } = e.currentTarget;
+
+		if (value === props[name as keyof ActivityItemProps]) return;
+		updateActivityMutation.mutate({
+			activityId: props.id,
+			data: { [name]: value },
+		});
+	};
+
 	const handleUpdateDate = (name: 'startAt' | 'endAt', value: Date) => {
 		const dateUTC = value.toUTCString();
 		updateActivityMutation.mutate({
 			activityId: props.id,
-			data: { [name]: value },
+			data: { [name]: dateUTC },
 		});
 	};
 
@@ -212,8 +228,11 @@ export const ActivityItem = (props: ActivityItemProps) => {
 			>
 				<Textarea
 					placeholder='Note'
+					name='note'
 					autosize
 					variant='unstyled'
+					defaultValue={props.note}
+					onBlur={handleUpdateNote}
 					classNames={{
 						root: classes.noteInput,
 						unstyledVariant: classes.noteUnstyled,
@@ -230,6 +249,7 @@ export const ActivityItem = (props: ActivityItemProps) => {
 							}}
 							defaultValue={new Date(props.startAt)}
 							withinPortal={false}
+							clearable={false}
 							onChange={(value: Date) => onChangeStartAt(value)}
 						/>
 						<DatePicker
@@ -243,6 +263,7 @@ export const ActivityItem = (props: ActivityItemProps) => {
 							}}
 							defaultValue={new Date(props.endAt)}
 							withinPortal={false}
+							clearable={false}
 							onChange={(value: Date) => onChangeEndAt(value)}
 						/>
 						<Select
