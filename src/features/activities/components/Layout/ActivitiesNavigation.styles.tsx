@@ -10,7 +10,7 @@ export const useStyles = createStyles((theme: MantineTheme) => {
 		},
 		tabsListWrapper: {
 			width: '110px',
-			paddingTop: '45px',
+			paddingTop: '15px',
 			borderRight: 'none !important',
 		},
 		tabsList: {

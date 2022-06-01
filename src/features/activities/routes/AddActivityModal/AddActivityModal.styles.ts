@@ -33,16 +33,13 @@ export const useStyles = createStyles((theme) => {
 		modalOverlay: {
 			backgroundColor: 'rgba(211, 85, 94, 0.8)',
 		},
-		input: {
-			boxShadow: 'rgb(25 4 69 / 5%) 0px 2px 7px',
-			border: '1px solid rgba(169, 169, 169, 0.6)',
-			transition: 'all .2s ease',
-
-			'&:focus': {
-				//border: `1px solid ${theme.other.brandPrimaryColor}`,
-			},
+		mainSection: {
+			borderRight: '1px solid rgba(25, 4, 69, 0.1)',
+			boxSizing: 'border-box',
 		},
-		submitButton: {},
+		rightSection: {
+			backgroundColor: theme.other.mainBackgroundColor,
+		},
 		modalButton: {
 			border: '1px solid rgba(25, 4, 69, 0.2)',
 			boxShadow: 'rgb(25 4 69 / 5%) 0px 4px 10px',
@@ -52,6 +49,24 @@ export const useStyles = createStyles((theme) => {
 				boxShadow: 'rgb(25 4 69 / 10%) 0px 4px 10px',
 				border: '1px solid rgba(0, 0, 0, 0.1)',
 			},
+		},
+		inputLabel: {
+			color: theme.other.brandDarkColor,
+			fontSize: '16px',
+			fontWeight: 500,
+			marginBottom: '4px',
+		},
+		checkboxLabel: {
+			color: theme.other.brandDarkColor,
+			fontWeight: 500,
+		},
+		linkedTo: {
+			fontSize: 14,
+			fontWeight: 500,
+			color: theme.colors.gray[6],
+		},
+		jobSelectInput: {
+			minHeight: '20px !important',
 		},
 	};
 });

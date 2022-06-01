@@ -1,36 +1,87 @@
-import { ScrollArea, Group, Text } from '@mantine/core';
+import { useNavigate, useParams, useLocation } from 'react-router-dom';
+import { Container, Group, Text, Center } from '@mantine/core';
 import { createStyles } from '@mantine/core';
 import { BsPlusLg } from 'react-icons/bs';
 
+import { ActivitiesList } from '../components/ActivitiesList';
 import { BrandButton } from '@/components/Buttons';
+import { useGetActivities } from '../api';
+import { useFilteredActivities } from '../hooks';
 
-export function ActivitiesPage({ name }: { name: string }) {
+export function ActivitiesPage({ name, type }: { name: string; type: string }) {
+	const params = useParams();
+	const boardId = params.boardId as string;
+	const location = useLocation();
+	const navigate = useNavigate();
+	const { data, isLoading, isError, isSuccess } = useGetActivities({
+		boardId,
+	});
+
+	const { completed, pending } = useFilteredActivities({
+		type,
+		list: data?.activities || [],
+	});
 	const { classes } = useStyles();
 
+	const numOfActivities = completed.length + pending.length;
+	const activityString = numOfActivities === 1 ? 'activity' : 'activities';
+
+	const handleOpenModal = () => {
+		navigate(`/add-activity/${boardId}`, {
+			state: { backgroundLocation: location },
+		});
+	};
+
 	return (
-		<ScrollArea className={classes.pageWrapper}>
+		<Container fluid className={classes.pageWrapper}>
 			<Group noWrap position='apart' className={classes.header}>
 				<Text className={classes.headingMain}>
 					Activities{' '}
 					<span className={classes.headingSub}>{`> ${name || ''}`}</span>
 				</Text>
 				<Group noWrap position='right'>
-					<Text>15 activities</Text>
-					<BrandButton size='xs' leftIcon={<BsPlusLg />}>
+					<Text>
+						{numOfActivities} {activityString}
+					</Text>
+					<BrandButton
+						size='xs'
+						leftIcon={<BsPlusLg />}
+						onClick={handleOpenModal}
+					>
 						Activity
 					</BrandButton>
 				</Group>
 			</Group>
-		</ScrollArea>
+			{numOfActivities > 0 || isLoading ? (
+				<ActivitiesList
+					completed={completed}
+					pending={pending}
+					isLoading={isLoading}
+				/>
+			) : (
+				<Center className={classes.emptyContainer}>
+					<Text className={classes.emptyText}>No activities logged...</Text>
+					<BrandButton
+						size='xs'
+						mt='md'
+						leftIcon={<BsPlusLg />}
+						onClick={handleOpenModal}
+					>
+						Activity
+					</BrandButton>
+				</Center>
+			)}
+		</Container>
 	);
 }
 
 const useStyles = createStyles((theme) => ({
 	pageWrapper: {
+		margin: 0,
 		width: 'calc(100% - 110px)',
 		height: 'calc(100% - 70px)',
 		boxSizing: 'border-box',
-		padding: '25px',
+		padding: '0 25px',
 	},
 	header: {
 		height: '70px',
@@ -44,6 +95,14 @@ const useStyles = createStyles((theme) => ({
 	headingSub: {
 		fontSize: '20px',
 		fontWeight: 400,
+		color: theme.colors.gray[6],
+	},
+	emptyContainer: {
+		height: '100%',
+		flexDirection: 'column',
+	},
+	emptyText: {
+		fontSize: '20px',
 		color: theme.colors.gray[6],
 	},
 }));

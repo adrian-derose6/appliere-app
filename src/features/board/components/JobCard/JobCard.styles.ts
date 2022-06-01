@@ -43,8 +43,9 @@ export const useStyles = createStyles((theme) => {
 			right: 10,
 			top: 10,
 			color: 'white',
-			border: '1px solid rgba(25, 4, 69, 0.4)',
+			border: '1px solid rgba(25, 4, 69, 0.1)',
 			zIndex: 250,
+			boxShadow: 'rgb(25 4 69 / 3%) 0px 1px 3px',
 
 			'&:hover': {
 				backgroundColor: 'transparent',

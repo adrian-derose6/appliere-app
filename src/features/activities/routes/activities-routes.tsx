@@ -10,39 +10,39 @@ export const activitiesRoutes: RouteObject[] = [
 		children: [
 			{
 				path: 'all',
-				element: <ActivitiesPage name='All' />,
+				element: <ActivitiesPage name='All' type='all' />,
 			},
 			{
 				path: 'due-today',
-				element: <ActivitiesPage name='Due Today' />,
+				element: <ActivitiesPage name='Due Today' type='due-today' />,
 			},
 			{
 				path: 'past-due',
-				element: <ActivitiesPage name='Past Due' />,
+				element: <ActivitiesPage name='Past Due' type='past-due' />,
 			},
 			{
 				path: 'pending',
-				element: <ActivitiesPage name='Pending' />,
+				element: <ActivitiesPage name='Pending' type='pending' />,
 			},
 			{
 				path: 'completed',
-				element: <ActivitiesPage name='Completed' />,
+				element: <ActivitiesPage name='Completed' type='completed' />,
 			},
 			{
 				path: 'applications',
-				element: <ActivitiesPage name='Applications' />,
+				element: <ActivitiesPage name='Applications' type='applications' />,
 			},
 			{
 				path: 'interviews',
-				element: <ActivitiesPage name='Interviews' />,
+				element: <ActivitiesPage name='Interviews' type='interviews' />,
 			},
 			{
 				path: 'offers',
-				element: <ActivitiesPage name='Offers' />,
+				element: <ActivitiesPage name='Offers' type='offers' />,
 			},
 			{
 				path: 'networking',
-				element: <ActivitiesPage name='Networking' />,
+				element: <ActivitiesPage name='Networking' type='networking' />,
 			},
 			{
 				path: '*',

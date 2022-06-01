@@ -50,7 +50,7 @@ const useStyles = createStyles((theme) => {
 			backgroundColor: theme.other.brandPrimaryColor,
 		},
 		itemHovered: {
-			backgroundColor: '#db7079',
+			backgroundColor: '#db7079 !important',
 		},
 		itemIcon: {
 			color: 'white',
