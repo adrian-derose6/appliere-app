@@ -6,14 +6,20 @@ import { BsPlusLg } from 'react-icons/bs';
 import { ActivitiesList } from '../components/ActivitiesList';
 import { BrandButton } from '@/components/Buttons';
 import { useGetActivities } from '../api';
+import { useFilteredActivities } from '../hooks';
 
-export function ActivitiesPage({ name }: { name: string }) {
+export function ActivitiesPage({ name, type }: { name: string; type: string }) {
 	const params = useParams();
 	const boardId = params.boardId as string;
 	const location = useLocation();
 	const navigate = useNavigate();
 	const { data, isLoading, isError, isSuccess } = useGetActivities({
 		boardId,
+	});
+
+	const { completed, pending } = useFilteredActivities({
+		type,
+		list: data?.activities || [],
 	});
 	const { classes } = useStyles();
 
@@ -42,7 +48,11 @@ export function ActivitiesPage({ name }: { name: string }) {
 				</Group>
 			</Group>
 
-			<ActivitiesList list={data?.activities || []} isLoading={isLoading} />
+			<ActivitiesList
+				completed={completed}
+				pending={pending}
+				isLoading={isLoading}
+			/>
 		</Container>
 	);
 }

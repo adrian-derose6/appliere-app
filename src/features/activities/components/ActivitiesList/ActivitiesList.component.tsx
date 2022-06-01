@@ -4,17 +4,36 @@ import { ActivityItem } from '../ActivityItem';
 import { useStyles } from './ActivitiesList.styles';
 
 interface ActivitiesListProps {
-	list: any;
+	completed: any;
+	pending: any;
 	isLoading: boolean;
 }
 
-export const ActivitiesList = ({ list, isLoading }: ActivitiesListProps) => {
+export const ActivitiesList = ({
+	completed,
+	pending,
+	isLoading,
+}: ActivitiesListProps) => {
 	const { classes } = useStyles();
 
 	return (
 		<ScrollArea className={classes.listContainer}>
 			<LoadingOverlay visible={isLoading} />
-			{list.map((item: any) => {
+			{pending.map((item: any) => {
+				return (
+					<ActivityItem
+						key={item.id}
+						id={item.id}
+						title={item.title}
+						note={item.note}
+						completed={item.completed}
+						job={item.job}
+						activityCategory={item.activityCategory}
+						endAt={item.endAt}
+					/>
+				);
+			})}
+			{completed.map((item: any) => {
 				return (
 					<ActivityItem
 						key={item.id}
