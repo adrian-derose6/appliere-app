@@ -4,11 +4,14 @@ import {
 	useMatch,
 	useParams,
 	useLocation,
+	useSearchParams,
 } from 'react-router-dom';
 import {
+	Autocomplete,
 	Modal,
 	TextInput,
 	Text,
+	Container,
 	Textarea,
 	Chips,
 	Chip,
@@ -21,35 +24,38 @@ import {
 	SimpleGrid,
 	LoadingOverlay,
 	Divider,
+	MultiSelect,
+	UnstyledButton,
 } from '@mantine/core';
 import { DatePicker } from '@mantine/dates';
-import { CgAdd } from 'react-icons/cg';
+import { AiOutlineMail } from 'react-icons/ai';
+import { IoPersonAddOutline } from 'react-icons/io5';
 import { useForm } from '@mantine/form';
 
 import {
 	CATEGORY_SELECTION,
 	ActivityCategoryItem,
 } from '@/features/activities/constants/category-selection';
+import { MultiTextInput } from '@/features/contacts/components/MultiTextInput';
 import { BrandButton } from '@/components/Buttons';
 import { JobSelectItem } from '@/features/activities/components/Elements';
-import { useCreateActivity } from '@/features/activities/api';
 import { useGetJobs } from '@/features/job';
-import { useStyles } from './AddActivityModal.styles';
+import { useStyles } from './AddContactModal.styles';
 
 const OPEN_TIMEOUT = 50;
 const CLOSE_TIMEOUT = 200;
 
-export const AddActivityModal = () => {
+export const AddContactModal = () => {
 	const [opened, setOpened] = useState(false);
-	const params = useParams();
-	const boardId = params.boardId as string;
 	const navigate = useNavigate();
 	const location = useLocation();
 	const locationState = location.state as { backgroundLocation?: Location };
-	const match = useMatch('/add-activity/*');
+	const [searchParams, setSearchParams] = useSearchParams();
+	const boardId = searchParams.get('boardId') as string;
+	const match = useMatch('/add-contact/*');
 	const { data, isLoading, isSuccess, isError } = useGetJobs({ boardId });
-	const createActivityMutation = useCreateActivity();
 	const { classes } = useStyles();
+	console.log(boardId);
 
 	useEffect(() => {
 		if (match?.pathname) {
@@ -59,56 +65,35 @@ export const AddActivityModal = () => {
 		return () => {
 			locationState.backgroundLocation = undefined;
 		};
-	}, [match, createActivityMutation.isSuccess]);
+	}, [match]);
 
 	const form = useForm({
 		initialValues: {
-			title: '',
-			note: '',
-			activityCategory: 'APPLY',
-			boardId: boardId,
+			firstName: '',
+			lastName: '',
+			jobTitle: '',
+			companies: [] as string[],
+			location: '',
+			emails: [],
+			phone: [],
 			jobId: '',
-			startAt: new Date(),
-			endAt: new Date(),
-			completed: false,
 		},
 	});
 
 	type FormValues = typeof form.values;
-
-	useEffect(() => {
-		const { activityCategory } = form.values;
-		const newTitle = CATEGORY_SELECTION.find(
-			(item) => item.value === activityCategory
-		)?.label;
-
-		form.setFieldValue('title', newTitle as string);
-	}, [form.values.activityCategory]);
 
 	const handleModalClose = () => {
 		setOpened(false);
 		setTimeout(() => navigate(-1), CLOSE_TIMEOUT);
 	};
 
-	const handleSubmit = (values: FormValues) => {
-		const startAt = values.startAt.toUTCString();
-		const endAt = values.endAt.toUTCString();
-		const activityCategory = CATEGORY_SELECTION.find(
-			(item) => item.value === values.activityCategory
-		) as ActivityCategoryItem;
+	const handleAddCompany = (query: string) => {
+		const { companies } = form.values;
+		form.setFieldValue('companies', [...companies, query]);
+	};
 
-		createActivityMutation.mutate({
-			data: {
-				title: values.title,
-				boardId,
-				activityCategory,
-				jobId: values.jobId,
-				startAt,
-				endAt,
-				note: values.note,
-				completed: values.completed,
-			},
-		});
+	const handleSubmit = (values: FormValues) => {
+		console.log(values);
 	};
 
 	const jobsSelection = data
@@ -127,8 +112,8 @@ export const AddActivityModal = () => {
 			padding={0}
 			title={
 				<Group spacing={5}>
-					<CgAdd />
-					<Text>Log Activity</Text>
+					<IoPersonAddOutline />
+					<Text>Save New Contact</Text>
 				</Group>
 			}
 			centered
@@ -145,67 +130,70 @@ export const AddActivityModal = () => {
 			}}
 		>
 			<LoadingOverlay
-				visible={createActivityMutation.isLoading}
+				visible={false}
 				overlayOpacity={0.3}
 				overlayColor='#c5c5c5'
 			/>
 			<form onSubmit={form.onSubmit(handleSubmit)}>
 				<Grid gutter={0}>
 					<Grid.Col span={8} p={20} className={classes.mainSection}>
-						<TextInput
-							required
-							label='Title'
-							placeholder='i.e. Apply'
-							classNames={{ label: classes.inputLabel }}
-							mb={20}
-							{...form.getInputProps('title')}
-						/>
-
-						<Text className={classes.inputLabel}>Category</Text>
-						<ScrollArea scrollbarSize={8} style={{ height: 130 }} mb={20}>
-							<Chips
-								multiple={false}
-								size='xs'
-								mt={10}
-								variant='filled'
-								{...form.getInputProps('activityCategory')}
-							>
-								{CATEGORY_SELECTION.map((category, index) => {
-									return (
-										<Chip key={index} value={category.value}>
-											{category.label}
-										</Chip>
-									);
-								})}
-							</Chips>
+						<ScrollArea>
+							<Group mb={20}>
+								<SimpleGrid cols={2}>
+									<TextInput
+										required
+										label='First Name'
+										description='Required'
+										placeholder='i.e. John'
+										{...form.getInputProps('firstName')}
+									/>
+									<TextInput
+										required
+										label='Last Name'
+										description='Required'
+										placeholder='i.e. Smith'
+										{...form.getInputProps('lastName')}
+									/>
+								</SimpleGrid>
+							</Group>
+							<TextInput
+								required
+								label='Job Title'
+								placeholder='i.e. Senior Developer'
+								mb={20}
+								{...form.getInputProps('firstName')}
+							/>
+							<SimpleGrid cols={2} mb={20}>
+								<MultiSelect
+									label='Companies'
+									placeholder='+ add company(s)'
+									data={form.values.companies}
+									searchable
+									creatable
+									getCreateLabel={(query) => `+ ${query}`}
+									onCreate={handleAddCompany}
+									transition='pop'
+									transitionDuration={120}
+									transitionTimingFunction='ease'
+								/>
+								<Autocomplete
+									label='Location'
+									placeholder='+ add location'
+									data={[]}
+									transition='pop'
+									transitionDuration={120}
+									transitionTimingFunction='ease'
+									{...form.getInputProps('location')}
+								/>
+							</SimpleGrid>
+							<MultiTextInput
+								label='Emails'
+								placeholder='Email'
+								addButtonName='email'
+								selectOptions={['Work', 'Personal']}
+								icon={<AiOutlineMail />}
+							/>
 						</ScrollArea>
-						<SimpleGrid cols={2} mb={20}>
-							<DatePicker
-								label='Start Date'
-								placeholder='+ set start date'
-								clearable={false}
-								required
-								{...form.getInputProps('startAt')}
-							/>
-							<DatePicker
-								label='End Date'
-								placeholder='+ set end date'
-								clearable={false}
-								required
-								{...form.getInputProps('endAt')}
-							/>
-						</SimpleGrid>
-						<Textarea
-							label='Note'
-							placeholder='i.e: A note about the activity'
-							mb={20}
-							{...form.getInputProps('note')}
-						/>
-						<Checkbox
-							label='Mark as Completed'
-							classNames={{ label: classes.checkboxLabel }}
-							{...form.getInputProps('completed', { type: 'checkbox' })}
-						/>
 					</Grid.Col>
 					<Grid.Col span={4} px={10} py={20} className={classes.rightSection}>
 						<Text className={classes.linkedTo}>Linked to</Text>
@@ -234,7 +222,7 @@ export const AddActivityModal = () => {
 						Discard
 					</Button>
 					<BrandButton type='submit' size='xs' className={classes.modalButton}>
-						Save Activity
+						Save Contact
 					</BrandButton>
 				</Group>
 			</form>

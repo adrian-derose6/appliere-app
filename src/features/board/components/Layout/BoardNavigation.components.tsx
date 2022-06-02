@@ -108,7 +108,7 @@ export const BoardNavigation = () => {
 		},
 		{
 			label: 'Contact',
-			path: '/add-contact',
+			path: `/add-contact?boardId=${params.boardId}`,
 			icon: <IoPeopleOutline />,
 		},
 	];
