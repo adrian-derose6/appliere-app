@@ -25,11 +25,16 @@ import {
 	LoadingOverlay,
 	Divider,
 	MultiSelect,
-	UnstyledButton,
+	Space,
 } from '@mantine/core';
-import { DatePicker } from '@mantine/dates';
+import {
+	MdWorkOutline,
+	MdOutlineDashboardCustomize,
+	MdOutlineAddCircleOutline,
+} from 'react-icons/md';
 import { AiOutlineMail } from 'react-icons/ai';
 import { IoPersonAddOutline } from 'react-icons/io5';
+import { FiPhone } from 'react-icons/fi';
 import { useForm } from '@mantine/form';
 
 import {
@@ -43,6 +48,7 @@ import {
 import { BrandButton } from '@/components/Buttons';
 import { JobSelectItem } from '@/features/activities/components/Elements';
 import { useGetJobs } from '@/features/job';
+import { useGetBoards } from '@/features/board';
 import { useStyles } from './AddContactModal.styles';
 
 const OPEN_TIMEOUT = 50;
@@ -56,7 +62,9 @@ export const AddContactModal = () => {
 	const [searchParams, setSearchParams] = useSearchParams();
 	const boardId = searchParams.get('boardId') as string;
 	const match = useMatch('/add-contact/*');
-	const { data, isLoading, isSuccess, isError } = useGetJobs({ boardId });
+	const { data: jobsData } = useGetJobs({ boardId });
+	const { data: boardsData } = useGetBoards();
+
 	const { classes } = useStyles();
 
 	useEffect(() => {
@@ -77,8 +85,9 @@ export const AddContactModal = () => {
 			companies: [] as string[],
 			location: '',
 			emails: [] as MultiInputState[],
-			phone: [],
+			phones: [] as MultiInputState[],
 			jobId: '',
+			boardId: boardId || '',
 		},
 	});
 
@@ -100,18 +109,29 @@ export const AddContactModal = () => {
 		form.setFieldValue('emails', values);
 	}, []);
 
+	const handleUpdatePhones = useCallback((values: MultiInputState[]) => {
+		form.setFieldValue('phones', values);
+	}, []);
+
 	const handleSubmit = (values: FormValues) => {
 		console.log(values);
 	};
 
-	const jobsSelection = data
-		? data.jobs.map((job: any) => {
+	const jobsSelection = jobsData
+		? jobsData.jobs.map((job: any) => {
 				return {
 					label: job.title,
 					employer: job.employer,
 					value: job.id,
 				};
 		  })
+		: [];
+
+	const boardsSelection = boardsData
+		? boardsData.boards.map((board: any) => ({
+				label: board.name,
+				value: board.id,
+		  }))
 		: [];
 
 	return (
@@ -144,8 +164,8 @@ export const AddContactModal = () => {
 			/>
 			<form onSubmit={form.onSubmit(handleSubmit)}>
 				<Grid gutter={0}>
-					<Grid.Col span={8} p={20} className={classes.mainSection}>
-						<ScrollArea>
+					<Grid.Col span={8} className={classes.mainSection}>
+						<ScrollArea p={20}>
 							<Group mb={20}>
 								<SimpleGrid cols={2}>
 									<TextInput
@@ -165,11 +185,10 @@ export const AddContactModal = () => {
 								</SimpleGrid>
 							</Group>
 							<TextInput
-								required
 								label='Job Title'
 								placeholder='i.e. Senior Developer'
 								mb={20}
-								{...form.getInputProps('firstName')}
+								{...form.getInputProps('jobTitle')}
 							/>
 							<SimpleGrid cols={2} mb={20}>
 								<MultiSelect
@@ -202,6 +221,15 @@ export const AddContactModal = () => {
 								icon={<AiOutlineMail />}
 								onChange={handleUpdateEmails}
 							/>
+							<Space h={20} />
+							<MultiTextInput
+								label='Phones'
+								placeholder='Phone #'
+								addButtonName='phone'
+								selectOptions={['Work', 'Personal']}
+								icon={<FiPhone />}
+								onChange={handleUpdatePhones}
+							/>
 						</ScrollArea>
 					</Grid.Col>
 					<Grid.Col span={4} px={10} py={20} className={classes.rightSection}>
@@ -216,8 +244,22 @@ export const AddContactModal = () => {
 							transition='pop'
 							transitionDuration={120}
 							transitionTimingFunction='ease'
+							icon={<MdWorkOutline />}
 							classNames={{ input: classes.jobSelectInput }}
+							mb={20}
 							{...form.getInputProps('jobId')}
+						/>
+						<Select
+							label='Board'
+							placeholder='+ Link Board'
+							required
+							data={boardsSelection}
+							transition='pop'
+							transitionDuration={120}
+							transitionTimingFunction='ease'
+							icon={<MdOutlineDashboardCustomize />}
+							classNames={{ input: classes.jobSelectInput }}
+							{...form.getInputProps('boardId')}
 						/>
 					</Grid.Col>
 				</Grid>
