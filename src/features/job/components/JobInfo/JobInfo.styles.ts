@@ -21,6 +21,7 @@ export const useStyles = createStyles((theme) => {
 			fontSize: '14px',
 			fontWeight: 500,
 			marginBottom: '4px',
+			color: theme.other.brandDarkColor,
 		},
 		colorInput: {
 			width: '100%',

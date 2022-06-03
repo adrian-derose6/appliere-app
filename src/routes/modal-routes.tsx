@@ -3,6 +3,7 @@ import { RouteObject } from 'react-router-dom';
 import { AddJobModal } from '@/features/job';
 import { JobModal } from '@/features/job';
 import { AddActivityModal } from '@/features/activities';
+import { AddContactModal } from '@/features/contacts';
 
 export const modalRoutes: RouteObject[] = [
 	{
@@ -19,6 +20,6 @@ export const modalRoutes: RouteObject[] = [
 	},
 	{
 		path: '/add-contact',
-		element: null,
+		element: <AddContactModal />,
 	},
 ];

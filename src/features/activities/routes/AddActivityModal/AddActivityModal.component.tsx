@@ -39,9 +39,7 @@ import { useStyles } from './AddActivityModal.styles';
 const OPEN_TIMEOUT = 50;
 const CLOSE_TIMEOUT = 200;
 
-type Props = {};
-
-export const AddActivityModal = (props: Props) => {
+export const AddActivityModal = () => {
 	const [opened, setOpened] = useState(false);
 	const params = useParams();
 	const boardId = params.boardId as string;
