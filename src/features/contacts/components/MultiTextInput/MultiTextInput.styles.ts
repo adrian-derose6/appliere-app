@@ -28,4 +28,12 @@ export const useStyles = createStyles((theme) => ({
 		boxShadow: 'none',
 		minHeight: '100%',
 	},
+	selectInput: {
+		height: '22px !important',
+		fontWeight: 400,
+		color: theme.colors.gray[6],
+	},
+	cancelIcon: {
+		color: theme.colors.gray[5],
+	},
 }));

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import {
 	useNavigate,
 	useMatch,
@@ -36,7 +36,10 @@ import {
 	CATEGORY_SELECTION,
 	ActivityCategoryItem,
 } from '@/features/activities/constants/category-selection';
-import { MultiTextInput } from '@/features/contacts/components/MultiTextInput';
+import {
+	MultiTextInput,
+	MultiInputState,
+} from '@/features/contacts/components/MultiTextInput';
 import { BrandButton } from '@/components/Buttons';
 import { JobSelectItem } from '@/features/activities/components/Elements';
 import { useGetJobs } from '@/features/job';
@@ -55,7 +58,6 @@ export const AddContactModal = () => {
 	const match = useMatch('/add-contact/*');
 	const { data, isLoading, isSuccess, isError } = useGetJobs({ boardId });
 	const { classes } = useStyles();
-	console.log(boardId);
 
 	useEffect(() => {
 		if (match?.pathname) {
@@ -74,11 +76,13 @@ export const AddContactModal = () => {
 			jobTitle: '',
 			companies: [] as string[],
 			location: '',
-			emails: [],
+			emails: [] as MultiInputState[],
 			phone: [],
 			jobId: '',
 		},
 	});
+
+	console.log(form.values);
 
 	type FormValues = typeof form.values;
 
@@ -91,6 +95,10 @@ export const AddContactModal = () => {
 		const { companies } = form.values;
 		form.setFieldValue('companies', [...companies, query]);
 	};
+
+	const handleUpdateEmails = useCallback((values: MultiInputState[]) => {
+		form.setFieldValue('emails', values);
+	}, []);
 
 	const handleSubmit = (values: FormValues) => {
 		console.log(values);
@@ -192,6 +200,7 @@ export const AddContactModal = () => {
 								addButtonName='email'
 								selectOptions={['Work', 'Personal']}
 								icon={<AiOutlineMail />}
+								onChange={handleUpdateEmails}
 							/>
 						</ScrollArea>
 					</Grid.Col>
