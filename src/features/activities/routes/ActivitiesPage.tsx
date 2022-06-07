@@ -13,6 +13,7 @@ export function ActivitiesPage({ name, type }: { name: string; type: string }) {
 	const boardId = params.boardId as string;
 	const location = useLocation();
 	const navigate = useNavigate();
+	const { classes } = useStyles();
 	const { data, isLoading, isError, isSuccess } = useGetActivities({
 		boardId,
 	});
@@ -21,7 +22,6 @@ export function ActivitiesPage({ name, type }: { name: string; type: string }) {
 		type,
 		list: data?.activities || [],
 	});
-	const { classes } = useStyles();
 
 	const numOfActivities = completed.length + pending.length;
 	const activityString = numOfActivities === 1 ? 'activity' : 'activities';

@@ -117,7 +117,9 @@ export const AddContactModal = () => {
 	};
 
 	const handleSubmit = (values: FormValues) => {
-		const jobsReq = values.jobs.filter((job) => job.length > 0);
+		const jobsReq = [...new Set<string>(values.jobs)].filter(
+			(job) => job.length > 0
+		);
 		const companiesReq = values.companies.filter(
 			(company) => company.length > 0
 		);
