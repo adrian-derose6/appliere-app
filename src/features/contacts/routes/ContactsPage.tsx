@@ -49,7 +49,6 @@ const useStyles = createStyles((theme) => ({
 		height: '100%',
 		boxSizing: 'border-box',
 		padding: '0 25px',
-		border: '1px solid red',
 	},
 	header: {
 		height: '70px',

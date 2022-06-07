@@ -13,7 +13,7 @@ export const ContactsGrid = ({ contacts }: ContactsGridProps) => {
 	return (
 		<div className={classes.gridContainer}>
 			{contacts.map((contact, index) => {
-				return <ContactCard contact={contact} />;
+				return <ContactCard contact={contact} key={index} />;
 			})}
 		</div>
 	);
