@@ -1,14 +1,15 @@
 import { authFetch } from '@/lib/axios';
 import { QueryConfig, ExtractFnReturnType } from '@/lib/react-query';
 import { useQuery } from 'react-query';
+import { Contact } from '@/features/contacts/types';
 
 export const getContacts = async ({
 	boardId,
 }: {
 	boardId: string;
-}): Promise<any> => {
+}): Promise<Contact[]> => {
 	const res = await authFetch.get('/contacts', { params: { boardId } });
-	return res.data;
+	return res.data.contacts;
 };
 
 type QueryFnType = typeof getContacts;

@@ -3,6 +3,9 @@ import { Container, Group, Text, createStyles } from '@mantine/core';
 import { BsPlusLg } from 'react-icons/bs';
 
 import { BrandButton } from '@/components/Buttons';
+import { ContactsGrid } from '@/features/contacts/components';
+import { useGetContacts } from '../api';
+import { Contact } from '../types';
 
 export const ContactsPage = () => {
 	const params = useParams();
@@ -10,9 +13,12 @@ export const ContactsPage = () => {
 	const location = useLocation();
 	const navigate = useNavigate();
 	const { classes } = useStyles();
+	const { data } = useGetContacts({ boardId });
+
+	const contacts = data as Contact[];
 
 	const handleOpenModal = () => {
-		navigate(`/add-activity/${boardId}`, {
+		navigate(`/add-contact?boardId=${params.boardId}`, {
 			state: { backgroundLocation: location },
 		});
 	};
@@ -31,6 +37,7 @@ export const ContactsPage = () => {
 					</BrandButton>
 				</Group>
 			</Group>
+			{contacts && <ContactsGrid contacts={contacts} />}
 		</Container>
 	);
 };

@@ -79,6 +79,7 @@ export const MultiTextInput = ({
 							position='apart'
 							noWrap
 							className={classes.inputGroup}
+							key={inputIndex}
 						>
 							<TextInput
 								placeholder={placeholder}
@@ -107,9 +108,10 @@ export const MultiTextInput = ({
 									}
 									size='auto'
 								>
-									{selectOptions.map((option) => (
+									{selectOptions.map((option, index) => (
 										<Menu.Item
 											onClick={() => changeCategory(option, inputIndex)}
+											key={index}
 										>
 											{option}
 										</Menu.Item>

@@ -22,7 +22,6 @@ export const createContact = async ({
 	data,
 }: CreateContactDTO): Promise<Contact> => {
 	const res = await authFetch.post(`/contacts`, data);
-	console.log(res.data.contact);
 	return res.data.contact;
 };
 
