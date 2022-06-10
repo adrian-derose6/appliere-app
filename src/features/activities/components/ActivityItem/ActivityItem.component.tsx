@@ -134,7 +134,12 @@ export const ActivityItem = (props: ActivityItemProps) => {
 		});
 	};
 
-	const handleUpdateJob = (value: string) => {};
+	const handleUpdateJob = (value: string) => {
+		updateActivityMutation.mutate({
+			activityId: props.id,
+			data: { jobId: value },
+		});
+	};
 
 	const handleDeleteIconClick = (e: SyntheticEvent) => {
 		e.stopPropagation();
