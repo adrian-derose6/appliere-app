@@ -24,11 +24,11 @@ export const ContactCard = ({ contact }: ContactCardProps) => {
 	const params = useParams();
 	const boardId = params.boardId as string;
 	const { firstName, lastName, companies, location, emails, phones } = contact;
-	const nameText = `${contact.firstName} ${contact.lastName}`;
+	const nameText = `${firstName} ${lastName}`;
 	const companyText = companies[0] ? companies[0] : '';
 	const locationText = location.length > 0 ? location : 'none';
-	const emailText = emails[0] ? emails[0] : 'none';
-	const phoneText = phones[0] ? phones[0] : 'none';
+	const emailText = emails[0] ? emails[0].value : 'none';
+	const phoneText = phones[0] ? phones[0].value : 'none';
 	const createdByText = `created by ${user?.firstName} ${user?.lastName}`;
 
 	const handleDeleteIconClick = (e: SyntheticEvent) => {
