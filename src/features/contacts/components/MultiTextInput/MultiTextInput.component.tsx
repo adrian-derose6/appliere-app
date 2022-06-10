@@ -20,6 +20,7 @@ interface Props {
 	icon?: React.ReactNode;
 	placeholder: string;
 	selectOptions: string[];
+	initialValues?: MultiInputState[];
 	onChange: (values: MultiInputState[]) => void;
 }
 
@@ -34,10 +35,17 @@ export const MultiTextInput = ({
 	addButtonName,
 	placeholder,
 	selectOptions,
+	initialValues,
 	onChange,
 }: Props) => {
 	const [inputs, setInputs] = useState<MultiInputState[]>([]);
 	const { classes } = useStyles();
+
+	useEffect(() => {
+		if (initialValues) {
+			setInputs(initialValues);
+		}
+	}, []);
 
 	useEffect(() => {
 		onChange(inputs);

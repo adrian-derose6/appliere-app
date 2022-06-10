@@ -241,7 +241,8 @@ export const AddContactModal = ({ editing }: { editing?: boolean }) => {
 								<MultiSelect
 									label='Companies'
 									placeholder='+ add company(s)'
-									data={form.values.companies}
+									defaultValue={form.values.companies}
+									data={[]}
 									searchable
 									creatable
 									getCreateLabel={(query) => `+ ${query}`}
@@ -266,6 +267,7 @@ export const AddContactModal = ({ editing }: { editing?: boolean }) => {
 								addButtonName='email'
 								selectOptions={['Work', 'Personal']}
 								icon={<AiOutlineMail />}
+								initialValues={form.values.emails}
 								onChange={handleUpdateEmails}
 							/>
 							<Space h={20} />
@@ -275,6 +277,7 @@ export const AddContactModal = ({ editing }: { editing?: boolean }) => {
 								addButtonName='phone'
 								selectOptions={['Work', 'Personal']}
 								icon={<FiPhone />}
+								initialValues={form.values.phones}
 								onChange={handleUpdatePhones}
 							/>
 						</ScrollArea>
