@@ -2,7 +2,6 @@ import { useMutation } from 'react-query';
 
 import { authFetch } from '@/lib/axios';
 import { MutationConfig, queryClient } from '@/lib/react-query';
-
 import { Contact, ContactMethod } from '@/features/contacts/types';
 
 export type UpdateContactDTO = {

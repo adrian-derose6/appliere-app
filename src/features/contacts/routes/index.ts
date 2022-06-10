@@ -1,2 +1,2 @@
 export * from './ContactsPage';
-export * from './AddContactModal';
+export * from './ContactModal';

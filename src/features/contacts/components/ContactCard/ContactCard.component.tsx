@@ -7,8 +7,8 @@ import { FiPhone } from 'react-icons/fi';
 import { BsTrash } from 'react-icons/bs';
 
 import { DeleteModal } from '@/components/Modal';
-import { useAuth } from '@/stores/auth';
 import { Contact } from '@/features/contacts/types';
+import { useAuth } from '@/stores/auth';
 import { useStyles } from './ContactCard.styles';
 
 interface ContactCardProps {
@@ -24,6 +24,8 @@ export const ContactCard = ({ contact }: ContactCardProps) => {
 	const params = useParams();
 	const boardId = params.boardId as string;
 	const { firstName, lastName, companies, location, emails, phones } = contact;
+
+	// Derived state
 	const nameText = `${firstName} ${lastName}`;
 	const companyText = companies[0] ? companies[0] : '';
 	const locationText = location.length > 0 ? location : 'none';

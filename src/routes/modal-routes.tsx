@@ -3,7 +3,7 @@ import { RouteObject } from 'react-router-dom';
 import { AddJobModal } from '@/features/job';
 import { JobModal } from '@/features/job';
 import { AddActivityModal } from '@/features/activities';
-import { AddContactModal } from '@/features/contacts';
+import { ContactModal } from '@/features/contacts';
 
 export const modalRoutes: RouteObject[] = [
 	{
@@ -20,10 +20,10 @@ export const modalRoutes: RouteObject[] = [
 	},
 	{
 		path: '/add-contact',
-		element: <AddContactModal />,
+		element: <ContactModal />,
 	},
 	{
 		path: '/edit-contact/:contactId',
-		element: <AddContactModal editing={true} />,
+		element: <ContactModal isEditing={true} />,
 	},
 ];

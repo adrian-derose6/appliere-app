@@ -39,12 +39,13 @@ import { useGetJobs } from '@/features/job';
 import { useGetBoards } from '@/features/board';
 import { useGetContact } from '@/features/contacts/api';
 import { useCreateContact } from '@/features/contacts/api';
-import { useStyles } from './AddContactModal.styles';
+import { useUpdateContact } from '@/features/contacts/api';
+import { useStyles } from './ContactModal.styles';
 
 const OPEN_TIMEOUT = 50;
 const CLOSE_TIMEOUT = 200;
 
-export const AddContactModal = ({ editing }: { editing?: boolean }) => {
+export const ContactModal = ({ isEditing }: { isEditing?: boolean }) => {
 	const [opened, setOpened] = useState(false);
 	const navigate = useNavigate();
 	const location = useLocation();
@@ -53,7 +54,7 @@ export const AddContactModal = ({ editing }: { editing?: boolean }) => {
 	const [searchParams, setSearchParams] = useSearchParams();
 	const boardId = searchParams.get('boardId') as string;
 	const contactId = params.contactId as string;
-	const matchString = editing ? '/edit-contact/*' : '/add-contact/*';
+	const matchString = isEditing ? '/edit-contact/*' : '/add-contact/*';
 	const match = useMatch(matchString);
 	const {
 		data: jobsData,
@@ -75,8 +76,8 @@ export const AddContactModal = ({ editing }: { editing?: boolean }) => {
 	} = useGetContact({ contactId, config: { enabled: !!contactId } });
 	const createContactMutation = useCreateContact();
 	const { classes } = useStyles();
-	const modalLabel = editing ? 'Edit Contact' : 'Save New Contact';
-	const buttonLabel = editing ? 'Update' : 'Save';
+	const modalLabel = isEditing ? 'Edit Contact' : 'Save New Contact';
+	const buttonLabel = isEditing ? 'Update' : 'Save';
 	const loadingSuccess = jobsSuccess && boardsSuccess;
 
 	useEffect(() => {
@@ -91,6 +92,20 @@ export const AddContactModal = ({ editing }: { editing?: boolean }) => {
 
 	const form = useForm({
 		initialValues: {
+			firstName: '',
+			lastName: '',
+			jobTitle: '',
+			companies: [] as string[],
+			location: '',
+			emails: [] as any[],
+			phones: [] as any[],
+			jobs: [] as string[],
+			boardId: '',
+		},
+	});
+
+	useEffect(() => {
+		form.setValues({
 			firstName: contact?.firstName || '',
 			lastName: contact?.lastName || '',
 			jobTitle: contact?.jobTitle || '',
@@ -100,8 +115,8 @@ export const AddContactModal = ({ editing }: { editing?: boolean }) => {
 			phones: contact?.phones || ([] as any[]),
 			jobs: contact?.jobs || ([] as string[]),
 			boardId: boardId || '',
-		},
-	});
+		});
+	}, [contact]);
 
 	type FormValues = typeof form.values;
 
@@ -204,7 +219,10 @@ export const AddContactModal = ({ editing }: { editing?: boolean }) => {
 		>
 			<LoadingOverlay
 				visible={
-					createContactMutation.isLoading || jobsLoading || boardsLoading
+					contactLoading ||
+					createContactMutation.isLoading ||
+					jobsLoading ||
+					boardsLoading
 				}
 				overlayOpacity={0.3}
 				overlayColor='#c5c5c5'
