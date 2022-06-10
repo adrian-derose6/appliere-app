@@ -37,6 +37,7 @@ import { BrandButton } from '@/components/Buttons';
 import { JobSelectItem } from '@/features/activities/components/Elements';
 import { useGetJobs } from '@/features/job';
 import { useGetBoards } from '@/features/board';
+import { useGetContact } from '@/features/contacts/api';
 import { useCreateContact } from '@/features/contacts/api';
 import { useStyles } from './AddContactModal.styles';
 
@@ -47,9 +48,11 @@ export const AddContactModal = ({ editing }: { editing?: boolean }) => {
 	const [opened, setOpened] = useState(false);
 	const navigate = useNavigate();
 	const location = useLocation();
+	const params = useParams();
 	const locationState = location.state as { backgroundLocation?: Location };
 	const [searchParams, setSearchParams] = useSearchParams();
 	const boardId = searchParams.get('boardId') as string;
+	const contactId = params.contactId as string;
 	const matchString = editing ? '/edit-contact/*' : '/add-contact/*';
 	const match = useMatch(matchString);
 	const {
@@ -64,6 +67,12 @@ export const AddContactModal = ({ editing }: { editing?: boolean }) => {
 		isError: boardsError,
 		isLoading: boardsLoading,
 	} = useGetBoards();
+	const {
+		data: contact,
+		isSuccess: contactSuccess,
+		isError: contactError,
+		isLoading: contactLoading,
+	} = useGetContact({ contactId, config: { enabled: !!contactId } });
 	const createContactMutation = useCreateContact();
 	const { classes } = useStyles();
 	const modalLabel = editing ? 'Edit Contact' : 'Save New Contact';
@@ -82,14 +91,14 @@ export const AddContactModal = ({ editing }: { editing?: boolean }) => {
 
 	const form = useForm({
 		initialValues: {
-			firstName: '',
-			lastName: '',
-			jobTitle: '',
-			companies: [] as string[],
-			location: '',
-			emails: [] as any[],
-			phones: [] as any[],
-			jobs: [] as string[],
+			firstName: contact?.firstName || '',
+			lastName: contact?.lastName || '',
+			jobTitle: contact?.jobTitle || '',
+			companies: contact?.companies || ([] as string[]),
+			location: contact?.location || '',
+			emails: contact?.emails || ([] as any[]),
+			phones: contact?.phones || ([] as any[]),
+			jobs: contact?.jobs || ([] as string[]),
 			boardId: boardId || '',
 		},
 	});
