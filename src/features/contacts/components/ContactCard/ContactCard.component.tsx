@@ -8,6 +8,7 @@ import { BsTrash } from 'react-icons/bs';
 
 import { DeleteModal } from '@/components/Modal';
 import { Contact } from '@/features/contacts/types';
+import { useDeleteContact } from '@/features/contacts/api';
 import { useAuth } from '@/stores/auth';
 import { useStyles } from './ContactCard.styles';
 
@@ -22,6 +23,7 @@ export const ContactCard = ({ contact }: ContactCardProps) => {
 	const navigate = useNavigate();
 	const navLocation = useLocation();
 	const params = useParams();
+	const deleteContactMutation = useDeleteContact();
 	const boardId = params.boardId as string;
 	const { firstName, lastName, companies, location, emails, phones } = contact;
 
@@ -47,7 +49,17 @@ export const ContactCard = ({ contact }: ContactCardProps) => {
 		});
 	};
 
-	const handleDeleteContact = () => {};
+	const handleDeleteContact = () => {
+		deleteContactMutation.mutate(
+			{
+				contactId: contact.id,
+				boardId,
+			},
+			{
+				onSuccess: () => setModalOpened(false),
+			}
+		);
+	};
 
 	return (
 		<div className={classes.container}>

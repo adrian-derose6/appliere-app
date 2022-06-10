@@ -6,5 +6,6 @@ export const useStyles = createStyles((theme) => ({
 		display: 'grid',
 		gridTemplateColumns: 'repeat(auto-fill, 300px)',
 		gap: '15px',
+		justifyContent: 'center',
 	},
 }));
