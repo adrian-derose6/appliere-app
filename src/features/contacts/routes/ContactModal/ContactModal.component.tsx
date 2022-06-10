@@ -75,6 +75,7 @@ export const ContactModal = ({ isEditing }: { isEditing?: boolean }) => {
 		isLoading: contactLoading,
 	} = useGetContact({ contactId, config: { enabled: !!contactId } });
 	const createContactMutation = useCreateContact();
+	const updateContactMutation = useUpdateContact();
 	const { classes } = useStyles();
 	const modalLabel = isEditing ? 'Edit Contact' : 'Save New Contact';
 	const buttonLabel = isEditing ? 'Update' : 'Save';
@@ -162,19 +163,38 @@ export const ContactModal = ({ isEditing }: { isEditing?: boolean }) => {
 			(company) => company.length > 0
 		);
 
-		createContactMutation.mutate({
-			data: {
-				firstName: values.firstName,
-				lastName: values.lastName,
-				jobTitle: values.jobTitle,
-				location: values.location,
-				jobs: jobsReq,
-				companies: companiesReq,
-				emails: values.emails,
-				phones: values.phones,
-				boardId: values.boardId,
-			},
-		});
+		const mutationData = {
+			firstName: values.firstName,
+			lastName: values.lastName,
+			jobTitle: values.jobTitle,
+			location: values.location,
+			jobs: jobsReq,
+			companies: companiesReq,
+			emails: values.emails,
+			phones: values.phones,
+			boardId: values.boardId,
+		};
+
+		if (isEditing) {
+			updateContactMutation.mutate(
+				{
+					data: mutationData,
+					contactId,
+				},
+				{
+					onSuccess: () => handleModalClose(),
+				}
+			);
+		} else {
+			createContactMutation.mutate(
+				{
+					data: mutationData,
+				},
+				{
+					onSuccess: () => handleModalClose(),
+				}
+			);
+		}
 	};
 
 	const jobsSelection = jobsData
