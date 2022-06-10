@@ -22,4 +22,8 @@ export const modalRoutes: RouteObject[] = [
 		path: '/add-contact',
 		element: <AddContactModal />,
 	},
+	{
+		path: '/edit-contact/:contactId',
+		element: <AddContactModal editing={true} />,
+	},
 ];

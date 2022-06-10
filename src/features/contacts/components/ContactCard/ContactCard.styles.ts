@@ -14,6 +14,7 @@ export const useStyles = createStyles((theme) => ({
 		display: 'flex',
 		flexDirection: 'column',
 		cursor: 'pointer',
+		position: 'relative',
 	},
 	hoverWrapper: {
 		height: '100%',

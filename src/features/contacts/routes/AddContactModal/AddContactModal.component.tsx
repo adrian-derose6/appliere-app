@@ -3,6 +3,7 @@ import {
 	useNavigate,
 	useMatch,
 	useLocation,
+	useParams,
 	useSearchParams,
 } from 'react-router-dom';
 import {
@@ -42,19 +43,32 @@ import { useStyles } from './AddContactModal.styles';
 const OPEN_TIMEOUT = 50;
 const CLOSE_TIMEOUT = 200;
 
-export const AddContactModal = () => {
+export const AddContactModal = ({ editing }: { editing?: boolean }) => {
 	const [opened, setOpened] = useState(false);
 	const navigate = useNavigate();
 	const location = useLocation();
 	const locationState = location.state as { backgroundLocation?: Location };
 	const [searchParams, setSearchParams] = useSearchParams();
 	const boardId = searchParams.get('boardId') as string;
-	const match = useMatch('/add-contact/*');
-	const { data: jobsData } = useGetJobs({ boardId });
-	const { data: boardsData } = useGetBoards();
+	const matchString = editing ? '/edit-contact/*' : '/add-contact/*';
+	const match = useMatch(matchString);
+	const {
+		data: jobsData,
+		isSuccess: jobsSuccess,
+		isError: jobsError,
+		isLoading: jobsLoading,
+	} = useGetJobs({ boardId });
+	const {
+		data: boardsData,
+		isSuccess: boardsSuccess,
+		isError: boardsError,
+		isLoading: boardsLoading,
+	} = useGetBoards();
 	const createContactMutation = useCreateContact();
-
 	const { classes } = useStyles();
+	const modalLabel = editing ? 'Edit Contact' : 'Save New Contact';
+	const buttonLabel = editing ? 'Update' : 'Save';
+	const loadingSuccess = jobsSuccess && boardsSuccess;
 
 	useEffect(() => {
 		if (match?.pathname) {
@@ -163,7 +177,7 @@ export const AddContactModal = () => {
 			title={
 				<Group spacing={5}>
 					<IoPersonAddOutline />
-					<Text>Save New Contact</Text>
+					<Text>{modalLabel}</Text>
 				</Group>
 			}
 			centered
@@ -180,7 +194,9 @@ export const AddContactModal = () => {
 			}}
 		>
 			<LoadingOverlay
-				visible={createContactMutation.isLoading}
+				visible={
+					createContactMutation.isLoading || jobsLoading || boardsLoading
+				}
 				overlayOpacity={0.3}
 				overlayColor='#c5c5c5'
 			/>
@@ -311,7 +327,7 @@ export const AddContactModal = () => {
 						Discard
 					</Button>
 					<BrandButton type='submit' size='xs' className={classes.modalButton}>
-						Save Contact
+						{buttonLabel}
 					</BrandButton>
 				</Group>
 			</form>

@@ -1,9 +1,12 @@
+import { useState, SyntheticEvent } from 'react';
+import { useNavigate, useLocation, useParams } from 'react-router-dom';
 import { Text, Group, Avatar, ActionIcon } from '@mantine/core';
 import { IoLocationOutline } from 'react-icons/io5';
 import { AiOutlineMail } from 'react-icons/ai';
 import { FiPhone } from 'react-icons/fi';
 import { BsTrash } from 'react-icons/bs';
 
+import { DeleteModal } from '@/components/Modal';
 import { useAuth } from '@/stores/auth';
 import { Contact } from '@/features/contacts/types';
 import { useStyles } from './ContactCard.styles';
@@ -13,10 +16,14 @@ interface ContactCardProps {
 }
 
 export const ContactCard = ({ contact }: ContactCardProps) => {
+	const [modalOpened, setModalOpened] = useState<boolean>(false);
 	const { user } = useAuth();
 	const { classes } = useStyles();
+	const navigate = useNavigate();
+	const navLocation = useLocation();
+	const params = useParams();
+	const boardId = params.boardId as string;
 	const { firstName, lastName, companies, location, emails, phones } = contact;
-
 	const nameText = `${contact.firstName} ${contact.lastName}`;
 	const companyText = companies[0] ? companies[0] : '';
 	const locationText = location.length > 0 ? location : 'none';
@@ -24,9 +31,21 @@ export const ContactCard = ({ contact }: ContactCardProps) => {
 	const phoneText = phones[0] ? phones[0] : 'none';
 	const createdByText = `created by ${user?.firstName} ${user?.lastName}`;
 
-	const handleCardClick = () => {};
+	const handleDeleteIconClick = (e: SyntheticEvent) => {
+		e.stopPropagation();
+		e.preventDefault();
+		setModalOpened(true);
+	};
 
-	const handleDeleteIconClick = () => {};
+	const handleCardClick = (e: SyntheticEvent) => {
+		e.stopPropagation();
+		e.preventDefault();
+		navigate(`/edit-contact/${contact.id}?boardId=${boardId}`, {
+			state: { backgroundLocation: navLocation },
+		});
+	};
+
+	const handleDeleteContact = () => {};
 
 	return (
 		<div className={classes.container}>
@@ -75,6 +94,13 @@ export const ContactCard = ({ contact }: ContactCardProps) => {
 			<Group position='left' align='center' className={classes.bottomSection}>
 				<Text className={classes.createdByText}>{createdByText}</Text>
 			</Group>
+			<DeleteModal
+				itemType='Contact'
+				opened={modalOpened}
+				loading={false}
+				onClose={() => setModalOpened(false)}
+				onClickDelete={handleDeleteContact}
+			/>
 		</div>
 	);
 };
