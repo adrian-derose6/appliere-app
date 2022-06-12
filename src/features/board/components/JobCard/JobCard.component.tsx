@@ -58,7 +58,9 @@ export const JobCard = ({
 
 	const handleCardClick = (e: SyntheticEvent) => {
 		e.stopPropagation();
-		navigate(`/job/${jobId}`, { state: { backgroundLocation: location } });
+		navigate(`/job/${jobId}?boardId=${boardId}`, {
+			state: { backgroundLocation: location },
+		});
 	};
 
 	const handleDeleteJob = (e: SyntheticEvent) => {

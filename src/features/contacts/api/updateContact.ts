@@ -17,6 +17,7 @@ export type UpdateContactDTO = {
 		boardId?: string;
 	};
 	contactId: string;
+	boardId: string;
 };
 
 export const updateContact = async ({
@@ -34,7 +35,8 @@ type UseUpdateContactOptions = {
 export const useUpdateContact = ({ config }: UseUpdateContactOptions = {}) => {
 	return useMutation({
 		onSettled: async (data, err, variables) => {
-			queryClient.invalidateQueries(['contacts', variables.data.boardId]);
+			const { boardId } = variables;
+			queryClient.invalidateQueries(['contacts', boardId]);
 		},
 		...config,
 		mutationFn: updateContact,

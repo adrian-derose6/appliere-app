@@ -1,5 +1,10 @@
 import { useState, SyntheticEvent } from 'react';
-import { useNavigate, useLocation, useParams } from 'react-router-dom';
+import {
+	useNavigate,
+	useLocation,
+	useParams,
+	useSearchParams,
+} from 'react-router-dom';
 import { Text, Group, Avatar, ActionIcon } from '@mantine/core';
 import { IoLocationOutline } from 'react-icons/io5';
 import { AiOutlineMail } from 'react-icons/ai';
@@ -14,17 +19,24 @@ import { useStyles } from './ContactCard.styles';
 
 interface ContactCardProps {
 	contact: Contact;
+	inModal?: boolean;
 }
 
-export const ContactCard = ({ contact }: ContactCardProps) => {
+export const ContactCard = ({ contact, inModal }: ContactCardProps) => {
 	const [modalOpened, setModalOpened] = useState<boolean>(false);
 	const { user } = useAuth();
 	const { classes } = useStyles();
+	const [searchParams] = useSearchParams();
 	const navigate = useNavigate();
 	const navLocation = useLocation();
+	const locationState = navLocation.state as {
+		backgroundLocation?: Location;
+		fromModal?: boolean;
+	};
 	const params = useParams();
 	const deleteContactMutation = useDeleteContact();
-	const boardId = params.boardId as string;
+	const boardId =
+		(params.boardId as string) || (searchParams.get('boardId') as string);
 	const { firstName, lastName, companies, location, emails, phones } = contact;
 
 	// Derived state
@@ -45,7 +57,12 @@ export const ContactCard = ({ contact }: ContactCardProps) => {
 		e.stopPropagation();
 		e.preventDefault();
 		navigate(`/edit-contact/${contact.id}?boardId=${boardId}`, {
-			state: { backgroundLocation: navLocation },
+			state: {
+				fromModal: inModal,
+				backgroundLocation: inModal
+					? locationState.backgroundLocation
+					: navLocation,
+			},
 		});
 	};
 

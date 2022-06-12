@@ -17,10 +17,10 @@ import { IoPeopleOutline } from 'react-icons/io5';
 import { HiOutlineOfficeBuilding } from 'react-icons/hi';
 
 import { useStyles } from './JobModal.styles';
-import { JobInfo } from '../../components/JobInfo/JobInfo.component';
+import { JobInfo, JobContacts } from '@/features/job/components';
 import { BrandButton } from '@/components/Buttons';
 import { useGetJob } from '@/features/job';
-import { formatJobType } from '../../utils/job-types';
+import { formatJobType } from '@/features/job/utils/job-types';
 import { JobType } from '../../types';
 
 const OPEN_TIMEOUT = 50;
@@ -42,6 +42,7 @@ const tabsList = [
 		label: 'Contacts',
 		tabKey: 'job-contacts',
 		icon: <IoPeopleOutline />,
+		Component: JobContacts,
 	},
 	{
 		label: 'Notes',
@@ -138,7 +139,6 @@ export const JobModal = (props: Props) => {
 			>
 				{tabsList.map((tab, index) => {
 					const { Component } = tab;
-
 					return (
 						<Tabs.Tab
 							key={index}

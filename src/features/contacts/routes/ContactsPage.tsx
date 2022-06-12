@@ -53,6 +53,7 @@ const useStyles = createStyles((theme) => ({
 	header: {
 		height: '70px',
 		borderBottom: '1px solid #e9ecef',
+		marginBottom: '25px',
 	},
 	headingMain: {
 		fontSize: '20px',

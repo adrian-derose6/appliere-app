@@ -50,9 +50,13 @@ export const ContactModal = ({ isEditing }: { isEditing?: boolean }) => {
 	const navigate = useNavigate();
 	const location = useLocation();
 	const params = useParams();
-	const locationState = location.state as { backgroundLocation?: Location };
+	const locationState = location.state as {
+		backgroundLocation?: Location;
+		fromModal?: boolean;
+	};
 	const [searchParams, setSearchParams] = useSearchParams();
 	const boardId = searchParams.get('boardId') as string;
+	const jobId = searchParams.get('jobId') as string;
 	const contactId = params.contactId as string;
 	const matchString = isEditing ? '/edit-contact/*' : '/add-contact/*';
 	const match = useMatch(matchString);
@@ -77,19 +81,20 @@ export const ContactModal = ({ isEditing }: { isEditing?: boolean }) => {
 	const createContactMutation = useCreateContact();
 	const updateContactMutation = useUpdateContact();
 	const { classes } = useStyles();
+
+	// Derived state
 	const modalLabel = isEditing ? 'Edit Contact' : 'Save New Contact';
 	const buttonLabel = isEditing ? 'Update' : 'Save';
 	const loadingSuccess = jobsSuccess && boardsSuccess;
 
 	useEffect(() => {
 		if (match?.pathname) {
+			if (locationState.fromModal) {
+				setOpened(true);
+			}
 			setTimeout(() => setOpened(true), OPEN_TIMEOUT);
 		}
-
-		return () => {
-			locationState.backgroundLocation = undefined;
-		};
-	}, [match]);
+	}, [match, locationState]);
 
 	const form = useForm({
 		initialValues: {
@@ -114,7 +119,7 @@ export const ContactModal = ({ isEditing }: { isEditing?: boolean }) => {
 			location: contact?.location || '',
 			emails: contact?.emails || ([] as any[]),
 			phones: contact?.phones || ([] as any[]),
-			jobs: contact?.jobs || ([] as string[]),
+			jobs: contact?.jobs || [jobId] || ([] as string[]),
 			boardId: boardId || '',
 		});
 	}, [contact]);
@@ -180,6 +185,7 @@ export const ContactModal = ({ isEditing }: { isEditing?: boolean }) => {
 				{
 					data: mutationData,
 					contactId,
+					boardId,
 				},
 				{
 					onSuccess: () => handleModalClose(),
