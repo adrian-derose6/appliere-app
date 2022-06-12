@@ -2,8 +2,8 @@ import { useEffect, useState, useCallback } from 'react';
 import {
 	useNavigate,
 	useMatch,
-	useParams,
 	useLocation,
+	useParams,
 	useSearchParams,
 } from 'react-router-dom';
 import {
@@ -11,11 +11,6 @@ import {
 	Modal,
 	TextInput,
 	Text,
-	Container,
-	Textarea,
-	Chips,
-	Chip,
-	Checkbox,
 	Button,
 	Group,
 	Select,
@@ -26,21 +21,14 @@ import {
 	Divider,
 	MultiSelect,
 	Space,
+	ActionIcon,
 } from '@mantine/core';
-import {
-	MdWorkOutline,
-	MdOutlineDashboardCustomize,
-	MdOutlineAddCircleOutline,
-} from 'react-icons/md';
+import { MdWorkOutline, MdOutlineDashboardCustomize } from 'react-icons/md';
 import { AiOutlineMail } from 'react-icons/ai';
-import { IoPersonAddOutline } from 'react-icons/io5';
+import { IoPersonAddOutline, IoClose } from 'react-icons/io5';
 import { FiPhone } from 'react-icons/fi';
 import { useForm } from '@mantine/form';
 
-import {
-	CATEGORY_SELECTION,
-	ActivityCategoryItem,
-} from '@/features/activities/constants/category-selection';
 import {
 	MultiTextInput,
 	MultiInputState,
@@ -49,33 +37,64 @@ import { BrandButton } from '@/components/Buttons';
 import { JobSelectItem } from '@/features/activities/components/Elements';
 import { useGetJobs } from '@/features/job';
 import { useGetBoards } from '@/features/board';
-import { useStyles } from './AddContactModal.styles';
+import { useGetContact } from '@/features/contacts/api';
+import { useCreateContact } from '@/features/contacts/api';
+import { useUpdateContact } from '@/features/contacts/api';
+import { useStyles } from './ContactModal.styles';
 
 const OPEN_TIMEOUT = 50;
 const CLOSE_TIMEOUT = 200;
 
-export const AddContactModal = () => {
+export const ContactModal = ({ isEditing }: { isEditing?: boolean }) => {
 	const [opened, setOpened] = useState(false);
 	const navigate = useNavigate();
 	const location = useLocation();
-	const locationState = location.state as { backgroundLocation?: Location };
+	const params = useParams();
+	const locationState = location.state as {
+		backgroundLocation?: Location;
+		fromModal?: boolean;
+	};
 	const [searchParams, setSearchParams] = useSearchParams();
 	const boardId = searchParams.get('boardId') as string;
-	const match = useMatch('/add-contact/*');
-	const { data: jobsData } = useGetJobs({ boardId });
-	const { data: boardsData } = useGetBoards();
-
+	const jobId = searchParams.get('jobId') as string;
+	const contactId = params.contactId as string;
+	const matchString = isEditing ? '/edit-contact/*' : '/add-contact/*';
+	const match = useMatch(matchString);
+	const {
+		data: jobsData,
+		isSuccess: jobsSuccess,
+		isError: jobsError,
+		isLoading: jobsLoading,
+	} = useGetJobs({ boardId });
+	const {
+		data: boardsData,
+		isSuccess: boardsSuccess,
+		isError: boardsError,
+		isLoading: boardsLoading,
+	} = useGetBoards();
+	const {
+		data: contact,
+		isSuccess: contactSuccess,
+		isError: contactError,
+		isLoading: contactLoading,
+	} = useGetContact({ contactId, config: { enabled: !!contactId } });
+	const createContactMutation = useCreateContact();
+	const updateContactMutation = useUpdateContact();
 	const { classes } = useStyles();
+
+	// Derived state
+	const modalLabel = isEditing ? 'Edit Contact' : 'Save New Contact';
+	const buttonLabel = isEditing ? 'Update' : 'Save';
+	const loadingSuccess = jobsSuccess && boardsSuccess;
 
 	useEffect(() => {
 		if (match?.pathname) {
+			if (locationState.fromModal) {
+				setOpened(true);
+			}
 			setTimeout(() => setOpened(true), OPEN_TIMEOUT);
 		}
-
-		return () => {
-			locationState.backgroundLocation = undefined;
-		};
-	}, [match]);
+	}, [match, locationState]);
 
 	const form = useForm({
 		initialValues: {
@@ -84,14 +103,26 @@ export const AddContactModal = () => {
 			jobTitle: '',
 			companies: [] as string[],
 			location: '',
-			emails: [] as MultiInputState[],
-			phones: [] as MultiInputState[],
-			jobId: '',
-			boardId: boardId || '',
+			emails: [] as any[],
+			phones: [] as any[],
+			jobs: [] as string[],
+			boardId: '',
 		},
 	});
 
-	console.log(form.values);
+	useEffect(() => {
+		form.setValues({
+			firstName: contact?.firstName || '',
+			lastName: contact?.lastName || '',
+			jobTitle: contact?.jobTitle || '',
+			companies: contact?.companies || ([] as string[]),
+			location: contact?.location || '',
+			emails: contact?.emails || ([] as any[]),
+			phones: contact?.phones || ([] as any[]),
+			jobs: contact?.jobs || [jobId] || ([] as string[]),
+			boardId: boardId || '',
+		});
+	}, [contact]);
 
 	type FormValues = typeof form.values;
 
@@ -113,8 +144,63 @@ export const AddContactModal = () => {
 		form.setFieldValue('phones', values);
 	}, []);
 
+	const handleChangeJob = (value: string, index: number) => {
+		const newJobs = [...form.values.jobs];
+		newJobs[index] = value;
+		form.setFieldValue('jobs', newJobs);
+	};
+
+	const addJobSelect = () => {
+		const { jobs } = form.values;
+		form.setFieldValue('jobs', [...jobs, '']);
+	};
+
+	const removeJobSelect = (index: number) => {
+		const newJobs = form.values.jobs.filter((job, i) => index !== i);
+		form.setFieldValue('jobs', newJobs);
+	};
+
 	const handleSubmit = (values: FormValues) => {
-		console.log(values);
+		const jobsReq = [...new Set<string>(values.jobs)].filter(
+			(job) => job.length > 0
+		);
+		const companiesReq = values.companies.filter(
+			(company) => company.length > 0
+		);
+
+		const mutationData = {
+			firstName: values.firstName,
+			lastName: values.lastName,
+			jobTitle: values.jobTitle,
+			location: values.location,
+			jobs: jobsReq,
+			companies: companiesReq,
+			emails: values.emails,
+			phones: values.phones,
+			boardId: values.boardId,
+		};
+
+		if (isEditing) {
+			updateContactMutation.mutate(
+				{
+					data: mutationData,
+					contactId,
+					boardId,
+				},
+				{
+					onSuccess: () => handleModalClose(),
+				}
+			);
+		} else {
+			createContactMutation.mutate(
+				{
+					data: mutationData,
+				},
+				{
+					onSuccess: () => handleModalClose(),
+				}
+			);
+		}
 	};
 
 	const jobsSelection = jobsData
@@ -141,7 +227,7 @@ export const AddContactModal = () => {
 			title={
 				<Group spacing={5}>
 					<IoPersonAddOutline />
-					<Text>Save New Contact</Text>
+					<Text>{modalLabel}</Text>
 				</Group>
 			}
 			centered
@@ -158,7 +244,12 @@ export const AddContactModal = () => {
 			}}
 		>
 			<LoadingOverlay
-				visible={false}
+				visible={
+					contactLoading ||
+					createContactMutation.isLoading ||
+					jobsLoading ||
+					boardsLoading
+				}
 				overlayOpacity={0.3}
 				overlayColor='#c5c5c5'
 			/>
@@ -194,7 +285,8 @@ export const AddContactModal = () => {
 								<MultiSelect
 									label='Companies'
 									placeholder='+ add company(s)'
-									data={form.values.companies}
+									defaultValue={form.values.companies}
+									data={[]}
 									searchable
 									creatable
 									getCreateLabel={(query) => `+ ${query}`}
@@ -219,6 +311,7 @@ export const AddContactModal = () => {
 								addButtonName='email'
 								selectOptions={['Work', 'Personal']}
 								icon={<AiOutlineMail />}
+								initialValues={form.values.emails}
 								onChange={handleUpdateEmails}
 							/>
 							<Space h={20} />
@@ -228,6 +321,7 @@ export const AddContactModal = () => {
 								addButtonName='phone'
 								selectOptions={['Work', 'Personal']}
 								icon={<FiPhone />}
+								initialValues={form.values.phones}
 								onChange={handleUpdatePhones}
 							/>
 						</ScrollArea>
@@ -235,24 +329,40 @@ export const AddContactModal = () => {
 					<Grid.Col span={4} px={10} py={20} className={classes.rightSection}>
 						<Text className={classes.linkedTo}>Linked to</Text>
 						<Divider mt={5} mb={10} />
-						<Select
-							label='Job'
-							placeholder='+ Link job'
-							required
-							data={jobsSelection}
-							itemComponent={JobSelectItem}
-							transition='pop'
-							transitionDuration={120}
-							transitionTimingFunction='ease'
-							icon={<MdWorkOutline />}
-							classNames={{ input: classes.jobSelectInput }}
-							mb={20}
-							{...form.getInputProps('jobId')}
-						/>
+						<Text className={classes.selectLabel}>Jobs</Text>
+						{form.values.jobs.map((job, jobIndex) => (
+							<div className={classes.selectGroup} key={jobIndex}>
+								<Select
+									placeholder='+ Link job'
+									required
+									data={jobsSelection}
+									itemComponent={JobSelectItem}
+									mb={10}
+									transition='pop'
+									transitionDuration={120}
+									transitionTimingFunction='ease'
+									icon={<MdWorkOutline />}
+									classNames={{ input: classes.jobSelectInput }}
+									value={form.values.jobs[jobIndex]}
+									onChange={(value: string) => handleChangeJob(value, jobIndex)}
+								/>
+								<ActionIcon
+									variant='transparent'
+									onClick={() => removeJobSelect(jobIndex)}
+									className={classes.cancelIcon}
+								>
+									<IoClose />
+								</ActionIcon>
+							</div>
+						))}
+						<Button size='xs' variant='subtle' onClick={addJobSelect} compact>
+							+ add job
+						</Button>
 						<Select
 							label='Board'
 							placeholder='+ Link Board'
 							required
+							mt={20}
 							data={boardsSelection}
 							transition='pop'
 							transitionDuration={120}
@@ -273,7 +383,7 @@ export const AddContactModal = () => {
 						Discard
 					</Button>
 					<BrandButton type='submit' size='xs' className={classes.modalButton}>
-						Save Contact
+						{buttonLabel}
 					</BrandButton>
 				</Group>
 			</form>

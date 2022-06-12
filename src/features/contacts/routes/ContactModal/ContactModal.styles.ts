@@ -61,6 +61,24 @@ export const useStyles = createStyles((theme) => {
 		},
 		jobSelectInput: {
 			minHeight: '20px !important',
+			width: '100%',
+		},
+		selectLabel: {
+			color: theme.other.brandDarkColor,
+			fontSize: '14px',
+			fontWeight: 500,
+			marginBottom: '4px',
+		},
+		selectGroup: {
+			height: '40px',
+			display: 'flex',
+			flexDirection: 'row',
+			justifyContent: 'space-between',
+			alignItems: 'center',
+			flexWrap: 'nowrap',
+		},
+		cancelIcon: {
+			color: theme.colors.gray[5],
 		},
 	};
 });

@@ -4,7 +4,7 @@ import { Modal, Text, Center, Group, Button, ModalProps } from '@mantine/core';
 import { BrandButton } from '@/components/Buttons';
 import { useStyles } from './DeleteModal.styles';
 
-interface DeleteJobProps extends ModalProps {
+interface DeleteModalProps extends ModalProps {
 	itemType: string;
 	opened: boolean;
 	loading: boolean;
@@ -17,8 +17,9 @@ export const DeleteModal = ({
 	opened,
 	onClose,
 	onClickDelete,
+	loading,
 	...modalProps
-}: DeleteJobProps) => {
+}: DeleteModalProps) => {
 	const { classes } = useStyles();
 
 	return (
@@ -42,7 +43,7 @@ export const DeleteModal = ({
 		>
 			<Center className={classes.modalBody}>
 				<Text className={classes.bodyText}>
-					Are you sure you want to delete this {itemType}?
+					Are you sure you want to delete this {itemType.toLowerCase()}?
 				</Text>
 			</Center>
 			<Group position='center' p='xs' className={classes.modalFooter}>

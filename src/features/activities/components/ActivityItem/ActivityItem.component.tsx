@@ -21,7 +21,7 @@ import {
 	ActionIcon,
 } from '@mantine/core';
 import { useClickOutside } from '@mantine/hooks';
-import { useForm } from '@mantine/form';
+import { MdWorkOutline } from 'react-icons/md';
 import { VscCalendar } from 'react-icons/vsc';
 import { BsTrash, BsTag } from 'react-icons/bs';
 
@@ -37,6 +37,7 @@ import {
 	useDeleteActivity,
 	useUpdateActivity,
 } from '@/features/activities/api';
+import { useGetJobs } from '@/features/job';
 import { useAuth } from '@/stores/auth';
 
 const imgURL =
@@ -67,11 +68,15 @@ export const ActivityItem = (props: ActivityItemProps) => {
 	const [deleteOpened, setDeleteOpened] = useState<boolean>(false);
 	const [startAt, onChangeStartAt] = useState<Date>(new Date(props.startAt));
 	const [endAt, onChangeEndAt] = useState<Date>(new Date(props.endAt));
+	const { data: jobsData } = useGetJobs({
+		boardId,
+		config: { enabled: !!props.job },
+	});
 	const deleteActivityMutation = useDeleteActivity();
 	const updateActivityMutation = useUpdateActivity();
 	const { classes } = useStyles({ opened, completed: props.completed });
-
 	const clickOutsideRef = useClickOutside(() => setOpened(false));
+
 	const categoryColor = CATEGORY_SELECTION.find(
 		(item) => item.value === props.activityCategory.value
 	)?.color;
@@ -129,6 +134,13 @@ export const ActivityItem = (props: ActivityItemProps) => {
 		});
 	};
 
+	const handleUpdateJob = (value: string) => {
+		updateActivityMutation.mutate({
+			activityId: props.id,
+			data: { jobId: value },
+		});
+	};
+
 	const handleDeleteIconClick = (e: SyntheticEvent) => {
 		e.stopPropagation();
 		e.preventDefault();
@@ -150,6 +162,16 @@ export const ActivityItem = (props: ActivityItemProps) => {
 			});
 		}
 	};
+
+	const jobsSelection = jobsData
+		? jobsData.jobs.map((job: any) => {
+				return {
+					label: job.title,
+					employer: job.employer,
+					value: job.id,
+				};
+		  })
+		: [];
 
 	return (
 		<Container fluid className={classes.itemContainer} ref={clickOutsideRef}>
@@ -186,12 +208,12 @@ export const ActivityItem = (props: ActivityItemProps) => {
 						spacing={7}
 					>
 						<Avatar size='xs' radius='lg' src={imgURL} />
-						<Text className={classes.fieldText1}>{props.job.employer}</Text>
+						<Text className={classes.fieldText1}>{props.job?.employer}</Text>
 					</Group>
 				</Grid.Col>
 				<Grid.Col span={5} className={classes.col}>
 					<Group className={classes.colGroup} align='center' noWrap>
-						<Text className={classes.fieldText2}>{props.job.title}</Text>
+						<Text className={classes.fieldText2}>{props.job?.title}</Text>
 					</Group>
 				</Grid.Col>
 				<Grid.Col span={2} className={classes.col} onClick={handleNavigate}>
@@ -227,7 +249,7 @@ export const ActivityItem = (props: ActivityItemProps) => {
 				className={classes.collapse}
 			>
 				<Textarea
-					placeholder='Note'
+					placeholder='+ Add Note'
 					name='note'
 					autosize
 					variant='unstyled'
@@ -286,6 +308,19 @@ export const ActivityItem = (props: ActivityItemProps) => {
 								rightSection: classes.selectRightSection,
 							}}
 						/>
+						{!props.job && (
+							<Select
+								mr={10}
+								withinPortal={false}
+								icon={<MdWorkOutline />}
+								placeholder='+ Link Job'
+								data={jobsSelection}
+								onChange={handleUpdateJob}
+								classNames={{
+									input: classes.selectInput,
+								}}
+							/>
+						)}
 						<ActionIcon
 							variant='outline'
 							size='md'

@@ -49,6 +49,9 @@ export const useStyles = createStyles((theme) => {
 		tabsListWrapper: {
 			padding: '0px 25px',
 		},
+		tabsBody: {
+			paddingTop: 0,
+		},
 		submitButton: {},
 		modalButton: {
 			border: '1px solid rgba(25, 4, 69, 0.2)',
