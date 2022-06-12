@@ -13,6 +13,7 @@ import {
 	LoadingOverlay,
 	Menu,
 	Select,
+	Text,
 } from '@mantine/core';
 import { BsPlusLg } from 'react-icons/bs';
 
@@ -92,11 +93,15 @@ export const JobContacts = () => {
 								</Button>
 							}
 						>
-							{contactSelection.map((item) => (
-								<Menu.Item onClick={() => handleLinkContact(item.value)}>
-									{item.label}
-								</Menu.Item>
-							))}
+							{contactSelection.length > 0 ? (
+								contactSelection.map((item) => (
+									<Menu.Item onClick={() => handleLinkContact(item.value)}>
+										{item.label}
+									</Menu.Item>
+								))
+							) : (
+								<Text className={classes.emptyContactsMenu}>No Contacts</Text>
+							)}
 						</Menu>
 					</Group>
 				</Group>

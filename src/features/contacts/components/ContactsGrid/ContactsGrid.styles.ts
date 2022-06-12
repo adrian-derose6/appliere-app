@@ -9,6 +9,18 @@ export const useStyles = createStyles(
 				: 'repeat(auto-fill, 300px)',
 			gap: '15px',
 			justifyContent: 'center',
+
+			'@media (max-width: 800px)': isFlexible
+				? {
+						gridTemplateColumns: '1fr 1fr',
+				  }
+				: {},
+
+			'@media (max-width: 600px)': isFlexible
+				? {
+						gridTemplateColumns: '1fr',
+				  }
+				: {},
 		},
 	})
 );

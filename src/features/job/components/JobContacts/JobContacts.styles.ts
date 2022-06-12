@@ -31,6 +31,12 @@ export const useStyles = createStyles((theme) => ({
 	contactSelectRight: {
 		display: 'none',
 	},
+	emptyContactsMenu: {
+		marginLeft: '10px',
+		fontSize: '16px',
+		fontWeight: 500,
+		color: theme.colors.gray[5],
+	},
 	emptyContainer: {
 		height: '100%',
 		flexDirection: 'column',

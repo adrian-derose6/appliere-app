@@ -91,7 +91,12 @@ export const ContactCard = ({ contact, inModal }: ContactCardProps) => {
 					<BsTrash />
 				</ActionIcon>
 			</div>
-			<Group position='left' align='center' className={classes.topSection}>
+			<Group
+				noWrap
+				position='left'
+				align='center'
+				className={classes.topSection}
+			>
 				<Avatar
 					alt='contact avatar'
 					size='lg'
@@ -104,25 +109,46 @@ export const ContactCard = ({ contact, inModal }: ContactCardProps) => {
 				</div>
 			</Group>
 			<Group
+				noWrap
 				position='left'
 				direction='column'
 				className={classes.middleSection}
 				spacing='sm'
 			>
-				<Group position='left' spacing='sm' className={classes.infoGroup}>
+				<Group
+					noWrap
+					position='left'
+					spacing='sm'
+					className={classes.infoGroup}
+				>
 					<IoLocationOutline />
 					<Text className={classes.infoText}>{locationText}</Text>
 				</Group>
-				<Group position='left' spacing='sm' className={classes.infoGroup}>
+				<Group
+					noWrap
+					position='left'
+					spacing='sm'
+					className={classes.infoGroup}
+				>
 					<AiOutlineMail />
 					<Text className={classes.infoText}>{emailText}</Text>
 				</Group>
-				<Group position='left' spacing='sm' className={classes.infoGroup}>
+				<Group
+					noWrap
+					position='left'
+					spacing='sm'
+					className={classes.infoGroup}
+				>
 					<FiPhone />
 					<Text className={classes.infoText}>{phoneText}</Text>
 				</Group>
 			</Group>
-			<Group position='left' align='center' className={classes.bottomSection}>
+			<Group
+				noWrap
+				position='left'
+				align='center'
+				className={classes.bottomSection}
+			>
 				<Text className={classes.createdByText}>{createdByText}</Text>
 			</Group>
 			<DeleteModal
