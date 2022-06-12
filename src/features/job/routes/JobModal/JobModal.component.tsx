@@ -134,6 +134,7 @@ export const JobModal = (props: Props) => {
 				onTabChange={handleTabChange}
 				classNames={{
 					tabsListWrapper: classes.tabsListWrapper,
+					body: classes.tabsBody,
 				}}
 				active={activeTab}
 			>

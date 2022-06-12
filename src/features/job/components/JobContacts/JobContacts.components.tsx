@@ -87,6 +87,7 @@ export const JobContacts = () => {
 							Contact
 						</BrandButton>
 						<Menu
+							position='bottom'
 							control={
 								<Button size='xs' variant='outline' leftIcon={<BsPlusLg />}>
 									Link Contact

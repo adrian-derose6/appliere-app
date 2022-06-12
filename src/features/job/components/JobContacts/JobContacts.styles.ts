@@ -9,8 +9,8 @@ export const useStyles = createStyles((theme) => ({
 		padding: '0 25px',
 	},
 	header: {
-		height: '50px',
-		marginBottom: '10px',
+		height: '60px',
+		marginBottom: '5px',
 	},
 	headingMain: {
 		fontSize: '20px',
