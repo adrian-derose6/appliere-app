@@ -56,9 +56,7 @@ const tabsList = [
 	},
 ];
 
-type Props = {};
-
-export const JobModal = (props: Props) => {
+export const JobModal = () => {
 	const [opened, setOpened] = useState<boolean>(false);
 	const [activeTab, setActiveTab] = useState<number>(0);
 	const [jobType, setJobType] = useState<string>('');
