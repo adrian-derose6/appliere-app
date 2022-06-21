@@ -1,4 +1,4 @@
-import { ScrollArea } from '@mantine/core';
+import { ScrollArea, LoadingOverlay } from '@mantine/core';
 
 import { ContactCard } from '../ContactCard';
 import { Contact } from '@/features/contacts/types';
@@ -8,6 +8,7 @@ interface ContactsGridProps {
 	contacts: Contact[];
 	isFlexible?: boolean;
 	inModal?: boolean;
+	isLoading?: boolean;
 }
 
 export const ContactsGrid = ({

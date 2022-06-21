@@ -53,9 +53,6 @@ export const AddJobModal = (props: Props) => {
 		if (match?.pathname) {
 			setTimeout(() => setOpened(true), OPEN_TIMEOUT);
 		}
-		if (createJobMutation.isSuccess) {
-			navigate(`/job/${createJobMutation.data?.id}`);
-		}
 
 		return () => {
 			locationState.backgroundLocation = undefined;
@@ -108,14 +105,19 @@ export const AddJobModal = (props: Props) => {
 	};
 
 	const handleSubmit = (values: FormValues) => {
-		createJobMutation.mutate({
-			data: {
-				title: values.title,
-				employer: values.employer,
-				boardId: values.boardId,
-				listId: values.listId,
+		createJobMutation.mutate(
+			{
+				data: {
+					title: values.title,
+					employer: values.employer,
+					boardId: values.boardId,
+					listId: values.listId,
+				},
 			},
-		});
+			{
+				onSuccess: () => handleModalClose(),
+			}
+		);
 	};
 
 	return (

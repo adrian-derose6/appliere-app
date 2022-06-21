@@ -5,7 +5,7 @@ import {
 	ChangeEvent,
 	FocusEvent,
 } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import {
 	Collapse,
 	Container,
@@ -63,7 +63,9 @@ export const ActivityItem = (props: ActivityItemProps) => {
 	const { user } = useAuth();
 	const navigate = useNavigate();
 	const params = useParams();
-	const boardId = params.boardId as string;
+	const [searchParams] = useSearchParams();
+	const boardId =
+		(params.boardId as string) || (searchParams.get('boardId') as string);
 	const [opened, setOpened] = useState<boolean>(false);
 	const [deleteOpened, setDeleteOpened] = useState<boolean>(false);
 	const [startAt, onChangeStartAt] = useState<Date>(new Date(props.startAt));

@@ -4,8 +4,13 @@ export const useStyles = createStyles((theme) => {
 	return {
 		modal: {
 			overflow: 'hidden',
-			minHeight: '100%',
+			minHeight: '840px',
 			maxWidth: '95%',
+			display: 'flex',
+		},
+		modalBody: {
+			minHeight: '100% !important',
+			width: '100%',
 		},
 		jobHeader: {
 			padding: '5px 45px 60px',
@@ -46,11 +51,13 @@ export const useStyles = createStyles((theme) => {
 				//border: `1px solid ${theme.other.brandPrimaryColor}`,
 			},
 		},
+		tabsRoot: {},
 		tabsListWrapper: {
 			padding: '0px 25px',
 		},
 		tabsBody: {
 			paddingTop: 0,
+			minHeight: '100% !important',
 		},
 		submitButton: {},
 		modalButton: {

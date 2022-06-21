@@ -12,7 +12,7 @@ import {
 	Button,
 	LoadingOverlay,
 	Menu,
-	Select,
+	Center,
 	Text,
 } from '@mantine/core';
 import { BsPlusLg } from 'react-icons/bs';
@@ -95,8 +95,11 @@ export const JobContacts = () => {
 							}
 						>
 							{contactSelection.length > 0 ? (
-								contactSelection.map((item) => (
-									<Menu.Item onClick={() => handleLinkContact(item.value)}>
+								contactSelection.map((item, index) => (
+									<Menu.Item
+										onClick={() => handleLinkContact(item.value)}
+										key={index}
+									>
 										{item.label}
 									</Menu.Item>
 								))
@@ -107,7 +110,7 @@ export const JobContacts = () => {
 					</Group>
 				</Group>
 				<LoadingOverlay
-					visible={isLoading}
+					visible={!!isLoading}
 					overlayOpacity={0.3}
 					overlayColor='#c5c5c5'
 				/>

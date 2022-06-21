@@ -17,7 +17,7 @@ import { IoPeopleOutline } from 'react-icons/io5';
 import { HiOutlineOfficeBuilding } from 'react-icons/hi';
 
 import { useStyles } from './JobModal.styles';
-import { JobInfo, JobContacts } from '@/features/job/components';
+import { JobInfo, JobContacts, JobActivities } from '@/features/job/components';
 import { BrandButton } from '@/components/Buttons';
 import { useGetJob } from '@/features/job';
 import { formatJobType } from '@/features/job/utils/job-types';
@@ -37,6 +37,7 @@ const tabsList = [
 		label: 'Activities',
 		tabKey: 'job-activities',
 		icon: <FaListUl />,
+		Component: JobActivities,
 	},
 	{
 		label: 'Contacts',
@@ -101,6 +102,7 @@ export const JobModal = () => {
 				title: classes.modalTitle,
 				close: classes.modalClose,
 				overlay: classes.modalOverlay,
+				body: classes.modalBody,
 			}}
 		>
 			<LoadingOverlay
@@ -131,6 +133,7 @@ export const JobModal = () => {
 				position='center'
 				onTabChange={handleTabChange}
 				classNames={{
+					root: classes.tabsRoot,
 					tabsListWrapper: classes.tabsListWrapper,
 					body: classes.tabsBody,
 				}}

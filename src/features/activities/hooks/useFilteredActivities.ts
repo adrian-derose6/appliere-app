@@ -6,13 +6,16 @@ interface Props {
 	type: string;
 	activityCategory?: any;
 	list: any;
+	jobId?: string;
 }
 
 export const useFilteredActivities = ({
 	type,
 	list,
 	activityCategory,
+	jobId,
 }: Props) => {
+	let filteredList = [...list];
 	let completed;
 	let pending;
 
@@ -23,32 +26,34 @@ export const useFilteredActivities = ({
 		};
 	}
 
-	let filteredList = [];
+	if (jobId) {
+		filteredList = filteredList.filter((item: any) => item.job.id === jobId);
+	}
+
 	switch (type) {
 		case ActivityType.all: {
-			filteredList = [...list];
 			break;
 		}
 		case ActivityType.dueToday: {
-			filteredList = list.filter((item: any) => {
+			filteredList = filteredList.filter((item: any) => {
 				return dayjs(item.endAt).isToday();
 			});
 			break;
 		}
 		case ActivityType.pastDue: {
-			filteredList = list.filter((item: any) => {
+			filteredList = filteredList.filter((item: any) => {
 				return dayjs(item.endAt).isBefore(dayjs());
 			});
 			break;
 		}
 		case ActivityType.pending: {
-			filteredList = list.filter((item: any) => {
+			filteredList = filteredList.filter((item: any) => {
 				return dayjs(item.endAt).isAfter(dayjs());
 			});
 			break;
 		}
 		case ActivityType.completed: {
-			filteredList = list.filter((item: any) => {
+			filteredList = filteredList.filter((item: any) => {
 				return item.completed === true;
 			});
 			break;

@@ -97,18 +97,23 @@ export const AddActivityModal = () => {
 			(item) => item.value === values.activityCategory
 		) as ActivityCategoryItem;
 
-		createActivityMutation.mutate({
-			data: {
-				title: values.title,
-				boardId,
-				activityCategory,
-				jobId: values.jobId,
-				startAt,
-				endAt,
-				note: values.note,
-				completed: values.completed,
+		createActivityMutation.mutate(
+			{
+				data: {
+					title: values.title,
+					boardId,
+					activityCategory,
+					jobId: values.jobId,
+					startAt,
+					endAt,
+					note: values.note,
+					completed: values.completed,
+				},
 			},
-		});
+			{
+				onSuccess: () => handleModalClose(),
+			}
+		);
 	};
 
 	const jobsSelection = data
