@@ -30,5 +30,7 @@ Date utility library
 ### React Beautiful DnD
 Drag and Drop library by Atlassian
 
+### Zod 
+Schema Validation
 
 
