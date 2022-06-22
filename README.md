@@ -1,7 +1,7 @@
 # Appliere 
 
 
-## Dependencies
+## Technologies
 
 ### TypeScript 
 Static Typing
