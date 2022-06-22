@@ -57,7 +57,7 @@ export const useStyles = createStyles((theme) => {
 		},
 		tabsBody: {
 			paddingTop: 0,
-			minHeight: '100% !important',
+			minHeight: '400px',
 		},
 		submitButton: {},
 		modalButton: {

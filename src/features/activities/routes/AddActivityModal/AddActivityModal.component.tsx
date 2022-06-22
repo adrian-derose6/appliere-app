@@ -3,6 +3,7 @@ import {
 	useNavigate,
 	useMatch,
 	useParams,
+	useSearchParams,
 	useLocation,
 } from 'react-router-dom';
 import {
@@ -42,7 +43,9 @@ const CLOSE_TIMEOUT = 200;
 export const AddActivityModal = () => {
 	const [opened, setOpened] = useState(false);
 	const params = useParams();
+	const [searchParams] = useSearchParams();
 	const boardId = params.boardId as string;
+	const jobId = searchParams.get('jobId') as string;
 	const navigate = useNavigate();
 	const location = useLocation();
 	const locationState = location.state as { backgroundLocation?: Location };
@@ -67,7 +70,7 @@ export const AddActivityModal = () => {
 			note: '',
 			activityCategory: 'APPLY',
 			boardId: boardId,
-			jobId: '',
+			jobId: jobId || '',
 			startAt: new Date(),
 			endAt: new Date(),
 			completed: false,

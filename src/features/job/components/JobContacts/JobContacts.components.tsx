@@ -114,12 +114,24 @@ export const JobContacts = () => {
 					overlayOpacity={0.3}
 					overlayColor='#c5c5c5'
 				/>
-				{jobContacts && (
+				{jobContacts.length > 0 || isLoading ? (
 					<ContactsGrid
 						isFlexible={true}
 						contacts={jobContacts}
 						inModal={true}
 					/>
+				) : (
+					<Center className={classes.emptyContainer}>
+						<Text className={classes.emptyText}>No contacts logged...</Text>
+						<BrandButton
+							size='xs'
+							mt='md'
+							leftIcon={<BsPlusLg />}
+							onClick={handleNavigateModal}
+						>
+							Contact
+						</BrandButton>
+					</Center>
 				)}
 			</ScrollArea>
 		</Container>

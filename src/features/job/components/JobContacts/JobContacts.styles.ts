@@ -40,6 +40,7 @@ export const useStyles = createStyles((theme) => ({
 	emptyContainer: {
 		height: '100%',
 		flexDirection: 'column',
+		marginTop: '150px',
 	},
 	emptyText: {
 		fontSize: '20px',

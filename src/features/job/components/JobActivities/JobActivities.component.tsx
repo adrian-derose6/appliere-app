@@ -1,3 +1,4 @@
+import { SyntheticEvent } from 'react';
 import {
 	useNavigate,
 	useParams,
@@ -43,13 +44,19 @@ export const JobActivities = () => {
 	const numOfActivities = completed.length + pending.length;
 	const activityString = numOfActivities === 1 ? 'activity' : 'activities';
 
+	// Handlers
 	const handleOpenModal = () => {
 		navigate(`/add-activity/${boardId}`, {
 			state: { backgroundLocation: location },
 		});
 	};
 
-	const handleNavigateModal = () => {};
+	const handleNavigateModal = (e: SyntheticEvent) => {
+		e.stopPropagation();
+		navigate(`/add-activity/${boardId}?jobId=${jobId}`, {
+			state: { backgroundLocation, fromModal: true },
+		});
+	};
 
 	return (
 		<Container fluid className={classes.pageWrapper}>
@@ -82,7 +89,7 @@ export const JobActivities = () => {
 						size='xs'
 						mt='md'
 						leftIcon={<BsPlusLg />}
-						onClick={handleOpenModal}
+						onClick={handleNavigateModal}
 					>
 						Activity
 					</BrandButton>
